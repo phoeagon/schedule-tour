@@ -1,0 +1,37 @@
+a{
+    font-size:30px; /* bigger link for mobile devices */
+}
+#header{
+   position: absolute;
+    height:60px;
+    font-size:30px;
+}
+#toast{
+    top: 440px;
+    height:60px;
+    font-size:30px;
+}
+#lamp{
+    /*background: rgba( 20%, 20%, 20% , 1 );*/
+    background: black;
+}
+#lamp:after{
+    color:white;
+}
+#lamp:hover{
+    /*background: rgba( 20%, 20%, 20% , 1 );*/
+    background: rgba( 20%, 20%, 20% , 0.5 );
+}
+#game_name{
+    font-size: 50px;
+    top:-20px;
+}
+#custom_panel{
+    background: rgba(70,70,70,0.5);
+}
+#cat_gallery_window{
+   height: 850px;
+}
+#skill_gallery_window{
+   height: 650px;
+}

@@ -1,0 +1,68 @@
+#potion_effect{
+    position: absolute;
+    top: 105px;
+    left: 150px;
+    width:400px;
+    height:30px; 
+    text-align:center;
+}
+#toast{
+    position: absolute;
+    top: 450px;
+    left: 20px;
+    width:600px;
+    height:30px;
+    text-align:center;
+    background-color:rgba(255,153,0,1);;
+    -moz-transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    border-width:5px 10px 5px 10px;
+    border-image: url(../img/toast.png) 10% 10% 5% 10% repeat;
+    -moz-border-image: url(../img/toast.png) 10% 10% 5% 10% repeat;
+    -webkit-border-image: url(../img/toast.png) 10% 10% 5% 10% repeat;
+    
+}
+#potion_notify{
+    font-family: 'Henny Penny', cursive;
+    color:red;
+    font-size:35px;
+}
+.score_flash{
+    position: absolute;
+    top: 65px;
+    left: 550px;
+    width:70px;
+    height:30px; 
+    text-align:center;
+    background-color:rgba(255,255,255,0.1);
+}
+#kitten_found_toast{
+    position:absolute;
+    top:50px;
+    left:60px;
+    font-size: 26px;
+
+    font-family: 'Flavors', cursive;
+    
+    background: rgba(255,100,100,.5);
+    width:200px;
+    height:100px;
+}
+#kt_f_text{
+    position:relative;
+    top: -80px;
+    left:100px;
+    font-size: 30px;
+}
+#kt_f_img{
+    position:relative;
+    top: 10px;
+    left:10px;
+}
+#toast_text{
+    left: -50px;
+    display: inline;
+    width: 600px;
+    white-space:nowrap;
+    font-family: 'Miniver', cursive; /* handwriting font*/
+}

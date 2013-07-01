@@ -1,0 +1,79 @@
+.about_icon{
+    width:60px;
+    height:80px;
+}
+.help_icon{
+    width:100px;
+    height:100px;
+}
+#about_title{
+    position:relative;
+    left:30px;
+    width:370px;
+    font-size:30px;
+    font-family: 'Jim Nightshade', cursive;
+    background: rgba(50,155,155,1);
+}
+#about_close{
+    position: absolute;
+    left:460px;
+    top:110px;
+    width: 25px;
+    height: 20px;
+    background: rgba( 0%, 0%, 0% , 1 );
+    color:white;    
+}
+#about_close:hover
+{
+    background: rgba( 20%, 20%, 20% , 1 );
+    cursor:hand;cursor:pointer; /* change cursor to hand-like*/
+}
+#about_window{
+   position: absolute;
+   top: 120px;
+   left: 120px;
+   width: 400px;
+   height: 250px;
+   background : rgba( 100% , 100% , 100% , 0.9 );
+}
+#about_table{
+    margin-left:50px;
+}
+/*----------------------------------------------*/
+#detailed_help_title{
+    position:relative;
+    left:30px;
+    width:520px;
+    font-size:30px;
+    font-family: 'Jim Nightshade', cursive;
+    background: rgba(50,155,155,1);
+}
+#detailed_help_close{
+    position: absolute;
+    left:580px;
+    top:60px;
+    width: 25px;
+    height: 20px;
+    background: rgba( 0%, 0%, 0% , 1 );
+    color:white;    
+}
+#detailed_help_close:hover
+{
+    background: rgba( 20%, 20%, 20% , 1 );
+    cursor:hand;cursor:pointer; /* change cursor to hand-like*/
+}
+#detailed_help_window{
+   position: absolute;
+   top: 50px;
+   left: 50px;
+   width: 570px;
+   height: 420px;
+   background : rgba( 100% , 100% , 100% , 0.9 );
+}
+#detailed_help_frame{
+    margin-left:50px;
+}
+#help_iframe{
+    width: 500px;
+    height:370px;
+}

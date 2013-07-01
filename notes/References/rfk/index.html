@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en"  manifest="./offline.appcache">
+<head>
+<meta charset="UTF-8">
+<title>Robot Finds Kitten</title>
+<script type="text/javascript">
+   var startTime = (new Date()).getTime();  /* get start-loading time stamp*/
+</script>
+<!-- potion notify font -->
+<link href='http://fonts.googleapis.com/css?family=Henny+Penny' rel='stylesheet' type='text/css'>
+<!-- header font -->
+<link href='http://fonts.googleapis.com/css?family=Metal+Mania' rel='stylesheet' type='text/css'>
+<!-- toast text font-->
+<link href='http://fonts.googleapis.com/css?family=Miniver' rel='stylesheet' type='text/css'>
+<!-- kitten discovery font -->
+<link href='http://fonts.googleapis.com/css?family=Flavors' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Jim+Nightshade' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic:400,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="./css/main.css" />
+<link rel="stylesheet" type="text/css" href="./css/cat.css" />
+<link rel="stylesheet" type="text/css" href="./css/skill.css" />
+<link rel="stylesheet" type="text/css" href="./css/animate.css" />
+<link rel="stylesheet" type="text/css" href="./css/keyboard.css" />
+<link rel="stylesheet" type="text/css" href="./css/toast.css" />
+<link rel="stylesheet" type="text/css" href="./css/menu.css" />
+<link rel="stylesheet" type="text/css" href="./css/notify.css" />
+<link rel="stylesheet" type="text/css" href="./css/about.css" />
+<link rel="stylesheet" type="text/css" href="./css/collapsible.css" />
+<link rel="stylesheet" type="text/css" href="./css/main.css" id="mobile_css"/>
+
+</head>
+<body>
+<div id="load_prompt" class="rounded-corners">
+    <div id="load_prompt_text">
+        <div id="load_prompt_title">Robot Finds Kitten</div>
+        <img src="./img/rfk.png" alt="Robot Finds Kitten Icon"/>
+            <!--preload-->
+            <div class="hide" id="preload">
+            <img src="./img/android1.png" />
+            <img src="./img/lamp1.png" />
+            <img src="./img/lamp2.png" />
+            <img src="./img/board.jpg" />
+            <img src="./img/postcard.jpg" />
+            </div>
+        <p>Loading...</p>
+    </div>
+</div>
+<div id="main_div" class="hide">
+<div id="canvas_all">
+<div id="canvas_board"></div>
+<div id="canvas_div">
+<canvas id="box_canvas" width="600" height="400">
+    Your browser does not support the HTML 5 Canvas. 
+</canvas>
+<canvas id="canvas" width="600" height="400">
+    Your browser does not support the HTML 5 Canvas. 
+</canvas>
+</div>
+</div>
+<div id="game_name">Robot Finds Kitten</div>
+<div id="help_info" class="rounded-corners ">
+<div id="help_info_content">
+    <div id="help_title">Robot Finds Kitten</div>
+    <div id="help_text">
+        <p>
+In this game, you are robot. Your job is to find kitten. This task is complicated by the existence of various things which are not kitten. Robot must touch items to determine if they are kitten or not. The game ends when robotfindskitten. <br/>
+Way to go, robot! You found kitten!<br/><br/><br/>
+Press <b><a class="space_indicator">SPACE</a></b> to start.
+</p>
+    </div>
+</div>
+</div>
+<div id="toast" class="hide">
+    <div id="toast_text">  toast text</div>
+</div>
+<div id="header"><!-- moved here to prevent covering up dialogs-->
+    <table id="header_table"> <tr>
+    <td class="header_table_cell">Timer: <font id="timer"></font></td>
+    <td class="header_table_cell">Kittens to Find: <font id="kittens_to_find">0</font>/<font id="all_kittens">1</font></td>
+    <td class="header_table_cell">Score: <font id="score"></font></td>
+    </tr>   </table>
+</div>
+<div id="game_over" class="rounded-corners hide">
+    <p class="endOfGameDialogHead" id="kitten_found_text">Kitten Found!</p>
+    <div id="kitten_found_press_space">press <a  class="space_indicator">SPACE</a> to play again.</div>
+    <div id="dialog_score1" class="dialog_score">78</div>
+</div>
+<div class=" rounded-corners hide" id="cat_discovery">
+    <table><tr>
+    <td><img src="./img/cat/berman.jpg" id="cat_discover_img" class="cat_icon"/></td>
+    <td><font style="font-weight:bold;">Hooray! You've found a </font>
+    <font id="cat_discover_breed_name" class="italic">Lucky Cat</font>
+    .<br/>Go to <a href="javascript:showCatGallery();">Kitty Gallery</a></td></tr>
+    </table>
+</div>
+<div class="hide rounded-corners" id="notify">
+    <table><tr>
+    <td><img src="./img/skill/modern.png" id="notify_img" /></td><td>
+    <div id="notify_text">You've just got enough Karmas for unlocking 
+    <font id="notify_skill" class="bold">Modern Mode</font>.<br/> Unlock it NOW! 
+    <br/>Go to <a href="javascript:showSkillGallery();">Skill Gallery</a>
+    </div>
+    </td></tr>
+    </table>
+</div>
+
+<div id="potion_effect" class="rounded-corners hide">
+    <div id="potion_notify">Potion Effect Text</div>
+</div>
+<div id="kitten_found_toast" class="rounded-corners hide">
+    <div id="kt_f_img">
+    <img src="./img/rfk.png" alt="Kitten Found" style="width:80px;height:80px;"></div>
+    <div id="kt_f_text">Kitten<br/> Found!</div>
+</div>
+<div id="score_changes">
+    <div class="score_flash rounded-corners animated hide">
+        <font class="score_notify"><!--+30--></font>
+    </div>
+</div>
+<div id="time_up" class="rounded-corners hide">
+    <p class="endOfGameDialogHead">TIME UP!</p>
+    <div>press <a  class="space_indicator">SPACE</a> to play again.</div>
+    <div id="dialog_score2" class="dialog_score">78</div>
+</div>
+<div id="mode_pad">
+    <div id="mode_text">
+    <div><a href="javascript:setMode(0);" id="mode0" class="mode_option">Classical</a><font class="tick">✓</font></div>
+    <div><a href="javascript:setMode(1);" id="mode1" class="mode_option">Modern</a><font class="tick">✓</font></div>
+    <div><a href="javascript:setMode(2);" id="mode2" class="mode_option">Custom</a><font class="tick">✓</font></div>
+    </div>
+</div>
+<div id="panel">
+    <div id="custom_panel">
+    <div id="panel_text">
+    <div id="custom_div" class="hide">
+        <form id="settings_form" >
+            <table style="display:block">
+            <tr><td>
+            Game Mode:</td><td>
+            <select id="gameMode" class="formElement">
+                <option id="minTimeOption">Min Time</option>
+                <option id="limitedTimeOption">Limited Time</option>
+            </select>
+            </td>
+            </tr>
+            <tr><td>
+            TimeLimit:</td><td>
+            <input type="range" class="formElement invisible" id="timeLimit"
+            min="10" max="120" step="20" value="50" />
+        <div id="timeLimitValue" class="formElementValue">50</div></td>
+            </tr>
+            <tr><td>
+            Kittens:</td><td>
+            <input type="range" class="formElement" id="kitten"
+            min="1" max="5" step="1" value="1" />
+        <div id="kittenValue" class="formElementValue">1</div></td>
+            </tr>
+            <tr><td>
+            Boxes:</td><td>
+            <input type="range" class="formElement" id="boxNum"
+            min="5" max="40" step="1" value="10"/>
+        <div id="boxNumValue" class="formElementValue">10</div></td>
+            </tr>
+            <tr><td>
+            Potion chance:</td><td>
+            <input type="range" class="formElement" id="potionChance"
+            min="0" max="6" step="0.2" value="1"/>
+        <div id="potionChanceValue" class="formElementValue">0.5</div></td>
+            </tr>
+            <tr><td>
+            Wormholes:</td><td>
+            <input type="range" class="formElement" id="wormhole"
+            min="0" max="10" step="1" value="3" />
+        <div id="wormholeValue" class="formElementValue">3</div></td>
+            </tr>
+            </table>
+            <input type="button" id="refreshGame1" value="Restart" class="refreshGame"/>
+        </form>
+        <!--<a href="" id="export_img_link">Export Screenshot</a>-->
+    </div>
+    </div>
+    <div id="scoreboard">
+        <div id="classical_top">Classical
+            <div id="classical_score" class="top_score">100</div>
+        </div>
+        <div id="modern_top">Modern
+            <div id="modern_score" class="top_score">100</div>
+        </div>
+        <form><input type="button" id="refreshGame2" value="Restart" class="refreshGame"/>
+        </form>
+        <div id="karma_top">Karma
+            <div id="karma_score" class="top_score">99</div>
+        </div>
+    <div id="scoreboard_share">X</div>
+    </div>
+</div>
+</div>
+<div id="cat_gallery" class=" hide" >
+<div id="cat_gallery_window" class="rounded-corners">
+    <div id="cat_gallery_title">Kitten Gallery</div>
+    <div id="cat_gallery_table">
+    <table>    </table>
+    </div>
+</div>
+    <div id="cat_gallery_close" class="rounded-corners bold" onClick="javascript:hideCatGallery()">&nbsp;X</div>
+</div>
+
+<div id="skill_gallery" class="hide">
+<div id="skill_gallery_window" class="rounded-corners">
+    <div id="skill_gallery_title">Bonus Skills</div>
+    <div id="skill_gallery_table">
+    <table>    </table>
+    </div>
+</div>
+    <div id="skill_gallery_close" class="rounded-corners bold" onClick="javascript:hideSkillGallery()">&nbsp;X</div>
+</div>
+<div id="about" class=" hide" >
+<div id="about_window" class="rounded-corners">
+    <div id="about_title">About</div>
+    <div id="about_table">
+    <table><tr>
+        <td><img src="./img/head.jpg" alt="Facey" class="about_icon"/></td>
+        <td>
+        <b>Robot Finds Kitten</b><br/>
+        by <i>phoeagon</i>.<br/>
+        <a href="http://about.me/phoeagon" target="_blank"><i>about.me/phoeagon</i></a><br/>
+        </td>
+    </tr></table>
+    <i>&nbsp;Built with HTML5, CSS4, JQuery, etc.</i><br/>
+    No parts of this piece of work may be modified, re-distributed, or adapted without explicit permission from the author.
+    </div>
+</div>
+    <div id="about_close" class="rounded-corners bold" onClick="javascript:hideAbout()">&nbsp;X</div>
+</div>
+
+<div id="detailed_help" class=" hide" >
+<div id="detailed_help_window" class="rounded-corners">
+    <div id="detailed_help_title">Help</div>
+    <div id="detailed_help_frame">
+    <iframe src="./help.html" id="help_iframe"></iframe>
+    </div>
+</div>
+    <div id="detailed_help_close" class="rounded-corners bold" onClick="javascript:hideHelp()">&nbsp;X</div>
+</div>
+
+<!--<div id="toggleKeyboard"><a href="javascript:toggleKeyboard()">Toggle Touch</a></div>
+<div id="togglePanel"><a href="javascript:togglePanel()">Toggle Panel</a></div>-->
+<div class="hide" id="catGotList"></div>
+<div class="hide" id="skillList"></div>
+<canvas class="hide" id="android_buffer"></canvas>
+<div id="debug" style="position:absolute;top:500px;">DEBUG:<br/></div>
+</div>
+<div id="menu" class="hide">
+    <div id="lamp"></div>
+    <!--<div id="menu_head">Menu</div>-->
+    <!--<img src="./img/lamp1.png"/>-->
+    <div id="menu_list" class="hide">
+        <div class="menu_item" id="cat_gallery_link">
+            <a href="javascript:showCatGallery();toggleMenu();">Cat Gallery</a>
+        </div>
+        <div class="menu_item" id="skill_gallery_link">
+        <a href="javascript:showSkillGallery();toggleMenu();">Skill Gallery</a>
+        </div>
+        <div class="menu_item" id="about_link">
+        <a href="javascript:showAbout();toggleMenu();">About</a>
+        </div>
+        <div class="menu_item" id="help_link">
+        <a href="javascript:showHelp();toggleMenu();">Help</a>
+        </div>
+    </div>
+    <div id="light" class="hide"></div>
+</div>
+<div id="keyboard1" class="keyboard ">
+    <div class="hide">
+        <div class="up_key pinkKey">U</div>
+        <div class="down_key pinkKey">D</div>
+        <div class="left_key pinkKey">L</div>
+        <div class="right_key pinkKey">R</div>
+    </div>
+    <div class="ctrl_key blueKey">NINJA</div>
+    <div class="alt_key blueKey">BOOST</div>
+    <div class="shift_key blueKey">SUBTLE</div>
+    <div class="space_key blueKey">SPACE</div>
+</div>
+<div style="position:absolute;top:600px;width:500px;">
+<h3 class="collapsible" id="section1">Configuration</h3>
+<div class="container">
+    <div class="content">
+        <!--<h3>Sample Content</h3>
+        <p>-->
+            <a href="#" onclick="javascript:toggleKeyboard()">Toggle Touch</a><br/>
+            <a href="#" onclick="javascript:togglePanel()">Toggle Panel</a><br/>
+            <a href="#" onclick="javascript:forceMobile();">Force Mobile</a><br/>
+            <a href="#" onclick="javascript:featureCheck(true);">Check for Compatibility</a><br/>
+            <a href="#" onclick="javascript:toggleSolo();">Toggle Solo</a><br/>
+            <a href="#" onclick="javascript:promptAndClearLocalStorage();">Reset User Profile</a>
+            
+        <!--</p>-->
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.touchwipe.js"></script> 
+<script type="text/javascript" src="./js/vkey.js"></script> 
+<script type="text/javascript" src="./js/modernizr-1.6.min.js"></script> 
+<script type="text/javascript" src="./js/message.js"></script> 
+<script type="text/javascript" src="./js/util.js"></script> 
+<script type="text/javascript" src="./js/catLib.js"></script> 
+<script type="text/javascript" src="./js/skillLib.js"></script> 
+<script type="text/javascript" src="./js/main.js"></script> 
+<script type="text/javascript" src="./js/notify.js"></script> 
+<script type="text/javascript" src="./js/about.js"></script> 
+<script type="text/javascript" src="./js/share.js"></script>
+<script type="text/javascript" src="./js/collapsible.js"></script>
+<script type="text/javascript" src="./js/mobile.js"></script>
+<script type="text/javascript" src="./js/audio.js"></script>
+<script type="text/javascript" >
+    $(document).ready(function() {
+        //collapsible management
+        $('.collapsible').collapsible({
+            defaultOpen: ''
+        });
+    });
+    </script>
+</body>
+</html>
