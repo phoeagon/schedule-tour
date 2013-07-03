@@ -1,0 +1,5 @@
+1. user select the event from either the map view or the schedule view
+2. user alter the form (change time, title, deadline, description etc)
+3. if user want to change location there will be a popup map
+4. user submit.
+5. system submit the change to the server and ensure the consistency bewteen different views

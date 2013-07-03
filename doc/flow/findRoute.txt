@@ -1,0 +1,7 @@
+1. user select the route view
+2. user tap the "route" button
+3. system calculate the best route for the user
+4. user tap the "finish" button and "confirm" button to tell the system that he/she finished some event.
+5. system use alarm at the end point of one event, see whether the time is late or early.
+6. system change the schedule
+7. user use the new route.

@@ -1,0 +1,21 @@
+1. user select how to add event
+|-2.1 user select to add event by location
+| 2.2 user tap and hold on the map to add a pin
+| 2.3 user tap the pin to fill the form
+| 2.3.1 user first select event type(timed or untimed)
+| 2.3.2 user fill other info (i.e. title, description)
+| 2.4 user tap confirm button to submit
+| 2.5 system submit the event to server and make sure user can see it on every view
+|
+|-3.1 user select to add event by time
+| 3.2 user select a time slot
+| 3.3 user fill all the info
+| 3.3.1 location: user select location by 
+|  	 either input the coordinate 
+|	 or select on a popup map
+| 3.4 user submit
+| 3.5 system submit to server and make sure it can be seen on map
+|
+|-4.1 user select to add a untimed event
+  4.2 user input title, description, deadline etc
+  4.3 submit
