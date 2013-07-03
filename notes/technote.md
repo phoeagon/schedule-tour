@@ -14,6 +14,19 @@ Cache in Local Storage
 
     MongoDB
         User
+            email
+            passwd
+        Event
+            user
+            title
+            position
+            from
+            until
+            description
+            alarms
+            privacy
+            weight
+            finish
 
 ## Native App
 
