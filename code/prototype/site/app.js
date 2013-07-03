@@ -10,6 +10,8 @@ var express = require('express')
   , path = require('path');
 
 var app = express();
+var MongoStore = require('connect-mongo')(express);
+var settings = require('./models/dbCredential');
 
 // all environments
 app.set('port', process.env.PORT || 4000);
@@ -21,6 +23,19 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.configure(function(){
+    app.use(express.bodyParser()); 
+    app.use(express.cookieParser()); 
+    app.use(express.session({ 
+        secret: settings.cookieSecret, 
+        store: new MongoStore({ 
+            db: settings.mongo_db
+        }) ,
+        cookie: { maxAge: 60000 } 
+    }));
+      app.use(express.cookieParser('keyboard cat'));
+}); 
 
 // development only
 if ('development' == app.get('env')) {
