@@ -1,0 +1,7 @@
+the following use cases are included:
+
+login
+addEvent
+manageEvent
+findRoute
+eventsInOneLocation
