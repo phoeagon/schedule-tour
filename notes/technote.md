@@ -22,9 +22,9 @@ Cache in Local Storage
 
 ## Distributing Responsibility
 
-    Function            |    Component  
-    Alarm Clock         |    Client Native
-    Notification        |    Client Native
-Push Mesg               |     Server
-Path/Plan Programming   |   Client Web
-Map Display             |   Client Web
+    Function                |    Component  
+    Alarm Clock             |    Client Native
+    Notification            |    Client Native
+    Push Mesg               |     Server
+    Path/Plan Programming   |     Client Web
+    Map Display             |     Client Web
