@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('gcmindex', { title: 'GCM' });
+  res.render('index', { title: 'GCM' });
 };
