@@ -18,6 +18,16 @@ var Event =  {
 };
 
 $(document).ready(function () {
+
+    $("#sidebar_btn").click(function () {
+        $("#sidebar").toggleClass("hidden");
+    });
+    $("#classic_btn").click(function () {
+        $("#classic").toggleClass("hidden");
+    });
+
+    //==================================================
+    //Map related logic
     var map = new BMap.Map("map");
     var point = new BMap.Point(116.404, 39.915);
     map.centerAndZoom(point,15);
