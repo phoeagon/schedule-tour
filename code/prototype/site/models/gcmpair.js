@@ -115,7 +115,34 @@ gcmPair.listAll = function listAll( callback , col ){
     });
 }
 
+gcmPair.prototype.remove = function( callback , col ){
 
+    var mongodb = require( './DB' );
+//object to update to
+    var obj = {
+	deviceID : this.deviceID  ,  
+	username : this.username 
+    };
+    mongodb.open(function(err,db){
+	if (err){
+	    return callback(err);
+	}
+//retrieving result set
+	db.collection( col || COLNAME , function(err , collection ){
+	    if (err){
+		mongodb.close();
+		return callback(err);
+	    }
+//create index
+	    collection.ensureIndex(col||COLNAME,{unique:true},function(err){});
+//save
+	    collection.remove({ username: obj.username},obj,{save:true},function(err,obj){
+		mongodb.close();
+		callback(err,setting);
+	    });
+	});
+    });
+};
 
 
 
