@@ -47,6 +47,8 @@ app.get('/users', user.list);
 
 var gcmroute = require('./routes/gcm');
 app.get('/gcmstatus',gcmroute.gcmstatus);
+app.get('/gcmRegistry',gcmroute.gcmRegPage );
+app.get('/gcmDeregistry',gcmroute.gcmDeregPage );
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

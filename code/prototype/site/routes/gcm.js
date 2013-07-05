@@ -19,3 +19,9 @@ exports.gcmstatus = function( req , res ) {
 	res.render('gcm/gcmStatus',{devices: result })
     });
 }
+exports.gcmRegPage = function( req , res ) {
+    res.render('gcm/gcmRegistry',{});
+}
+exports.gcmDeregPage = function( req , res ) {
+    res.render('gcm/gcmDeReg',{});
+}
