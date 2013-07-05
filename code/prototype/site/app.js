@@ -7,7 +7,9 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , account = require('./routes/account');
+
 
 var app = express();
 var MongoStore = require('connect-mongo')(express);
@@ -24,6 +26,7 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.configure(function(){
     app.use(express.bodyParser()); 
     app.use(express.cookieParser()); 
@@ -34,13 +37,15 @@ app.configure(function(){
         }) ,
         cookie: { maxAge: 60000 } 
     }));
-      app.use(express.cookieParser('keyboard cat'));
+    //app.use(express.cookieParser('keyboard cat'));
 }); 
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+account(app);
 
 app.get('/', routes.index);
 app.get('/users', user.list);
