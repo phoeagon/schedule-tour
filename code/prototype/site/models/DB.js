@@ -1,6 +1,6 @@
-var settings = require('./DbCredential');
-var gcmPair = require('./gcmPair');
-var gcm = require('./gcm');
+var settings = require('./dbCredential');
+//var gcmPair = require('./gcmPair');
+//var gcm = require('./gcm');
 
 var Db = require('mongodb').Db;
 var Connection = require('mongodb').Connection;
@@ -10,7 +10,7 @@ var mongoDBinstance = function(){
             new Server(settings.mongo_host, Connection.DEFAULT_PORT, {}),{safe:true}
             );
 }
-module.exports = mongoDBinstance ;
+module.exports = mongoDBinstance() ;
 
 
 

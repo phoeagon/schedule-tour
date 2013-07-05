@@ -90,6 +90,31 @@ gcmPair.prototype.update = function update( callback,col ){
 };
 
 
+gcmPair.listAll = function listAll( callback , col ){
+    var mongodb = require('./DB');
+    mongodb.open( function(err,db){
+	if (err){
+	    return callback(err);
+	}
+	db.collection(col || COLNAME,function(err,collection){
+	    if (err){
+		mongodb.close();
+		return callback(err);
+	    }
+	//find
+	    collection.find().toArray( 
+			    function(err,doc){
+				mongodb.close();
+				if (doc){
+				    callback( err , doc );
+				}else{
+				    callback( err , NULL );
+				}
+			    });
+	});
+    });
+}
+
 
 
 
