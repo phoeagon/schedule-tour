@@ -1,5 +1,6 @@
 var settings = require('./DbCredential');
-
+var gcmPair = require('./gcmPair');
+var gcm = require('./gcm');
 
 var Db = require('mongodb').Db;
 var Connection = require('mongodb').Connection;
