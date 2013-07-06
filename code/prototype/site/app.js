@@ -50,6 +50,7 @@ app.get('/gcmstatus',gcmroute.gcmstatus);
 app.get('/gcmRegistry',gcmroute.gcmRegPage );
 app.post('/gcmRegistry',gcmroute.gcmDoReg );
 app.get('/gcmDeregistry',gcmroute.gcmDeregPage );
+app.post('/gcmDeregistry',gcmroute.gcmDoDeReg );
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

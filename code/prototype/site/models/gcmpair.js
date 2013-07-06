@@ -125,6 +125,7 @@ gcmPair.prototype.remove = function( callback , col ){
 	deviceID : this.deviceID  ,  
 	username : this.username 
     };
+    console.log( obj );
     mongodb.open(function(err,db){
 	if (err){
 	    return callback(err);
@@ -138,9 +139,11 @@ gcmPair.prototype.remove = function( callback , col ){
 //create index
 	    collection.ensureIndex("username",{unique:true},function(err){});
 //save
-	    collection.remove({ username: obj.username},obj,{save:true},function(err,obj){
+	    collection.remove({ username: obj.username },function(err,obj){
+		console.log( err );
+		console.log( obj );
 		mongodb.close();
-		callback(err,setting);
+		callback(err,obj);
 	    });
 	});
     });
