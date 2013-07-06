@@ -1,10 +1,11 @@
 <html>
 <body>
 <h1>GCM Status</h1>
-<? devices.forEach(function(device,index){ ?>
-   <?= device.username ?> &nbsp;&nbsp;
-   <?= device.deviceID ?>
+USERNAME &nbsp;&nbsp; DEVICE_ID <br/>
+<% devices.forEach(function(device,index){ %>
+   <%= device.username %> &nbsp;&nbsp;
+   <%= device.deviceID %>
 <br/>
-<? });?>
+<% });%>
 </body>
 </html>

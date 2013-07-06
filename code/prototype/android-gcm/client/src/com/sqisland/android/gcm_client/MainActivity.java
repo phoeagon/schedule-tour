@@ -97,12 +97,12 @@ public class MainActivity extends Activity {
 
     @Override
     protected HttpResponse doInBackground(String... regIds) {
-      String url = Constants.SERVER_URL + "/register";
+      String url = Constants.SERVER_URL + "/gcmRegistry";
       HttpPost httppost = new HttpPost(url);
 
       try {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        nameValuePairs.add(new BasicNameValuePair("reg_id", mRegId));
+        nameValuePairs.add(new BasicNameValuePair("deviceID", mRegId));
         httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         HttpClient httpclient = new DefaultHttpClient();
         return httpclient.execute(httppost);

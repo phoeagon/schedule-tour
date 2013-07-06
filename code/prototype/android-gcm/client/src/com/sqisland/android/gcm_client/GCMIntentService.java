@@ -45,8 +45,8 @@ public class GCMIntentService extends GCMBaseIntentService {
     // gets updated
     intent.setData(Uri.parse(msg));
     intent.putExtra(Constants.FIELD_MESSAGE, msg);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //| Intent.FLAG_ACTIVITY_CLEAR_TASK);
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         0);
     String title = context.getString(R.string.app_name);

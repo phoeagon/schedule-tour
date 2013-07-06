@@ -16,7 +16,8 @@ exports.deregister = function(req,res){
 }
 exports.gcmstatus = function( req , res ) {
     gcmPair.listAll( function( err , result ){
-	res.render('gcm/gcmStatus',{devices: result })
+	console.log( {devices: result } );
+	res.render('gcm/gcmStatus', {devices: result } );
     });
 }
 exports.gcmRegPage = function( req , res ) {
@@ -26,23 +27,30 @@ exports.gcmDeregPage = function( req , res ) {
     res.render('gcm/gcmDeReg',{});
 }
 exports.gcmDoReg = function( req , res ) {
-    if ( ! req.body ||
-	 !req.body.devid ||
-	 !req.body.username)
+	console.log( req.body );
+    if ( ! req.body/* ||
+	 !req.body.deviceID ||
+	 !req.body.username*/ )
     {
 	res.redirect('/gcmStatus');
 	return;
     }
-    var deviceID = req.body.devid     ;
-    var username = req.body.username ;
+    var deviceID = req.body.deviceID     ;
+    var username = req.body.username || 'test';
+    console.log( "deviceID: "+deviceID+"\n"+"username: "+username);
     gcmPair.get( { username : username } , function(err,obj){
-	if ( obj ){
+	console.log( "gcmPair.get callback" );
+	if ( obj ){//already registered
 	    res.render('gcm/gcmMsg',{message:"Error!"});
-	}else{//already registered
+	}else{
 	    var tmp = new gcmPair ( {
 		deviceID : deviceID , 
 		username : username } );
+	    //console.log( "var tmp=" );
+	    //console.log( tmp );
 	    tmp.save( function(err,obj){
+		//console.log( err );
+		console.log( obj );
 		if( err )
 		    res.render('gcm/gcmMsg',  { message : " Error!" } );
 		else res.render('gcm/gcmMsg',{message : "success!" } );

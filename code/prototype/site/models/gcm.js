@@ -10,7 +10,7 @@ myGCM.errorCode = {
     2 : 'not found' 
 };
 
-myGCM.sender = new gcm.Sender('myGoogleAPIKey');
+myGCM.sender = new gcm.Sender('972473348547');
 
 myGCM.send = function ( idset , msg , callback ){
     data = new gcm.Message();

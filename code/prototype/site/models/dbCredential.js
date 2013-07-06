@@ -1,5 +1,5 @@
 module.exports = {
     mongo_host: 'localhost',
-    mongo_db: 'schedule-tour' ,
+    mongo_db: 'scheduletour' ,
     cookieSecret : 'hdsfh3409udjvjsopd9'
 };

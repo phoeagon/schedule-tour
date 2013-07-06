@@ -1,10 +1,10 @@
 function gcmPair( gcmpair ){
-    this.deviceID = gcm.deviceID;
-    this.username = gcm.username;
+    this.deviceID = gcmpair.deviceID;
+    this.username = gcmpair.username;
 }
 module.exports = gcmPair;
 
-var COLNAME = 'schedule-tour.gcm';
+var COLNAME = 'GCM';
 
 gcmPair.prototype.save = function save( callback , col ){
     var mongodb = require('./DB');
@@ -24,11 +24,11 @@ gcmPair.prototype.save = function save( callback , col ){
 		return callback(err);
 	    }
 //ensure index
-	    collection.ensureIndex(col||COLNAME,{unique:true},function(err){});
+	    collection.ensureIndex("username",{unique:true},function(err){});
 //save
 	    collection.insert( obj , {safe:true}, function(err,obj){
 		mongodb.close();
-		callback(err,setting);
+		callback(err,obj);
 	    });
 	});
     });
@@ -54,7 +54,7 @@ gcmPair.get = function get( obj , callback , col ){
 				    var retrieved = new gcmPair( doc );
 				    callback( err , retrieved );
 				}else{
-				    callback( err , NULL );
+				    callback( err , null );
 				}
 			    });
 	});
@@ -104,11 +104,13 @@ gcmPair.listAll = function listAll( callback , col ){
 	//find
 	    collection.find().toArray( 
 			    function(err,doc){
+				console.log( err );
+				console.log( doc );
 				mongodb.close();
 				if (doc){
 				    callback( err , doc );
 				}else{
-				    callback( err , NULL );
+				    callback( err , [] );
 				}
 			    });
 	});
@@ -134,7 +136,7 @@ gcmPair.prototype.remove = function( callback , col ){
 		return callback(err);
 	    }
 //create index
-	    collection.ensureIndex(col||COLNAME,{unique:true},function(err){});
+	    collection.ensureIndex("username",{unique:true},function(err){});
 //save
 	    collection.remove({ username: obj.username},obj,{save:true},function(err,obj){
 		mongodb.close();
