@@ -1,7 +1,8 @@
 gcm = require('node-gcm');
 
 var myGCM = {};
-exports= myGCM;
+
+module.exports = myGCM;
 
 myGCM.idSet = {};
 myGCM.errorCode = {
@@ -10,11 +11,13 @@ myGCM.errorCode = {
     2 : 'not found' 
 };
 
-myGCM.sender = new gcm.Sender('972473348547');
+myGCM.sender = new gcm.Sender('AIzaSyAm-r776IEFAI2u2tc6Wd4KfnBjtJKHdXQ');
 
 myGCM.send = function ( idset , msg , callback ){
+    console.log('myGCM.send');console.log(msg);
     data = new gcm.Message();
     data.addDataWithObject( msg );
+    console.log( data );
     myGCM.sender.send( data , idset , 4 , callback );
 }
 myGCM.register = function ( id , callback ){
@@ -33,3 +36,4 @@ myGCM.deregister = function ( id , callback ) {
 	callback ( id , idSet , 2 ) ;
     }
 }
+

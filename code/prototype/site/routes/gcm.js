@@ -73,3 +73,28 @@ exports.gcmDoDeReg = function ( req , res ) {
     });
     
 }
+exports.gcmSend = function ( req , res ) {
+    res.render('gcm/gcmSend');
+}
+exports.gcmDoSend = function ( req , res ) {
+    if (!req.body){
+	res.redirect('/gcmStatus');
+	return;
+    }
+    var username = req.body.username ;
+    var message = req.body.message;
+    console.log( message );
+    gcmPair.get({username:username},function(err,obj){
+	if ( err || !obj ){
+	    console.log( "Error encountered in gcmDoSend" );
+	    res.redirect("/gcmStatus");
+	    return ;
+	}
+	var myGCM = require('../models/gcm');
+	//console.log( myGCM );
+	myGCM.send( [obj.deviceID] , {msg : message} , function(err,result){
+	    console.log( result );
+	    res.render("gcm/gcmMsg",{message:result.toString()});
+	});
+    });
+}

@@ -1,6 +1,14 @@
 <html>
 <body>
 <h1>GCM Status</h1>
+<p>
+    <a href="/gcmRegistry">Register</a>
+    <br/>
+    <a href="/gcmDeregistry">Deregister</a>
+    <br/>
+    <a href="/gcmSend">Send</a>
+    <br/>
+</p>
 USERNAME &nbsp;&nbsp; DEVICE_ID <br/>
 <% devices.forEach(function(device,index){ %>
    <%= device.username %> &nbsp;&nbsp;
