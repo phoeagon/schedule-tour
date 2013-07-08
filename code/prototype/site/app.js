@@ -23,7 +23,6 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -37,6 +36,7 @@ app.configure(function(){
         }) ,
         cookie: { maxAge: 60000 } 
     }));
+    app.use(app.router);
     //app.use(express.cookieParser('keyboard cat'));
 }); 
 
