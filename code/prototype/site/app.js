@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , flash = require("connect-flash")
   , account = require('./routes/account');
 
 
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.configure(function(){
     app.use(express.bodyParser()); 
     app.use(express.cookieParser()); 
+    app.use (flash());
     app.use(express.session({ 
         secret: settings.cookieSecret, 
         store: new MongoStore({ 
