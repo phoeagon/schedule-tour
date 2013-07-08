@@ -26,7 +26,6 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.configure(function(){
     app.use(express.bodyParser()); 
     app.use(express.cookieParser()); 
@@ -38,9 +37,18 @@ app.configure(function(){
         }) ,
         cookie: { maxAge: 60000 } 
     }));
-    app.use(app.router);
     //app.use(express.cookieParser('keyboard cat'));
 }); 
+
+app.use(function(req, res, next) {
+    res.locals.success = req.session.success;
+    res.locals.error = req.session.error;
+    req.session.success = null;
+    req.session.error = null;
+    next();
+});
+
+app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {

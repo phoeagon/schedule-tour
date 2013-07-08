@@ -65,6 +65,7 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('base64');
     
+    req.flash("error", "erro");
     User.get(req.body.username, function(err, user) {
       if (!user) {
         req.flash('error', '用戶不存在');
