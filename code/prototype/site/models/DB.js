@@ -7,7 +7,7 @@ var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
 var mongoDBinstance = function(){
     return new Db(settings.mongo_db,
-            new Server(settings.mongo_host, Connection.DEFAULT_PORT, {}),{safe:true}
+            new Server(settings.mongo_host, Connection.DEFAULT_PORT, {}),{safe:false}
             );
 }
 module.exports = mongoDBinstance() ;
