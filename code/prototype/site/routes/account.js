@@ -3,7 +3,9 @@
  */
 
 var crypto = require('crypto');
-var User = require('../models/user.js');
+var User = require('../models/user')
+var utility = require('../models/utility')
+var passwordHash = utility.passwordHash;
 
 module.exports = function(app) {
   
@@ -23,8 +25,7 @@ module.exports = function(app) {
     }
   
     //生成口令的散列值
-    var md5 = crypto.createHash('md5');
-    var password = md5.update(req.body.password).digest('base64');
+    var password = passwordHash( req.body.password , req.body.username );
     
     var newUser = new User({
       name: req.body.username,
@@ -62,8 +63,7 @@ module.exports = function(app) {
   app.post('/login', checkNotLogin);
   app.post('/login', function(req, res) {
     //生成口令的散列值
-    var md5 = crypto.createHash('md5');
-    var password = md5.update(req.body.password).digest('base64');
+    var password = passwordHash( req.body.password , req.body.username );
     
     req.flash("error", "erro");
     User.get(req.body.username, function(err, user) {
