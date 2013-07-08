@@ -1,8 +1,13 @@
 var mongodb = require('./DB');
 
+var userPrototype = {
+    name : "" ,
+    password : "" ,
+    salt : ""
+};
 function User(user) {
-  this.name = user.name;
-  this.password = user.password;
+    for ( var ele in userPrototype )
+        this[ele] = user[ele];
 };
 module.exports = User;
 
