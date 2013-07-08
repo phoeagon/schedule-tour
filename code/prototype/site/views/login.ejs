@@ -5,9 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-        <% if (error) { %>
-        <div style="color:red"><%= error %></div>
-        <% } %>
+<% include success_error_msg.ejs -%>
     <form class="form-horizontal" method="post">
         <fieldset>
         <legend>用戶登入</legend>
