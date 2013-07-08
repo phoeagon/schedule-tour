@@ -87,7 +87,12 @@ module.exports = function(app) {
     req.flash('success', '登出成功');
     res.redirect('/');
   });
-  
+  app.get('/changePassword', checkLogin);
+  app.get('/changePassword', function(req,res){
+      res.render( 'changePassword' , {} );
+      });
+  app.post('/changePassword', checkLogin);
+  app.post('/changePassword', doChangePassword);
 };
 
 function checkLogin(req, res, next) {
@@ -104,4 +109,35 @@ function checkNotLogin(req, res, next) {
     return res.redirect('/');
   }
   next();
+}
+
+function doChangePassword( req , res , next ) {
+    //生成口令的散列值
+    var oldpassword = passwordHash( req.body.oldpassword , req.body.username );
+    var newpassword = passwordHash( req.body.newpassword , req.body.username );
+    var newPassword = passwordHash
+    if ( req.body.newpassword !== req.body.newpassword2 ){
+        req.session.error = "Repetition of new password mismatch!"
+        res.redirect('/changePassword');
+        return;
+    }
+    User.get(req.body.username, function(err, user) {
+      if (!user) {
+        req.flash('error', 'Account not exists!');
+        return res.redirect('/login');
+      }
+      if ( user.password != oldpassword ) {
+        req.flash('error', 'Invalid current Password!');
+        return res.redirect('/changePassword');
+      }
+      user.password = newpassword;
+      req.session.user = user;
+      user.save( function(err){
+            if (err)
+                req.session.error = 'Operation failed';
+            else req.session.success = 'Successfully changed password!';
+            res.redirect('/');
+      });
+    });
+    
 }
