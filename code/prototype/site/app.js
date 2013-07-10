@@ -69,6 +69,8 @@ app.post('/gcmDeregistry',gcmroute.gcmDoDeReg );
 app.get('/gcmSend',gcmroute.gcmSend );
 app.post('/gcmSend',gcmroute.gcmDoSend );
 
+var eventEntry = require('./models/types/eventEntry');
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
