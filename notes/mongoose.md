@@ -23,21 +23,21 @@ phoeagon , 2013 July 10
 
 The permitted SchemaTypes are
 
-+String
++ String
 
-+Number
++ Number
 
-+Date
++ Date
 
-+Buffer
++ Buffer
 
-+Boolean
++ Boolean
 
-+Mixed
++ Mixed
 
-+ObjectId
++ ObjectId
 
-+Array
++ Array
 
 ## Index :
 
