@@ -2,9 +2,11 @@ var mongoose = require('../mongoose');
 
 //schema of EventEntry
 var EventEntrySchema = mongoose.Schema({
-    name    :   String ,
-    place   :   String ,
-    time    :   Date 
+    title       :   String,
+    description :   String,
+    place       :   String,
+    weight      :   Number,
+    time        :   Date 
 });
 
 var TABLENAME = 'EventEntry';
