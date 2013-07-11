@@ -1,4 +1,4 @@
-var mongodb = require('../mongoose');
+var mongoose = require('../mongoose');
 
 //schema of User
 var UserSchema = mongoose.Schema({
