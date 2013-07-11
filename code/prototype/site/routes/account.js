@@ -3,8 +3,8 @@
  */
 
 var crypto = require('crypto');
-var User = require('../models/user')
-var utility = require('../models/utility')
+var User = require('../models/types/user');
+var utility = require('../models/utility');
 var passwordHash = utility.passwordHash;
 
 module.exports = function(app) {
@@ -29,28 +29,34 @@ module.exports = function(app) {
     
     var newUser = new User({
       name: req.body.username,
-      password: password,
+      password: password
     });
     
     //檢查用戶名是否已經存在
-    User.get(newUser.name, function(err, user) {
-      if (user)
-        err = 'Username already exists.';
-      if (err) {
-        req.flash('error', err);
-        return res.redirect('/reg');
-      }
-      //如果不存在則新增用戶
-      newUser.save(function(err) {
+    User.findOne(
+      {
+        name: newUser.name
+      },
+      function(err, user) {
+        if (user) {
+          err = 'Username already exists.';
+        }
         if (err) {
           req.flash('error', err);
           return res.redirect('/reg');
         }
-        req.session.user = newUser;
-        req.flash('success', '註冊成功');
-        res.redirect('/');
-      });
-    });
+        //如果不存在則新增用戶
+        newUser.save(function(err) {
+          if (err) {
+            req.flash('error', err);
+            return res.redirect('/reg');
+          }
+          req.session.user = newUser;
+          req.flash('success', '註冊成功');
+          res.redirect('/');
+        });
+      }
+    );
   });
   
   app.get('/login', checkNotLogin);
@@ -66,19 +72,24 @@ module.exports = function(app) {
     var password = passwordHash( req.body.password , req.body.username );
     
     req.flash("error", "erro");
-    User.get(req.body.username, function(err, user) {
-      if (!user) {
-        req.flash('error', '用戶不存在');
-        return res.redirect('/login');
+    User.findOne(
+      {
+        name: req.body.username
+      },
+      function(err, user) {
+        if (!user) {
+          req.flash('error', '用戶不存在');
+          return res.redirect('/login');
+        }
+        if (user.password != password) {
+          req.flash('error', '用戶口令錯誤');
+          return res.redirect('/login');
+        }
+        req.session.user = user;
+        req.flash('success', '登入成功');
+        res.redirect('/');
       }
-      if (user.password != password) {
-        req.flash('error', '用戶口令錯誤');
-        return res.redirect('/login');
-      }
-      req.session.user = user;
-      req.flash('success', '登入成功');
-      res.redirect('/');
-    });
+    );
   });
   
   app.get('/logout', checkLogin);
@@ -112,32 +123,38 @@ function checkNotLogin(req, res, next) {
 }
 
 function doChangePassword( req , res , next ) {
-    //生成口令的散列值
-    var oldpassword = passwordHash( req.body.oldpassword , req.body.username );
-    var newpassword = passwordHash( req.body.newpassword , req.body.username );
-    var newPassword = passwordHash
+  //生成口令的散列值
+  var oldpassword = passwordHash( req.body.oldpassword , req.body.username );
+  var newpassword = passwordHash( req.body.newpassword , req.body.username );
+  var newPassword = passwordHash
     if ( req.body.newpassword !== req.body.newpassword2 ){
-        req.session.error = "Repetition of new password mismatch!"
+      req.session.error = "Repetition of new password mismatch!"
         res.redirect('/changePassword');
-        return;
+      return;
     }
-    User.get(req.body.username, function(err, user) {
-      if (!user) {
-        req.flash('error', 'Account not exists!');
-        return res.redirect('/login');
+  User.findOne(
+      {
+        name: req.body.username
+      },
+      function(err, user) {
+        if (!user) {
+          req.flash('error', 'Account not exists!');
+          return res.redirect('/login');
+        }
+        if ( user.password != oldpassword ) {
+          req.flash('error', 'Invalid current Password!');
+          return res.redirect('/changePassword');
+        }
+        user.password = newpassword;
+        req.session.user = user;
+        user.save(function(err) {
+          if (err) {
+            req.session.error = 'Operation failed';
+          } else {
+            req.session.success = 'Successfully changed password!';
+          }
+          res.redirect('/');
+        });
       }
-      if ( user.password != oldpassword ) {
-        req.flash('error', 'Invalid current Password!');
-        return res.redirect('/changePassword');
-      }
-      user.password = newpassword;
-      req.session.user = user;
-      user.save( function(err){
-            if (err)
-                req.session.error = 'Operation failed';
-            else req.session.success = 'Successfully changed password!';
-            res.redirect('/');
-      });
-    });
-    
+  );
 }
