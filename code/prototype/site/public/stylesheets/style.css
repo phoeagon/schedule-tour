@@ -91,3 +91,17 @@ body {
 .displaynone{
     display:none;
 }
+
+#gesture-receiver{
+    z-index:100;
+    position:relative;
+    left:0px;
+    right:0px;
+    border:10px;
+    width:1000px;
+    height:500px;
+    background-color:red;
+}
+
+#add-event-gesture{
+}
