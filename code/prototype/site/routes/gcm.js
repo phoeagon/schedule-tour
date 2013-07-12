@@ -40,14 +40,15 @@ exports.gcmDoReg = function( req , res ) {
     console.log( "deviceID: "+deviceID+"\n"+"username: "+username);
     gcmPair.findOne( { username : username } , function(err,obj){
 	console.log( "gcmPair.get callback" );
-	console.log( obj );
+	//console.log( obj );
 	if (!obj || !obj.deviceID)
 	    obj = new gcmPair ( {
 		username : username ,
 		deviceID : {}
 	    })
 	obj.deviceID[ deviceID ] = true;
-	console.log( obj );
+	obj.setDirty();	//IMPORTANT
+	//console.log( obj );
 	obj.save( function(err){
 	    console.log( err );
 	    if( err )
@@ -69,13 +70,15 @@ exports.gcmDoDeReg = function ( req , res ) {
 	    res.render('gcm/gcmMsg',{message:"failed"});
 	    return;
 	}
-	console.log( err );
+	//console.log( err );
 	if( !obj.deviceID )
 	    obj.deviceID = {};
 	if ( deviceID === "" )
 	    obj.deviceID = {};	//clear
 	else delete obj.deviceID[ deviceID ] ;
+	obj.setDirty();	//IMPORTANT
 	for ( var xx in obj.deviceID ){
+	    obj.save();
 	    res.render('gcm/gcmMsg',{message:"succeed"});
 	    return;
 	}

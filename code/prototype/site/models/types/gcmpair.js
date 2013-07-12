@@ -14,3 +14,7 @@ var SCHEMA_NAME = 'gcmPair';
 //compile into a model
 var gcmPair = mongoose.model(SCHEMA_NAME, gcmPairPrototype);
 module.exports = gcmPair;
+
+gcmPair.prototype.setDirty = function(){
+    this.markModified('deviceID');
+}
