@@ -1,6 +1,6 @@
 
 var Event =  {
-createEvent :   function(p, marker) {
+createEvent :   function(p) {
         var e = {};
         e.user = null;
         e.title = null;
@@ -14,7 +14,6 @@ createEvent :   function(p, marker) {
         e.finish = null;
         e.addTime = new Date();
 
-	marker.addEventListener('click', function() { this.openInfoWindow(infoWindow) });
 	$(".datepicker").datepicker();
 	$(".slider").slider();
 	$("#sidebar_btn").click();
@@ -32,7 +31,7 @@ function setSlidingMap() {
 
     var calHeight = '500px';
     var calAnimationTime = '1000ms';
-    var sideWid = '200px';
+    var sideWid = '300px';
     var sideAnimationTime = '500ms';
     
     function showCal() {
@@ -64,7 +63,7 @@ function setSlidingMap() {
 	var btn = $("#sidebar_btn");
 	btn.css({'left':sideWid});
 	btn.text('<');
-	$("#sidebar").removeClass('hidden');
+	$("#sidebar").removeClass('back');
 	btn.unbind('click');
 	btn.bind('click', hideSide);
 	$("#classic_btn").unbind('click');
@@ -75,13 +74,15 @@ function setSlidingMap() {
 	var btn = $("#sidebar_btn");
 	btn.css({'left':'0px'});
 	btn.text('>');
-	$("#sidebar").addClass('hidden');
+	$("#sidebar").addClass('back');
 	btn.unbind('click');
 	btn.bind('click', showSide);
 	$("#classic_btn").bind('click', showCal);
     }
     
     $("#calendar").addClass('hidden');
+    $("#sidebar").removeClass('hidden');
+    $("#sidebar").addClass('back');
     $("#classic_btn").bind('click', showCal);
     $("#sidebar_btn").bind('click', showSide);
 }
@@ -141,7 +142,7 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-        var e = Event.createEvent(p, marker);
+        var e = Event.createEvent(p);
         //add the event to events
         events.push(e);
         //sort by addTime
@@ -193,6 +194,8 @@ $(document).ready(function () {
         }
     }
     map.addContextMenu(contextMenu);
+
+    map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
     setSlidingMap();
 });
