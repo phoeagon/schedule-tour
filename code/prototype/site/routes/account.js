@@ -7,7 +7,7 @@ var User = require('../models/types/user');
 var utility = require('../models/utility');
 var passwordHash = utility.passwordHash;
 
-module.exports = function(app) {
+var setRouter = function(app) {
   
   app.get('/reg', checkNotLogin);
   app.get('/reg', function(req, res) {
@@ -158,3 +158,9 @@ function doChangePassword( req , res , next ) {
       }
   );
 }
+
+module.exports = {
+    setRouter   :   setRouter,
+    checkLogin  :   checkLogin
+};
+
