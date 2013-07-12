@@ -19,5 +19,6 @@ $( "#add_event_gesture_dialog" ).dialog({
 $( "#add_event_gesture_dialog" ).dialog( "open" );
 $(function() {
     $( ".datepicker" ).datepicker();
+    $( ".datetimepicker" ).datetimepicker();
     $( ".slider" ).slider();
 });

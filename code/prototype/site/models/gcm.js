@@ -11,7 +11,7 @@ myGCM.errorCode = {
     2 : 'not found' 
 };
 
-myGCM.sender = new gcm.Sender('AIzaSyAm-r776IEFAI2u2tc6Wd4KfnBjtJKHdXQ');
+myGCM.sender = new gcm.Sender('AIzaSyCHpHsHC86Thg_IG8gIygR53jevl4eiWqE');
 
 myGCM.send = function ( idset , msg , callback ){
     console.log('myGCM.send');console.log(msg);

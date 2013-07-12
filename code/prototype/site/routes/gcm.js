@@ -94,7 +94,7 @@ exports.gcmDoSend = function ( req , res ) {
 	//console.log( myGCM );
 	myGCM.send( [obj.deviceID] , {msg : message} , function(err,result){
 	    console.log( result );
-	    res.render("gcm/gcmMsg",{message:result.toString()});
+	    res.render("gcm/gcmMsg",{message:result});
 	});
     });
 }
