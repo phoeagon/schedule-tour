@@ -1,12 +1,21 @@
 var mongoose = require('../mongoose');
+require('mongoose-double')(mongoose);
+
+var SchemaTypes = mongoose.Schema.Types;
 
 //schema of EventEntry
 var EventEntrySchema = mongoose.Schema({
+    user        :   SchemaTypes.ObjectId,
     title       :   String,
     description :   String,
     place       :   String,
     weight      :   Number,
-    time        :   Date 
+    time        :   Date,
+    endTime     :   Date,
+    position    :   [SchemaTypes.Double],
+    alarms      :   [],
+    privacy     :   Boolean,
+    finished    :   Boolean
 });
 
 var TABLENAME = 'EventEntry';
