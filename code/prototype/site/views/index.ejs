@@ -3,14 +3,15 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/ui-lightness/custom.css" />
     <script type="text/javascript" src="/javascripts/jquery-2.0.2.js"></script>
+    <script src="javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=F58a24b28810157e47bfb8e44f4c2e96"></script>
     <script type="text/javascript" src="/javascripts/map.js"></script>
 
   </head>
   <body>
-    <h1><%= title %></h1>
-    <div id="classic" class="hidden">
+    <div id="calendar" class="hidden">
       <table>
         <tr>
           <th>Sun.</th>
@@ -32,15 +33,31 @@
         </tr>
       </table>
     </div>
-    <button id="classic_btn">
+    <button id="classic_btn" class="buttons">
       V
     </button>
     <div id="sidebar" class="hidden">
     </div>
-    <button id="sidebar_btn">
+    <button id="sidebar_btn" class="buttons">
       &gt;
     </button>
     <div id="map" class="map">
     </div>
+    <div style="z-index:100;position:relative;left:0px;right:0px;">
+    <form><input type="button" value="toggle" onclick="javascript:$('.gesture-receiver').toggleClass('displaynone');"></form></div>
+    <div id="gesture_receiver" class="gesture_receiver"></div>
+    <div id="add_event_gesture" class="add_event_gesture">
+        <div id="add_event_gesture_dialog" class="add_event_gesture_dialog" title="Adding Event">
+            <form>
+            Start date:<input type="text" class="datepicker" name="start_date"/> <br/>
+            End Date:<input type="text" class="datepicker" name="end_date"/> <br/>
+            Type: <input type="radio" name="routine" value="routine">Routine
+                <input type="radio" name="routine" value="once">Once <br/>
+            Priority: <div type="text" class="slider" name="priority"/> </div><br/>
+            Note: <textarea name="add-event-note"></textarea>
+            </form>
+        </div>
+    </div>
   </body>
+  <script type="text/javascript" src="javascripts/ui.js">  </script>
 </html>
