@@ -79,8 +79,8 @@ body {
 #sidebar_btn {
     top:50%;
     left:0;
-    transition:left 1000ms;
-    -webkit-transition:left 1000ms;
+    transition:left 500ms;
+    -webkit-transition:left 500ms;
 }
 
 .buttons {
