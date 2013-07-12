@@ -105,3 +105,12 @@ body {
 
 #add-event-gesture{
 }
+
+/* colorful table*/
+tr:nth-child(odd)		{ background-color:#eee; }
+tr:nth-child(even)		{ background-color:#fff; }
+
+td
+{
+padding:8px;
+}
