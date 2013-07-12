@@ -23,3 +23,30 @@ MinGKai, 2013 July 12
             //false for integer return 
             results.getPlan(0).getDuration(false);
         });
+### add an event to db
+        $.post('/newevententry',
+            {
+                title: 'test',
+                description: 'desc',
+                place: 'where',
+                weigth: 2,
+                time: new Date(),
+                endTime: new Date(),
+                position: [2.2444, 252.31],
+                privacy: false,
+                alarms:[]
+            },
+            function(res) {
+                console.log(res);
+                alert(res);
+            }
+        );
+### query events of current user
+        $.post('/evententries',
+            {
+            },
+            function(res) {
+                console.log(res);
+                alert(res);
+            }
+        );
