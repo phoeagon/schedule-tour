@@ -13,19 +13,11 @@ createEvent :   function(p, marker) {
         e.weight = null;
         e.finish = null;
         e.addTime = new Date();
-	var content = "<div id='add_event_gesture_dialog' class='add_event_gesture_dialog' title='Adding Event'>"+
-      "<form>"+
-        "Start date:<input type='text' class='datepicker' name='start_date'/> <br/>"+
-        "End Date:<input type='text' class='datepicker' name='end_date'/> <br/>"+
-        "Type: <input type='radio' name='routine' value='routine'>Routine"+
-        "<input type='radio' name='routine' value='once'>Once <br/>"+
-        "Priority: <div type='text' class='slider' name='priority'/> </div><br/>"+
-	"Note: <textarea name='add-event-note'></textarea>"+
-      "</form>"+
-"</div>";
-	var infoWindow = new BMap.InfoWindow(content);
+
 	marker.addEventListener('click', function() { this.openInfoWindow(infoWindow) });
 	$(".datepicker").datepicker();
+	$(".slider").slider();
+	$("#sidebar_btn").click();
         return e;
     }
 };

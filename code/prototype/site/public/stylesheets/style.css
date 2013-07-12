@@ -61,7 +61,7 @@ body {
 #sidebar {
     position:absolute;
     top:0;
-    left:-100px;
+    left:10px;
     width:100px;
 }
 
