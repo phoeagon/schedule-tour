@@ -41,5 +41,9 @@
     </button>
     <div id="map" class="map">
     </div>
+    <div style="z-index:100;position:relative;left:0px;right:0px;">
+    <form><input type="button" value="toggle" onclick="javascript:$('.gesture-receiver').toggleClass('displaynone');"></form></div>
+    <div style="z-index:100;position:relative;left:0px;right:0px;border:10px;width:1000px;height:500px;background-color:red;"
+        id="gesture-receiver" class="gesture-receiver"></div>
   </body>
 </html>
