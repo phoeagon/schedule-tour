@@ -18,7 +18,16 @@ myGCM.send = function ( idset , msg , callback ){
     data = new gcm.Message();
     data.addDataWithObject( msg );
     console.log( data );
-    myGCM.sender.send( data , idset , 4 , callback );
+    if ( typeof( idset )== 'Array' )
+	var _idset = idset ;
+    else {
+	var _idset = [];
+	for (var dev in idset )
+	    _idset.push( dev );
+    }
+    console.log( idset );
+    console.log( _idset );
+    myGCM.sender.send( data , _idset , 4 , callback );
 }
 myGCM.register = function ( id , callback ){
     if ( idSet[id] )

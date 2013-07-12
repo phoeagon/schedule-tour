@@ -12,7 +12,7 @@
 USERNAME &nbsp;&nbsp; DEVICE_ID <br/>
 <% devices.forEach(function(device,index){ %>
    <%= device.username %> &nbsp;&nbsp;
-   <%= device.deviceID %>
+   <%= JSON.stringify(device.deviceID) %>
 <br/>
 <% });%>
 </body>
