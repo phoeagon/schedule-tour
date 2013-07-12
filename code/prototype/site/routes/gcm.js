@@ -40,15 +40,16 @@ exports.gcmDoReg = function( req , res ) {
     console.log( "deviceID: "+deviceID+"\n"+"username: "+username);
     gcmPair.findOne( { username : username } , function(err,obj){
 	console.log( "gcmPair.get callback" );
+	console.log( obj );
 	if (!obj || !obj.deviceID)
 	    obj = new gcmPair ( {
 		username : username ,
 		deviceID : {}
 	    })
-	console.log( obj );
 	obj.deviceID[ deviceID ] = true;
-	obj.save( function(err,obj){
-	    console.log( obj );
+	console.log( obj );
+	obj.save( function(err){
+	    console.log( err );
 	    if( err )
 		res.render('gcm/gcmMsg',  { message : " Error!" } );
 	    else res.render('gcm/gcmMsg',{message : "success!" } );
@@ -61,13 +62,25 @@ exports.gcmDoDeReg = function ( req , res ) {
 	res.redirect('/');
 	return;
     }
-    var obj = new gcmPair ( { deviceID : "" , 
-			      username : req.body.username });
-    obj.remove( function ( err , obj ) {
-	if (err)
+    var username = req.body.username ;
+    var deviceID = req.body.deviceID || ""; // "" indicate clear all
+    gcmPair.findOne({ username : username } ,  function ( err , obj ) {
+	if (err || null===obj){
 	    res.render('gcm/gcmMsg',{message:"failed"});
-	else
+	    return;
+	}
+	console.log( err );
+	if( !obj.deviceID )
+	    obj.deviceID = {};
+	if ( deviceID === "" )
+	    obj.deviceID = {};	//clear
+	else delete obj.deviceID[ deviceID ] ;
+	for ( var xx in obj.deviceID ){
 	    res.render('gcm/gcmMsg',{message:"succeed"});
+	    return;
+	}
+	obj.remove();
+	res.render('gcm/gcmMsg',{message:"succeed"});
     });
     
 }
