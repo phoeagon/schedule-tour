@@ -13,6 +13,8 @@ MinGKai, 2013 July 12
                 //here it is
             }
         });
+        walking.search(from, to);
+
 ### get duration of the route
         
         var walking = new BMapWalkingRoute(map);
@@ -23,6 +25,8 @@ MinGKai, 2013 July 12
             //false for integer return 
             results.getPlan(0).getDuration(false);
         });
+        walking.search(from, to);
+
 ### add an event to db
         $.post('/newevententry',
             {
