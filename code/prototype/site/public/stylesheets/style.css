@@ -1,22 +1,22 @@
 body, html, #map {
-position:absolute;
-width: 100%;
-height: 100%;
-overflow: hidden;
-margin:0;
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin:0;
 }
 
 #l-map{
-height:100%;
-width:78%;
-float:left;
-border-right:2px solid #bcbcbc;
+    height:100%;
+    width:78%;
+    float:left;
+    border-right:2px solid #bcbcbc;
 }
 
 #r-result{
-height:100%;
-width:20%;
-float:left;
+    height:100%;
+    width:20%;
+    float:left;
 }
 
 a {
@@ -29,7 +29,7 @@ h1 {
 
 #calendar>table {
   font-size: 20px;
-  min-width: 500px;
+  min-width: 60%;
 }
 #calendar>table th {
   font:bold;
@@ -44,8 +44,8 @@ body {
     top:0px;
     left:0px;
     z-index:0;
-    transition:top 1000ms;
-    -webkit-transition:top 1000ms;
+    transition:top 200ms;
+    -webkit-transition:top 200ms;
     box-shadow: 5px 5px #000000;
     -webkit-box-shadow: 5px 5px #000000;
 }
@@ -55,7 +55,7 @@ body {
     top:10px;
     left:0;
     width:100%;
-    height:100px;
+    height:90%;
 }
 
 #sidebar {
@@ -64,9 +64,9 @@ body {
     position:absolute;
     top:0;
     left:0px;
-    width:300px;
+    width:90%;
     height:100%;
-    -webkit-transition:500ms;
+    -webkit-transition:100ms;
     z-index:200;
 }
 
@@ -82,21 +82,30 @@ body {
 
 #classic_btn {
     top:0;
-    left:50%;
-    transition:top 1000ms;
-    -webkit-transition:top 1000ms;
+    left:35%;
+    width:30%;
+    height:10%;
+    transition:top 200ms;
+    -webkit-transition:top 200ms;
 }
-
+#classic_btn.extended {
+    top : 90%;
+}
 #sidebar_btn {
-    top:50%;
+    top:35%;
     left:0;
-    transition:left 500ms;
-    -webkit-transition:left 500ms;
+    height:30%;
+    width:10%;
+    transition:left 100ms;
+    -webkit-transition:left 100ms;
 }
-
+#sidebar_btn.extended {
+    left: 90%;
+}
 .buttons {
     position:absolute;
     z-index:100;
+    font-size:30px;
 }
 
 .displaynone{
@@ -109,10 +118,19 @@ body {
     left:0px;
     right:0px;
     border:10px;
-    width:1000px;
-    height:500px;
+    width:100%;
+    height:100%;
     background-color:red;
 }
 
 #add-event-gesture{
+}
+
+/* colorful table*/
+tr:nth-child(odd)		{ background-color:#eee; }
+tr:nth-child(even)		{ background-color:#fff; }
+
+td
+{
+    padding:8px;
 }

@@ -4,7 +4,7 @@
  */
 var gcm = require('node-gcm');
 var myGCM = require('../models/gcm');
-var gcmPair = require('../models/gcmpair');
+var gcmPair = require('../models/types/gcmpair');
 
 exports.index = function(req, res){
   res.render('gcmindex', { title: 'Express' });
@@ -15,9 +15,9 @@ exports.register = function(req,res){
 exports.deregister = function(req,res){
 }
 exports.gcmstatus = function( req , res ) {
-    gcmPair.listAll( function( err , result ){
+    gcmPair.find( {} , function( err , result ){
 	console.log( {devices: result } );
-	res.render('gcm/gcmStatus', {devices: result } );
+	res.render('gcm/gcmStatus', {devices: result || {} } );
     });
 }
 exports.gcmRegPage = function( req , res ) {
@@ -38,24 +38,24 @@ exports.gcmDoReg = function( req , res ) {
     var deviceID = req.body.deviceID     ;
     var username = req.body.username || 'test';
     console.log( "deviceID: "+deviceID+"\n"+"username: "+username);
-    gcmPair.get( { username : username } , function(err,obj){
+    gcmPair.findOne( { username : username } , function(err,obj){
 	console.log( "gcmPair.get callback" );
-	if ( obj ){//already registered
-	    res.render('gcm/gcmMsg',{message:"Error!"});
-	}else{
-	    var tmp = new gcmPair ( {
-		deviceID : deviceID , 
-		username : username } );
-	    //console.log( "var tmp=" );
-	    //console.log( tmp );
-	    tmp.save( function(err,obj){
-		//console.log( err );
-		console.log( obj );
-		if( err )
-		    res.render('gcm/gcmMsg',  { message : " Error!" } );
-		else res.render('gcm/gcmMsg',{message : "success!" } );
-	    });
-	}
+	//console.log( obj );
+	if (!obj || !obj.deviceID)
+	    obj = new gcmPair ( {
+		username : username ,
+		deviceID : {}
+	    })
+	obj.deviceID[ deviceID ] = true;
+	obj.setDirty();	//IMPORTANT
+	//console.log( obj );
+	obj.save( function(err){
+	    console.log( err );
+	    if( err )
+		res.render('gcm/gcmMsg',  { message : " Error!" } );
+	    else res.render('gcm/gcmMsg',{message : "success!" } );
+	});
+	
     });
 }
 exports.gcmDoDeReg = function ( req , res ) {
@@ -63,13 +63,27 @@ exports.gcmDoDeReg = function ( req , res ) {
 	res.redirect('/');
 	return;
     }
-    var obj = new gcmPair ( { deviceID : "" , 
-			      username : req.body.username });
-    obj.remove( function ( err , obj ) {
-	if (err)
+    var username = req.body.username ;
+    var deviceID = req.body.deviceID || ""; // "" indicate clear all
+    gcmPair.findOne({ username : username } ,  function ( err , obj ) {
+	if (err || null===obj){
 	    res.render('gcm/gcmMsg',{message:"failed"});
-	else
+	    return;
+	}
+	//console.log( err );
+	if( !obj.deviceID )
+	    obj.deviceID = {};
+	if ( deviceID === "" )
+	    obj.deviceID = {};	//clear
+	else delete obj.deviceID[ deviceID ] ;
+	obj.setDirty();	//IMPORTANT
+	for ( var xx in obj.deviceID ){
+	    obj.save();
 	    res.render('gcm/gcmMsg',{message:"succeed"});
+	    return;
+	}
+	obj.remove();
+	res.render('gcm/gcmMsg',{message:"succeed"});
     });
     
 }
@@ -84,17 +98,17 @@ exports.gcmDoSend = function ( req , res ) {
     var username = req.body.username ;
     var message = req.body.message;
     console.log( message );
-    gcmPair.get({username:username},function(err,obj){
+    gcmPair.findOne({username:username},function(err,obj){
 	if ( err || !obj ){
 	    console.log( "Error encountered in gcmDoSend" );
 	    res.redirect("/gcmStatus");
 	    return ;
 	}
 	var myGCM = require('../models/gcm');
-	//console.log( myGCM );
-	myGCM.send( [obj.deviceID] , {msg : message} , function(err,result){
+	console.log( obj.deviceID );
+	myGCM.send( obj.deviceID , {msg : message} , function(err,result){
 	    console.log( result );
-	    res.render("gcm/gcmMsg",{message:result.toString()});
+	    res.render("gcm/gcmMsg",{message: JSON.stringify(result) });
 	});
     });
 }

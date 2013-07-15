@@ -1,21 +1,36 @@
 var mongoose = require('../mongoose');
+require('mongoose-double')(mongoose);
 
-var eventEntryPrototype = {
-    name : String ,
-    place : String ,
-    time : Date 
-};
-function eventEntry( eventEntry ) {
-    for ( var ele in eventEntry )
-        this[ele] = eventEntry[ele];
-};
-var TABLENAME = 'eventEntry'
-module.exports = eventEntry;
+var SchemaTypes = mongoose.Schema.Types;
 
-var eventEntry = mongoose.model( TABLENAME , eventEntryPrototype );
+//schema of EventEntry
+var EventEntrySchema = mongoose.Schema({
+    user        :   SchemaTypes.ObjectId,
+    title       :   String,
+    description :   String,
+    place       :   String,
+    weight      :   Number,
+    time        :   Date,
+    endTime     :   Date,
+    position    :   [SchemaTypes.Double],
+    alarms      :   [],
+    privacy     :   Boolean,
+    finished    :   Boolean
+});
 
-//var ee = new eventEntry({name:'test',place:'SE',time:new Date()});
-//ee.save();
-eventEntry.find({},function(err,obj){
-    console.log( obj );
-})
+var TABLENAME = 'EventEntry';
+//compile into a model
+var EventEntry = mongoose.model( TABLENAME , EventEntrySchema );
+
+
+//function to test eventEntry
+var testEventEntry = function() {
+    var ee = new EventEntry({name:'test',place:'SE',time:new Date()});
+    ee.save();
+    EventEntry.find({}, function(err, obj) {
+        console.log( obj );
+    });
+}
+
+//export module
+module.exports = EventEntry;

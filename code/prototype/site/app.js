@@ -9,7 +9,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , flash = require("connect-flash")
-  , account = require('./routes/account');
+  , account = require('./routes/account')
+  , eventEntry = require('./routes/eventEntry');
 
 
 var app = express();
@@ -55,7 +56,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-account(app);
+account.setRouter(app);
+eventEntry.setRouter(app);
 
 app.get('/', routes.index);
 app.get('/users', user.list);
@@ -69,7 +71,7 @@ app.post('/gcmDeregistry',gcmroute.gcmDoDeReg );
 app.get('/gcmSend',gcmroute.gcmSend );
 app.post('/gcmSend',gcmroute.gcmDoSend );
 
-var eventEntry = require('./models/types/eventEntry');
+//var eventEntry = require('./models/types/eventEntry');
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

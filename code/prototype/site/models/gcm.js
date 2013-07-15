@@ -11,14 +11,23 @@ myGCM.errorCode = {
     2 : 'not found' 
 };
 
-myGCM.sender = new gcm.Sender('AIzaSyAm-r776IEFAI2u2tc6Wd4KfnBjtJKHdXQ');
+myGCM.sender = new gcm.Sender('AIzaSyCHpHsHC86Thg_IG8gIygR53jevl4eiWqE');
 
 myGCM.send = function ( idset , msg , callback ){
     console.log('myGCM.send');console.log(msg);
     data = new gcm.Message();
     data.addDataWithObject( msg );
     console.log( data );
-    myGCM.sender.send( data , idset , 4 , callback );
+    if ( typeof( idset )== 'Array' )
+	var _idset = idset ;
+    else {
+	var _idset = [];
+	for (var dev in idset )
+	    _idset.push( dev );
+    }
+    console.log( idset );
+    console.log( _idset );
+    myGCM.sender.send( data , _idset , 4 , callback );
 }
 myGCM.register = function ( id , callback ){
     if ( idSet[id] )
