@@ -16,7 +16,6 @@ createEvent :   function(p) {
 
 	$(".datepicker").datepicker();
 	$(".slider").slider();
-	$("#sidebar_btn").click();
         return e;
     }
 };
@@ -30,9 +29,9 @@ function setSlidingMap() {
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
     var calHeight = '90%';
-    var calAnimationTime = '200ms';
+    var calAnimationTime = '300ms';
     var sideWid = '90%';
-    var sideAnimationTime = '500ms';
+    var sideAnimationTime = '300ms';
     
     function showCal() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
@@ -158,6 +157,22 @@ $(document).ready(function () {
 			return x.addTime - y.addTime;
 		    });
 		$("#sidebar_btn").click();
+		$.post('/newevententry',
+		       { title: 'test',
+			 description: e.description,
+			 place: e.position,
+			 weigth: e.weight,
+			 time: e.from,
+			 endTime: e.until,
+			 position: [e.position.lng, e.position.lat],
+			 privacy: false,
+			 alarms:[]
+		       },
+		       function(res) {
+			   console.log(res);
+			   alert(res);
+		       }
+		    );
 	    });
 	//clear previous paths
 	walkings = [];
