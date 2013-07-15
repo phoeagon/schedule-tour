@@ -59,10 +59,21 @@ body {
 }
 
 #sidebar {
+    background-color:orange;
+    perspective:1000;	
     position:absolute;
     top:0;
-    left:-100px;
-    width:100px;
+    left:0px;
+    width:300px;
+    height:100%;
+    -webkit-transition:500ms;
+    z-index:200;
+}
+
+#sidebar.back {
+    -webkit-transform-origin:0px 0px;
+    -webkit-transform:rotateY(90deg);
+    -webkit-transform-style:preserve-3d;
 }
 
 .hidden {
@@ -79,8 +90,8 @@ body {
 #sidebar_btn {
     top:50%;
     left:0;
-    transition:left 1000ms;
-    -webkit-transition:left 1000ms;
+    transition:left 500ms;
+    -webkit-transition:left 500ms;
 }
 
 .buttons {
@@ -92,7 +103,7 @@ body {
     display:none;
 }
 
-#gesture-receiver{
+#gesture-reseiver {
     z-index:100;
     position:relative;
     left:0px;

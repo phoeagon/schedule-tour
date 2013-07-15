@@ -1,6 +1,6 @@
 
 var Event =  {
-    createEvent :   function(p) {
+createEvent :   function(p) {
         var e = {};
         e.user = null;
         e.title = null;
@@ -13,9 +13,79 @@ var Event =  {
         e.weight = null;
         e.finish = null;
         e.addTime = new Date();
+
+	$(".datepicker").datepicker();
+	$(".slider").slider();
+	$("#sidebar_btn").click();
         return e;
     }
 };
+
+function setSlidingMap() {
+    var mapdiv = document.getElementById('map');
+    var calend = document.getElementById('calendar');
+    mapdiv.style.top = '0px';
+    mapdiv.style.left = '0px';
+    $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
+		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+
+    var calHeight = '500px';
+    var calAnimationTime = '1000ms';
+    var sideWid = '300px';
+    var sideAnimationTime = '500ms';
+    
+    function showCal() {
+	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+	mapdiv.style.top = calHeight;
+	var btn = $("#classic_btn");
+	btn.css({'top':calHeight});
+	btn.text('^');
+	$("#calendar").removeClass('hidden');
+	btn.unbind('click');
+	btn.bind('click', hideCal);
+	$("#sidebar_btn").unbind('click');
+    }
+    function hideCal() {
+	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+	mapdiv.style.top = '0px'; 
+	var btn = $("#classic_btn");
+	btn.css({'top':'0px'});
+	btn.text('V');
+	$("#calendar").addClass('hidden');
+	btn.unbind('click');
+	btn.bind('click', showCal);
+	$("#sidebar_btn").bind('click', showSide);
+    }
+
+    function showSide() {
+	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+	mapdiv.style.left = sideWid;
+	var btn = $("#sidebar_btn");
+	btn.css({'left':sideWid});
+	btn.text('<');
+	$("#sidebar").removeClass('back');
+	btn.unbind('click');
+	btn.bind('click', hideSide);
+	$("#classic_btn").unbind('click');
+    }
+    function hideSide() {
+	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+	mapdiv.style.left = '0px'; 
+	var btn = $("#sidebar_btn");
+	btn.css({'left':'0px'});
+	btn.text('>');
+	$("#sidebar").addClass('back');
+	btn.unbind('click');
+	btn.bind('click', showSide);
+	$("#classic_btn").bind('click', showCal);
+    }
+    
+    $("#calendar").addClass('hidden');
+    $("#sidebar").removeClass('hidden');
+    $("#sidebar").addClass('back');
+    $("#classic_btn").bind('click', showCal);
+    $("#sidebar_btn").bind('click', showSide);
+}
 
 $(document).ready(function () {
 
@@ -125,67 +195,7 @@ $(document).ready(function () {
     }
     map.addContextMenu(contextMenu);
 
+    map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
-    var mapdiv = document.getElementById('map');
-    var calend = document.getElementById('calendar');
-    mapdiv.style.top = '0px';
-    mapdiv.style.left = '0px';
-    $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
-		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
-
-    var calHeight = '500px';
-    var calAnimationTime = '1000ms';
-    var sideWid = '200px';
-    var sideAnimationTime = '500ms';
-    
-    function showCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = calHeight;
-	var btn = $("#classic_btn");
-	btn.css({'top':calHeight});
-	btn.text('^');
-	$("#calendar").removeClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', hideCal);
-	$("#sidebar_btn").unbind('click');
-    }
-    function hideCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = '0px'; 
-	var btn = $("#classic_btn");
-	btn.css({'top':'0px'});
-	btn.text('V');
-	$("#calendar").addClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', showCal);
-	$("#sidebar_btn").bind('click', showSide);
-    }
-
-    function showSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = sideWid;
-	var btn = $("#sidebar_btn");
-	btn.css({'left':sideWid});
-	btn.text('<');
-	$("#sidebar").removeClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', hideSide);
-	$("#classic_btn").unbind('click');
-    }
-    function hideSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = '0px'; 
-	var btn = $("#sidebar_btn");
-	btn.css({'left':'0px'});
-	btn.text('>');
-	$("#sidebar").addClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', showSide);
-	$("#classic_btn").bind('click', showCal);
-    }
-    
-    $("#calendar").removeClass('hidden');
-    $("#classic_btn").bind('click', showCal);
-    $("#sidebar_btn").bind('click', showSide);
-
+    setSlidingMap();
 });
