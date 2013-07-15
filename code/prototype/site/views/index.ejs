@@ -17,60 +17,37 @@
     <div id="map" class="map">
     </div>
     <div id="calendar" class="hidden">
-      <table id="calender-table">
-        <tr>
-          <th>Sun.</th>
-          <th>Mon.</th>
-          <th>Tue.</th>
-          <th>Thu.</th>
-          <th>Wed.</th>
-          <th>Fri.</th>
-          <th>Sat.</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
     </div>
-    <button id="classic_btn" class="buttons">
+    <button id="classic_btn" class="buttons btn">
       ▽
     </button>
     <div id="sidebar" class="hidden">
-      <form id="eventInfo">
-        Start date:<input type="text" class="datepicker" name="start_date" id="dateFrom"/> <br/>
-        End Date:<input type="text" class="datepicker" name="end_date" id="dateUntil"/> <br/>
-        Type: <input type="radio" name="routine" value="routine">Routine
-        <input type="radio" name="routine" value="once">Once <br/>
-        Priority: <div type="text" class="slider" name="priority" id="weight"/> </div><br/>
-	Note: <textarea id="description" name="add-event-note"></textarea><br/>
-        <button type="button" id="addEventButt">add</button>
-      </form>
+      <form id="eventInfo"><fieldset>
+            <div class="control-group">
+                <label class="control-label" for="start_date_datepicker">Start date:</label>
+                <input type="text" class="datepicker" name="start_date" id="dateFrom"/>
+            </div>
+            <div class="control-group">   
+                <label class="control-label" for="end_date_datepicker">End Date:</label>         
+                <input type="text" class="datepicker" name="end_date" id="dateUntil"/>
+            </div>
+            <div class="control-group">       
+                <label class="control-label">Type:</label>       
+                <input type="radio" name="routine" value="routine">Routine
+                    <input type="radio" name="routine" value="once">Once 
+            </div>
+            <div class="control-group"> 
+                <label class="control-label">Priority:</label>           
+                 <div type="text" class="slider" name="priority" id="weight"/>  </div><br/>
+            </div>
+            <div class="control-group">  
+                <label class="control-label">Note:</label>           
+                <textarea id="description" name="add-event-note"></textarea>
+            </div>
+            </fieldset></form>
+
     </div>
-    <button id="sidebar_btn" class="buttons hidden">
+    <button id="sidebar_btn" class="buttons hidden btn">
       ▷
     </button>
     <!--<div style="z-index:100;position:relative;left:0px;right:0px;">
@@ -104,5 +81,9 @@
         </div>
     </div>-->
   </body>
-  <script type="text/javascript" >  </script>
+  <script type="text/javascript" >
+    $.get('html.calender',function(data){
+        $('#calendar').html(data);
+        });
+  </script>
 </html>

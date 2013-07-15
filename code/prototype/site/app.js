@@ -59,6 +59,9 @@ if ('development' == app.get('env')) {
 account.setRouter(app);
 eventEntry.setRouter(app);
 
+app.get('/html.calender',function(req,res){
+        res.render('calender',{});
+    });
 app.get('/', routes.index);
 app.get('/users', user.list);
 
