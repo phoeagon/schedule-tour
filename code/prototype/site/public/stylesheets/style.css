@@ -42,6 +42,8 @@ body {
 
 #map {
     width:100%;
+    top:0px;
+    left:0px;
     z-index:0;
     transition:top 200ms;
     -webkit-transition:top 200ms;
@@ -81,6 +83,7 @@ body {
 }
 
 #sidebar.back {
+    visibility:hidden;
     transform-origin:0px 0px;
     transform:rotateY(90deg);
     transform-style:preserve-3d;
@@ -125,7 +128,7 @@ body {
     display:none;
 }
 
-#gesture-reseiver {
+#gesture-receiver {
     z-index:100;
     position:relative;
     left:0px;

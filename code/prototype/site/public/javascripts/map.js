@@ -5,12 +5,12 @@ createEvent :   function(p) {
         e.user = null;
         e.title = null;
         e.position = p;
-        e.from = null;
-        e.until = null;
-        e.description = null;
+        e.from = $("#dateFrom").datepicker("getDate");
+        e.until = $("#dateUntil").datepicker("getDate");
+        e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
-        e.weight = null;
+        e.weight = $("#weight").slider("value");
         e.finish = null;
         e.addTime = new Date();
 
@@ -144,24 +144,31 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-        var e = Event.createEvent(p);
+	$("#addEventButt").unbind('click');
+	$(".datepicker").datepicker();
+	$(".slider").slider();
+	$("#sidebar_btn").click();
         //add the event to events
-        events.push(e);
-        //sort by addTime
-        //THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
-        events.sort(function (x, y) {
-            return x.addTime - y.addTime;
-        });
-        //clear previous paths
-        walkings = [];
-        //generate new paths
-        for (i=0; i<events.length-1; ++i) {
-            var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-            var from = events[i].position;
-            var to = events[i+1].position;
-            walking.search(from, to);
-            walkings.push(walking);
-        }
+	$("#addEventButt").bind('click', function() {
+		var e = Event.createEvent(p);
+		events.push(e);
+		//sort by addTime
+		//THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
+		events.sort(function (x, y) {
+			return x.addTime - y.addTime;
+		    });
+		$("#sidebar_btn").click();
+	    });
+	//clear previous paths
+	walkings = [];
+	//generate new paths
+	for (i=0; i<events.length-1; ++i) {
+	    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
+	    var from = events[i].position;
+	    var to = events[i+1].position;
+	    walking.search(from, to);
+	    walkings.push(walking);
+	}
     }
 
 
