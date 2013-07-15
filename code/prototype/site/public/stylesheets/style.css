@@ -71,6 +71,7 @@ body {
 }
 
 #sidebar.back {
+    visibility:hidden;
     -webkit-transform-origin:0px 0px;
     -webkit-transform:rotateY(90deg);
     -webkit-transform-style:preserve-3d;
@@ -112,7 +113,7 @@ body {
     display:none;
 }
 
-#gesture-reseiver {
+#gesture-receiver{
     z-index:100;
     position:relative;
     left:0px;

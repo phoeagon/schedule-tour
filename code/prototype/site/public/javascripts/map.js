@@ -13,7 +13,18 @@ createEvent :   function(p) {
         e.weight = null;
         e.finish = null;
         e.addTime = new Date();
-
+	var content = "<div id='add_event_gesture_dialog' class='add_event_gesture_dialog' title='Adding Event'>"+
+      "<form>"+
+        "Start date:<input type='text' class='datepicker' name='start_date'/> <br/>"+
+        "End Date:<input type='text' class='datepicker' name='end_date'/> <br/>"+
+        "Type: <input type='radio' name='routine' value='routine'>Routine"+
+        "<input type='radio' name='routine' value='once'>Once <br/>"+
+        "Priority: <div type='text' class='slider' name='priority'/> </div><br/>"+
+	"Note: <textarea name='add-event-note'></textarea>"+
+      "</form>"+
+"</div>";
+	var infoWindow = new BMap.InfoWindow(content);
+	marker.addEventListener('click', function() { this.openInfoWindow(infoWindow) });
 	$(".datepicker").datepicker();
 	$(".slider").slider();
 	$("#sidebar_btn").click();
@@ -29,9 +40,9 @@ function setSlidingMap() {
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
-    var calHeight = '500px';
+    var calHeight = '90%';
     var calAnimationTime = '1000ms';
-    var sideWid = '300px';
+    var sideWid = '90%';
     var sideAnimationTime = '500ms';
     
     function showCal() {
@@ -142,7 +153,7 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-        var e = Event.createEvent(p);
+        var e = Event.createEvent(p, marker);
         //add the event to events
         events.push(e);
         //sort by addTime
