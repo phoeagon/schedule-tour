@@ -5,17 +5,15 @@ createEvent :   function(p) {
         e.user = null;
         e.title = null;
         e.position = p;
-        e.from = null;
-        e.until = null;
-        e.description = null;
+        e.from = $("#dateFrom").datepicker("getDate");
+        e.until = $("#dateUntil").datepicker("getDate");
+        e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
-        e.weight = null;
+        e.weight = $("#weight").slider("value");
         e.finish = null;
         e.addTime = new Date();
-
-	$(".datepicker").datepicker();
-	$(".slider").slider();
+	
         return e;
     }
 };
@@ -141,6 +139,8 @@ $(document).ready(function () {
         map.addOverlay(marker);
         //create an Event Object
 	$("#addEventButt").unbind('click');
+	$(".datepicker").datepicker();
+	$(".slider").slider();
 	$("#sidebar_btn").click();
         //add the event to events
 	$("#addEventButt").bind('click', function() {
@@ -151,6 +151,7 @@ $(document).ready(function () {
 		events.sort(function (x, y) {
 			return x.addTime - y.addTime;
 		    });
+		$("#sidebar_btn").click();
 	    });
 	//clear previous paths
 	walkings = [];
