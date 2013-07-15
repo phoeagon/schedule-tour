@@ -6,7 +6,8 @@ body, html, #map {
     margin:0;
 }
 #map.styledHue{
-    filter:url(../svg/filters.svg#hue180)
+    -webkit-filter:url(../svg/filters.svg#hue180);
+    filter:url(../svg/filters.svg#hue180);
 }
 #l-map{
     height:100%;
