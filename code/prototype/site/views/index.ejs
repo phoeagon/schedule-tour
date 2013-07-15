@@ -51,14 +51,19 @@
     <button id="sidebar_btn" class="buttons hidden">
       ▷
     </button>
-    <div id="setting_panel"  title="Settings"></div>
+    <div id="setting_panel"  title="Settings">
+    <button id="toggle_map_style"/>Change Map Color</button>
+    </div>
     <button id="setting_show_button" class="buttons btn" >Settings</button>
   </body>
   <script type="text/javascript" >
     $.get('html.calender',function(data){
         $('#calendar').html(data);
     });
-    $('#setting_show_button').bind("click",function(){
+    $('#toggle_map_style').click(function(){
+            $('#map').toggleClass('styledHue');
+        });
+    $('#setting_show_button').click(function(){
         $( "#setting_panel" ).dialog({
             autoOpen: true,
             width: "90%",

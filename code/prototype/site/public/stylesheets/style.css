@@ -5,7 +5,7 @@ body, html, #map {
     overflow: hidden;
     margin:0;
 }
-#map{
+#map.styledHue{
     filter:url(../svg/filters.svg#hue180)
 }
 #l-map{
