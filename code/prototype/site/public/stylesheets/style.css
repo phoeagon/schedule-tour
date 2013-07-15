@@ -36,6 +36,7 @@ h1 {
 }
 
 body {
+    -webkit-background-image:url('../images/bg_tile.jpg');
     background-image:url('../images/bg_tile.jpg');
 }
 
@@ -67,10 +68,14 @@ body {
     width:90%;
     height:100%;
     -webkit-transition:100ms;
+    transition:100ms;
     z-index:200;
 }
 
 #sidebar.back {
+    transform-origin:0px 0px;
+    transform:rotateY(90deg);
+    transform-style:preserve-3d;
     -webkit-transform-origin:0px 0px;
     -webkit-transform:rotateY(90deg);
     -webkit-transform-style:preserve-3d;
