@@ -14,8 +14,10 @@
 
   </head>
   <body>
+    <div id="map" class="map">
+    </div>
     <div id="calendar" class="hidden">
-      <table>
+      <table id="calender-table">
         <tr>
           <th>Sun.</th>
           <th>Mon.</th>
@@ -55,7 +57,7 @@
       </table>
     </div>
     <button id="classic_btn" class="buttons">
-      V
+      ▽
     </button>
     <div id="sidebar" class="hidden">
       <form id="eventInfo">
@@ -68,11 +70,9 @@
         <button type="button" id="addEventButt">add</button>
       </form>
     </div>
-    <button id="sidebar_btn" class="buttons hidden">
-      &gt;
+    <button id="sidebar_btn" class="buttons">
+      ▷
     </button>
-    <div id="map" class="map">
-    </div>
     <!--<div style="z-index:100;position:relative;left:0px;right:0px;">
     <form><input type="button" value="toggle" onclick="javascript:$('.gesture-receiver').toggleClass('displaynone');"></form></div>
     <div id="gesture_receiver" class="gesture_receiver"></div>

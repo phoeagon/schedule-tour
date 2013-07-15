@@ -13,7 +13,10 @@ createEvent :   function(p) {
         e.weight = $("#weight").slider("value");
         e.finish = null;
         e.addTime = new Date();
-	
+
+	$(".datepicker").datepicker();
+	$(".slider").slider();
+	$("#sidebar_btn").click();
         return e;
     }
 };
@@ -24,9 +27,10 @@ function setSlidingMap() {
     mapdiv.style.top = '0px';
     mapdiv.style.left = '0px';
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
-		   '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+
     var calHeight = '90%';
-    var calAnimationTime = '500ms';
+    var calAnimationTime = '200ms';
     var sideWid = '90%';
     var sideAnimationTime = '500ms';
     
@@ -35,7 +39,8 @@ function setSlidingMap() {
 	mapdiv.style.top = calHeight;
 	var btn = $("#classic_btn");
 	btn.addClass('extended');
-	btn.text('^');
+	//$('#map').addClass('top_collapse');
+	btn.text('△');
 	$("#calendar").removeClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', hideCal);
@@ -46,7 +51,8 @@ function setSlidingMap() {
 	mapdiv.style.top = '0px'; 
 	var btn = $("#classic_btn");
 	btn.removeClass('extended');
-	btn.text('V');
+	//$('#map').removeClass('top_collapse');
+	btn.text('▽');
 	$("#calendar").addClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', showCal);
@@ -58,7 +64,7 @@ function setSlidingMap() {
 	mapdiv.style.left = sideWid;
 	var btn = $("#sidebar_btn");
 	btn.addClass('extended');
-	btn.text('<');
+	btn.text('◁');
 	$("#sidebar").removeClass('back');
 	btn.unbind('click');
 	btn.bind('click', hideSide);
@@ -69,7 +75,7 @@ function setSlidingMap() {
 	mapdiv.style.left = '0px'; 
 	var btn = $("#sidebar_btn");
 	btn.removeClass('extended');
-	btn.text('>');
+	btn.text('▷');
 	$("#sidebar").addClass('back');
 	btn.unbind('click');
 	btn.bind('click', showSide);
@@ -164,37 +170,37 @@ $(document).ready(function () {
 	    walkings.push(walking);
 	}
     }
-    
-    
+
+
     var contextMenu = new BMap.ContextMenu();
     var txtMenuItem = [
-	{
-	text:'放大',
-	callback:function(){map.zoomIn()}
-	},
-	{
-	text:'缩小',
-	callback:function(){map.zoomOut()}
-	},
-	{
-	text:'放置到最大级',
-	callback:function(){map.setZoom(18)}
-	},
-	{
-	text:'查看全国',
-	callback:function(){map.setZoom(4)}
-	},
-	{
-	text:'在此添加标注',
-	callback: addEvent
-	}];
-    
-    
+    {
+        text:'放大',
+            callback:function(){map.zoomIn()}
+    },
+    {
+        text:'缩小',
+        callback:function(){map.zoomOut()}
+    },
+    {
+        text:'放置到最大级',
+        callback:function(){map.setZoom(18)}
+    },
+    {
+        text:'查看全国',
+        callback:function(){map.setZoom(4)}
+    },
+    {
+        text:'在此添加标注',
+        callback: addEvent
+    }];
+
+
     for(var i=0; i < txtMenuItem.length; i++){
-	contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
-	if(i==1 || i==3) {
+        contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
+        if(i==1 || i==3) {
             contextMenu.addSeparator();
-	}
+        }
     }
     map.addContextMenu(contextMenu);
 

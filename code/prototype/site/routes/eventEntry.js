@@ -7,6 +7,7 @@ var EventEntry = require('../models/types/eventEntry');
 var utility = require('../models/utility');
 var passwordHash = utility.passwordHash;
 var ObjectId = require('../models/mongoose').Types.ObjectId;
+var checkLogin = require('./account').checkLogin;
 
 
 var setRouter = function(app) {
@@ -62,24 +63,9 @@ var setRouter = function(app) {
 
     });
   });
+
   
 };
-
-function checkLogin(req, res, next) {
-  if (!req.session.user) {
-    req.flash('error', '未登入');
-    return res.redirect('/login');
-  }
-  next();
-}
-
-function checkNotLogin(req, res, next) {
-  if (req.session.user) {
-    req.flash('error', '已登入');
-    return res.redirect('/');
-  }
-  next();
-}
 
 module.exports = {
   setRouter : setRouter
