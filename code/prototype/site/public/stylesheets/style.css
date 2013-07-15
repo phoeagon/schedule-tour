@@ -77,8 +77,8 @@ body {
     left:0px;
     width:90%;
     height:100%;
-    -webkit-transition:100ms;
-    transition:100ms;
+    -webkit-transition:500ms;
+    transition:500ms;
     z-index:200;
 }
 
@@ -112,8 +112,8 @@ body {
     left:0;
     height:30%;
     width:10%;
-    transition:left 100ms;
-    -webkit-transition:left 100ms;
+    transition:left 300ms;
+    -webkit-transition:left 300ms;
 }
 #sidebar_btn.extended {
     left: 90%;

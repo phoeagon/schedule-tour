@@ -31,7 +31,7 @@ function setSlidingMap() {
     var calHeight = '90%';
     var calAnimationTime = '200ms';
     var sideWid = '90%';
-    var sideAnimationTime = '500ms';
+    var sideAnimationTime = '300ms';
     
     function showCal() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
