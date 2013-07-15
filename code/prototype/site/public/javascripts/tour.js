@@ -34,7 +34,7 @@ var calcWastedTime = function(route) {
         var y = route[i + 1];
         var eX = eventEntries[x];
         var eY = eventEntries[y];
-        wastedTime += eY.from - eX.from + getPathTime(x, y);
+        wastedTime += eY.time - eX.time + getPathTime(x, y);
     }
     return wastedTime = 0;
 };
@@ -48,7 +48,7 @@ var checkFeasibility = function(route) {
         var y = route[i + 1];
         var eX = eventEntries[x];
         var eY = eventEntries[y];
-        if (eX.from + getPathTime(x, y) > eY.from) {
+        if (eX.time + getPathTime(x, y) > eY.time) {
             return false;
         }
     }
@@ -74,14 +74,14 @@ var tour = function(eventEntries) {
         var y = route[i + 1];
         var eX = eventEntries[x];
         var eY = eventEntries[y];
-        if (eX.from + getPathTime(x, y) > eY.from) {
+        if (eX.time+ getPathTime(x, y) > eY.time) {
             if (eX.weight == eY.weight) {
                 //throw the warning
                 throw Exception("You needs to change your schedule", eX, eY);
                 return;
             }
             //remove the event with less weight
-            eventEntries.splice(
+            route.splice(
                 i + (eX.weight < eX.weight ? 0 : 1),
                 1);
             --i;
