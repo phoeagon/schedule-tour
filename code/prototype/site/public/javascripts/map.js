@@ -16,10 +16,6 @@ createEvent :   function(p) {
 
 	$(".datepicker").datepicker();
 	$(".slider").slider();
-<<<<<<< HEAD
-=======
-	$("#sidebar_btn").click();
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
         return e;
     }
 };
@@ -30,26 +26,17 @@ function setSlidingMap() {
     mapdiv.style.top = '0px';
     mapdiv.style.left = '0px';
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
-<<<<<<< HEAD
 		   '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
-=======
-		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
-
-    var calHeight = '500px';
-    var calAnimationTime = '1000ms';
-    var sideWid = '300px';
+    var calHeight = '90%';
+    var calAnimationTime = '500ms';
+    var sideWid = '90%';
     var sideAnimationTime = '500ms';
     
     function showCal() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = calHeight;
 	var btn = $("#classic_btn");
-<<<<<<< HEAD
-	btn.css({'top':calHeight});
-=======
 	btn.addClass('extended');
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
 	btn.text('^');
 	$("#calendar").removeClass('hidden');
 	btn.unbind('click');
@@ -60,11 +47,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = '0px'; 
 	var btn = $("#classic_btn");
-<<<<<<< HEAD
-	btn.css({'top':'0px'});
-=======
 	btn.removeClass('extended');
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
 	btn.text('V');
 	$("#calendar").addClass('hidden');
 	btn.unbind('click');
@@ -76,11 +59,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
 	mapdiv.style.left = sideWid;
 	var btn = $("#sidebar_btn");
-<<<<<<< HEAD
-	btn.css({'left':sideWid});
-=======
 	btn.addClass('extended');
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
 	btn.text('<');
 	$("#sidebar").removeClass('back');
 	btn.unbind('click');
@@ -91,11 +70,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
 	mapdiv.style.left = '0px'; 
 	var btn = $("#sidebar_btn");
-<<<<<<< HEAD
-	btn.css({'left':'0px'});
-=======
 	btn.removeClass('extended');
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
 	btn.text('>');
 	$("#sidebar").addClass('back');
 	btn.unbind('click');
@@ -221,14 +196,8 @@ $(document).ready(function () {
 	}
     }
     map.addContextMenu(contextMenu);
-<<<<<<< HEAD
-    
-    map.addEventListener('longpress', function(e) { addEvent(e.point); });
-    
-=======
 
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
->>>>>>> ec5ce2aae549a0cb7f2494e569979ccf5a17eef4
     setSlidingMap();
 });
