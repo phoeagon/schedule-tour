@@ -16,7 +16,6 @@ createEvent :   function(p) {
 
 	$(".datepicker").datepicker();
 	$(".slider").slider();
-	$("#sidebar_btn").click();
         return e;
     }
 };
