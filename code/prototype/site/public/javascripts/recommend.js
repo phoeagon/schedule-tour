@@ -5,7 +5,9 @@ var recommend_douban = function() {
     $.ajax({
         url:    'https://api.douban.com/v2/event/list',     //url
         data:{
-            loc:    loc                             //loc code
+            loc:    loc,                             //loc code
+            start:  0,
+            count:  100
         },
         success: function(res) {
             var count = res.count;
