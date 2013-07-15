@@ -230,6 +230,7 @@ $(document).ready(function () {
 	    var eventsBuff = obj.eventEntries;
 	    for(var i = 0; i < eventsBuff.length; i++) {
 		var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
+		marker.getIcon().setSize(new BMap.Size(30, 30));
 		map.addOverlay(marker);
 		events.push(eventsBuff[i]);
 	    }
