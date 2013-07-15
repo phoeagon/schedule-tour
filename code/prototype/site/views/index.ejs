@@ -51,40 +51,26 @@
     <button id="sidebar_btn" class="buttons hidden">
       ▷
     </button>
-    <!--<div style="z-index:100;position:relative;left:0px;right:0px;">
-    <form><input type="button" value="toggle" onclick="javascript:$('.gesture-receiver').toggleClass('displaynone');"></form></div>
-    <div id="gesture_receiver" class="gesture_receiver"></div>
-    <div id="add_event_gesture" class="add_event_gesture">
-        <div id="add_event_gesture_dialog" class="add_event_gesture_dialog" title="Adding Event">
-            <form ><fieldset>
-            <div class="control-group">
-                <label class="control-label" for="start_date_datepicker">Start date:</label>
-                <input type="text" class="datetimepicker" name="start_date" id="start_date_datepicker"/> 
-            </div>
-            <div class="control-group">   
-                <label class="control-label" for="end_date_datepicker">End Date:</label>         
-                <input type="text" class="datetimepicker" name="end_date" id="end_date_datepicker"/> 
-            </div>
-            <div class="control-group">       
-                <label class="control-label">Type:</label>       
-                <input type="radio" name="routine" value="routine">Routine
-                    <input type="radio" name="routine" value="once">Once 
-            </div>
-            <div class="control-group"> 
-                <label class="control-label">Priority:</label>           
-                 <div type="text" class="slider" name="priority"/> </div><br/>
-            </div>
-            <div class="control-group">  
-                <label class="control-label">Note:</label>           
-                <textarea name="add-event-note"></textarea>
-            </div>
-            </fieldset></form>
-        </div>
-    </div>-->
+    <div id="setting_panel"  title="Settings"></div>
+    <button id="setting_show_button" class="buttons btn" >Settings</button>
   </body>
   <script type="text/javascript" >
     $.get('html.calender',function(data){
         $('#calendar').html(data);
+    });
+    $('#setting_show_button').bind("click",function(){
+        $( "#setting_panel" ).dialog({
+            autoOpen: true,
+            width: "90%",
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
         });
+    });
   </script>
 </html>

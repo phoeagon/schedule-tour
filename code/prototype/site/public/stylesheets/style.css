@@ -152,3 +152,10 @@ td
 {
     padding:8px;
 }
+
+#setting_show_button{
+    width: 30%;
+    left: 35%;
+    height:10%;
+    bottom: 0%;
+}
