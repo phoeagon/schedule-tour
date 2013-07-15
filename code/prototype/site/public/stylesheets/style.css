@@ -158,6 +158,9 @@ td
     width: 30%;
     left: 35%;
     height:10%;
-    bottom: 0%;
+    top: 90%;
 }
 
+.visibilityhidden{
+    visibility:hidden;
+}

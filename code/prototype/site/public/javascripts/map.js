@@ -45,7 +45,7 @@ function setSlidingMap() {
 	btn.unbind('click');
 	btn.bind('click', hideCal);
 	$("#sidebar_btn").unbind('click');
-	$("#setting_show_button").addClass('hidden');
+	$("#setting_show_button").addClass('visibilityhidden');
     }
     function hideCal() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
@@ -58,7 +58,7 @@ function setSlidingMap() {
 	btn.unbind('click');
 	btn.bind('click', showCal);
 	$("#sidebar_btn").bind('click', showSide);
-	$("#setting_show_button").removeClass('hidden');
+	$("#setting_show_button").removeClass('visibilityhidden');
     }
 
     function showSide() {
