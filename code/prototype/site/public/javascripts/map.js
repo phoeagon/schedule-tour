@@ -16,7 +16,6 @@ createEvent :   function(p) {
 
 	$(".datepicker").datepicker();
 	$(".slider").slider();
-	$("#sidebar_btn").click();
         return e;
     }
 };
@@ -27,7 +26,7 @@ function setSlidingMap() {
     mapdiv.style.top = '0px';
     mapdiv.style.left = '0px';
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
-		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+		   '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
     var calHeight = '500px';
     var calAnimationTime = '1000ms';
@@ -142,60 +141,64 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-        var e = Event.createEvent(p);
+	$("#addEventButt").unbind('click');
+	$("#sidebar_btn").click();
         //add the event to events
-        events.push(e);
-        //sort by addTime
-        //THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
-        events.sort(function (x, y) {
-            return x.addTime - y.addTime;
-        });
-        //clear previous paths
-        walkings = [];
-        //generate new paths
-        for (i=0; i<events.length-1; ++i) {
-            var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-            var from = events[i].position;
-            var to = events[i+1].position;
-            walking.search(from, to);
-            walkings.push(walking);
-        }
+	$("#addEventButt").bind('click', function() {
+		var e = Event.createEvent(p);
+		events.push(e);
+		//sort by addTime
+		//THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
+		events.sort(function (x, y) {
+			return x.addTime - y.addTime;
+		    });
+	    });
+	//clear previous paths
+	walkings = [];
+	//generate new paths
+	for (i=0; i<events.length-1; ++i) {
+	    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
+	    var from = events[i].position;
+	    var to = events[i+1].position;
+	    walking.search(from, to);
+	    walkings.push(walking);
+	}
     }
-
-
+    
+    
     var contextMenu = new BMap.ContextMenu();
     var txtMenuItem = [
-    {
-        text:'放大',
-            callback:function(){map.zoomIn()}
-    },
-    {
-        text:'缩小',
-        callback:function(){map.zoomOut()}
-    },
-    {
-        text:'放置到最大级',
-        callback:function(){map.setZoom(18)}
-    },
-    {
-        text:'查看全国',
-        callback:function(){map.setZoom(4)}
-    },
-    {
-        text:'在此添加标注',
-        callback: addEvent
-    }];
-
-
+	{
+	text:'放大',
+	callback:function(){map.zoomIn()}
+	},
+	{
+	text:'缩小',
+	callback:function(){map.zoomOut()}
+	},
+	{
+	text:'放置到最大级',
+	callback:function(){map.setZoom(18)}
+	},
+	{
+	text:'查看全国',
+	callback:function(){map.setZoom(4)}
+	},
+	{
+	text:'在此添加标注',
+	callback: addEvent
+	}];
+    
+    
     for(var i=0; i < txtMenuItem.length; i++){
-        contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
-        if(i==1 || i==3) {
+	contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
+	if(i==1 || i==3) {
             contextMenu.addSeparator();
-        }
+	}
     }
     map.addContextMenu(contextMenu);
-
+    
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
-
+    
     setSlidingMap();
 });
