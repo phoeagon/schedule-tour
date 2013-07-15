@@ -86,7 +86,9 @@ function setSlidingMap() {
     $("#sidebar").addClass('back');
     $("#classic_btn").bind('click', showCal);
     $("#sidebar_btn").bind('click', showSide);
+    $("#side_collapse").bind('click', hideSide);
 }
+
 
 $(document).ready(function () {
 
