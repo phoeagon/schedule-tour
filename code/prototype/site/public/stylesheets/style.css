@@ -5,7 +5,10 @@ body, html, #map {
     overflow: hidden;
     margin:0;
 }
-
+#map.styledHue{
+    -webkit-filter:url(../svg/filters.svg#hue180);
+    filter:url(../svg/filters.svg#hue180);
+}
 #l-map{
     height:100%;
     width:78%;
@@ -150,3 +153,11 @@ td
 {
     padding:8px;
 }
+
+#setting_show_button{
+    width: 30%;
+    left: 35%;
+    height:10%;
+    bottom: 0%;
+}
+
