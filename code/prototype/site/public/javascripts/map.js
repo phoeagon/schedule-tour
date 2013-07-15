@@ -29,7 +29,7 @@ function setSlidingMap() {
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
     var calHeight = '90%';
-    var calAnimationTime = '200ms';
+    var calAnimationTime = '300ms';
     var sideWid = '90%';
     var sideAnimationTime = '300ms';
     
@@ -157,6 +157,22 @@ $(document).ready(function () {
 			return x.addTime - y.addTime;
 		    });
 		$("#sidebar_btn").click();
+		$.post('/newevententry',
+		       { title: 'test',
+			 description: e.description,
+			 place: e.position,
+			 weigth: e.weight,
+			 time: e.from,
+			 endTime: e.until,
+			 position: [e.position.lng, e.position.lat],
+			 privacy: false,
+			 alarms:[]
+		       },
+		       function(res) {
+			   console.log(res);
+			   alert(res);
+		       }
+		    );
 	    });
 	//clear previous paths
 	walkings = [];
