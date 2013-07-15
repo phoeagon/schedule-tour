@@ -38,7 +38,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = calHeight;
 	var btn = $("#classic_btn");
-	btn.css({'top':calHeight});
+	btn.addClass('extended');
 	btn.text('^');
 	$("#calendar").removeClass('hidden');
 	btn.unbind('click');
@@ -49,7 +49,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = '0px'; 
 	var btn = $("#classic_btn");
-	btn.css({'top':'0px'});
+	btn.removeClass('extended');
 	btn.text('V');
 	$("#calendar").addClass('hidden');
 	btn.unbind('click');
@@ -61,7 +61,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
 	mapdiv.style.left = sideWid;
 	var btn = $("#sidebar_btn");
-	btn.css({'left':sideWid});
+	btn.addClass('extended');
 	btn.text('<');
 	$("#sidebar").removeClass('back');
 	btn.unbind('click');
@@ -72,7 +72,7 @@ function setSlidingMap() {
 	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
 	mapdiv.style.left = '0px'; 
 	var btn = $("#sidebar_btn");
-	btn.css({'left':'0px'});
+	btn.removeClass('extended');
 	btn.text('>');
 	$("#sidebar").addClass('back');
 	btn.unbind('click');
