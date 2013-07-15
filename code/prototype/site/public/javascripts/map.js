@@ -29,9 +29,9 @@ function setSlidingMap() {
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
-    var calHeight = '500px';
-    var calAnimationTime = '1000ms';
-    var sideWid = '300px';
+    var calHeight = '90%';
+    var calAnimationTime = '200ms';
+    var sideWid = '90%';
     var sideAnimationTime = '500ms';
     
     function showCal() {
@@ -39,7 +39,8 @@ function setSlidingMap() {
 	mapdiv.style.top = calHeight;
 	var btn = $("#classic_btn");
 	btn.addClass('extended');
-	btn.text('^');
+	//$('#map').addClass('top_collapse');
+	btn.text('△');
 	$("#calendar").removeClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', hideCal);
@@ -50,7 +51,8 @@ function setSlidingMap() {
 	mapdiv.style.top = '0px'; 
 	var btn = $("#classic_btn");
 	btn.removeClass('extended');
-	btn.text('V');
+	//$('#map').removeClass('top_collapse');
+	btn.text('▽');
 	$("#calendar").addClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', showCal);
@@ -62,7 +64,7 @@ function setSlidingMap() {
 	mapdiv.style.left = sideWid;
 	var btn = $("#sidebar_btn");
 	btn.addClass('extended');
-	btn.text('<');
+	btn.text('◁');
 	$("#sidebar").removeClass('back');
 	btn.unbind('click');
 	btn.bind('click', hideSide);
@@ -73,7 +75,7 @@ function setSlidingMap() {
 	mapdiv.style.left = '0px'; 
 	var btn = $("#sidebar_btn");
 	btn.removeClass('extended');
-	btn.text('>');
+	btn.text('▷');
 	$("#sidebar").addClass('back');
 	btn.unbind('click');
 	btn.bind('click', showSide);
