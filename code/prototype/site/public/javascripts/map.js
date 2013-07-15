@@ -4,9 +4,10 @@ createEvent :   function(p) {
         var e = {};
         e.user = null;
         e.title = null;
+	e.place = '';
         e.position = p;
-        e.from = $("#dateFrom").datepicker("getDate");
-        e.until = $("#dateUntil").datepicker("getDate");
+        e.time = $("#dateFrom").datepicker("getDate");
+        e.endTime = $("#dateUntil").datepicker("getDate");
         e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
@@ -158,32 +159,33 @@ $(document).ready(function () {
 		    });
 		$("#sidebar_btn").click();
 		$.post('/newevententry',
-		       { title: 'test',
-			 description: e.description,
-			 place: e.position,
-			 weigth: e.weight,
-			 time: e.from,
-			 endTime: e.until,
-			 position: [e.position.lng, e.position.lat],
-			 privacy: false,
-			 alarms:[]
-		       },
+		       {       title: 'test',
+			       description: e.description,
+			       place: e.position,
+			       weight: e.weight,
+			       time: e.time,
+			       endTime: e.endTime,
+			       position: [e.position.lng, e.position.lat],
+			       privacy: false,
+			       addTime: e.addTime,
+			       alarms:[]
+			       },
 		       function(res) {
 			   console.log(res);
 			   alert(res);
 		       }
 		    );
+		//clear previous paths
+		walkings = [];
+		//generate new paths
+		for (i=0; i<events.length-1; ++i) {
+		    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
+		    var from = events[i].position;
+		    var to = events[i+1].position;
+		    walking.search(from, to);
+		    walkings.push(walking);
+		}
 	    });
-	//clear previous paths
-	walkings = [];
-	//generate new paths
-	for (i=0; i<events.length-1; ++i) {
-	    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-	    var from = events[i].position;
-	    var to = events[i+1].position;
-	    walking.search(from, to);
-	    walkings.push(walking);
-	}
     }
 
 
@@ -218,6 +220,16 @@ $(document).ready(function () {
         }
     }
     map.addContextMenu(contextMenu);
+
+    $.post('/evententries', {}, function(res) {
+	    var obj = JSON.parse(res);
+	    var eventsBuff = obj.eventEntries;
+	    for(var i = 0; i < eventsBuff.length; i++) {
+		var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
+		map.addOverlay(marker);
+		events.push(eventsBuff[i]);
+	    }
+	});
 
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
 

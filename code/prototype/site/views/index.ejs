@@ -22,30 +22,34 @@
       ▽
     </button>
     <div id="sidebar" class="hidden">
-      <form id="eventInfo"><fieldset>
-            <div class="control-group">
-                <label class="control-label" for="start_date_datepicker">Start date:</label>
-                <input type="text" class="datepicker" name="start_date" id="dateFrom"/>
-            </div>
-            <div class="control-group">   
-                <label class="control-label" for="end_date_datepicker">End Date:</label>         
-                <input type="text" class="datepicker" name="end_date" id="dateUntil"/>
-            </div>
-            <div class="control-group">       
-                <label class="control-label">Type:</label>       
-                <input type="radio" name="routine" value="routine">Routine
-                    <input type="radio" name="routine" value="once">Once 
-            </div>
-            <div class="control-group"> 
-                <label class="control-label">Priority:</label>           
-                 <div type="text" class="slider" name="priority" id="weight"/>  </div><br/>
-            </div>
-            <div class="control-group">  
-                <label class="control-label">Note:</label>           
-                <textarea id="description" name="add-event-note"></textarea>
-            </div>
-            </fieldset></form>
-
+      <form id="eventInfo">
+	<fieldset>
+          <div class="control-group">
+            <label class="control-label" for="start_date_datepicker">Start date:</label>
+            <input type="text" class="datepicker" name="start_date" id="dateFrom"/>
+          </div>
+          <div class="control-group">   
+            <label class="control-label" for="end_date_datepicker">End Date:</label>         
+            <input type="text" class="datepicker" name="end_date" id="dateUntil"/>
+          </div>
+          <div class="control-group">       
+            <label class="control-label">Type:</label>       
+            <input type="radio" name="routine" value="routine">Routine
+            <input type="radio" name="routine" value="once">Once 
+          </div>
+          <div class="control-group"> 
+            <label class="control-label">Priority:</label>           
+            <div type="text" class="slider" name="priority" id="weight">
+	    </div>
+	    <br/>
+	  </div>
+	  <div class="control-group">  
+            <label class="control-label">Note:</label>           
+            <textarea id="description" name="add-event-note"></textarea>
+          </div>
+	</fieldset>
+      </form>
+      <button id="addEventButt">Submit</button>
     </div>
     <button id="sidebar_btn" class="buttons hidden">
       ▷
