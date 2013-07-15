@@ -13,7 +13,10 @@ createEvent :   function(p) {
         e.weight = $("#weight").slider("value");
         e.finish = null;
         e.addTime = new Date();
-	
+
+	$(".datepicker").datepicker();
+	$(".slider").slider();
+	$("#sidebar_btn").click();
         return e;
     }
 };
