@@ -1,5 +1,5 @@
 
-var recommend_douban = function() {
+var recommend_douban = function(map) {
     // get location code from douban
     var loc = 108296;
     $.ajax({

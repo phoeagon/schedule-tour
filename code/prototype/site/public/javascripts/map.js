@@ -4,7 +4,7 @@ createEvent :   function(p) {
         var e = {};
         e.user = null;
         e.title = null;
-	e.place = '';
+        e.place = '';
         e.position = p;
         e.time = $("#dateFrom").datepicker("getDate");
         e.endTime = $("#dateUntil").datepicker("getDate");
@@ -15,10 +15,10 @@ createEvent :   function(p) {
         e.finish = null;
         e.addTime = new Date();
 
-	$(".datepicker").datepicker();
-	$(".slider").slider();
+        $(".datepicker").datepicker();
+        $(".slider").slider();
         return e;
-    }
+}
 };
 
 function setSlidingMap() {
@@ -35,55 +35,55 @@ function setSlidingMap() {
     var sideAnimationTime = '300ms';
     
     function showCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = calHeight;
-	var btn = $("#classic_btn");
-	btn.addClass('extended');
-	//$('#map').addClass('top_collapse');
-	btn.text('△');
-	$("#calendar").removeClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', hideCal);
-	$("#sidebar_btn").unbind('click');
-	$("#setting_show_button").addClass('visibilityhidden');
+        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+        mapdiv.style.top = calHeight;
+        var btn = $("#classic_btn");
+        btn.addClass('extended');
+        //$('#map').addClass('top_collapse');
+        btn.text('△');
+        $("#calendar").removeClass('hidden');
+        btn.unbind('click');
+        btn.bind('click', hideCal);
+        $("#sidebar_btn").unbind('click');
+        $("#setting_show_button").addClass('visibilityhidden');
     }
     function hideCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = '0px'; 
-	var btn = $("#classic_btn");
-	btn.removeClass('extended');
-	//$('#map').removeClass('top_collapse');
-	btn.text('▽');
-	$("#calendar").addClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', showCal);
-	$("#sidebar_btn").bind('click', showSide);
-	$("#setting_show_button").removeClass('visibilityhidden');
+        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+        mapdiv.style.top = '0px'; 
+        var btn = $("#classic_btn");
+        btn.removeClass('extended');
+        //$('#map').removeClass('top_collapse');
+        btn.text('▽');
+        $("#calendar").addClass('hidden');
+        btn.unbind('click');
+        btn.bind('click', showCal);
+        $("#sidebar_btn").bind('click', showSide);
+        $("#setting_show_button").removeClass('visibilityhidden');
     }
 
     function showSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = sideWid;
-	var btn = $("#sidebar_btn");
-	btn.addClass('extended');
-	btn.text('◁');
-	$("#sidebar").removeClass('back');
-	btn.unbind('click');
-	btn.bind('click', hideSide);
-	$("#classic_btn").unbind('click');
+        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+        mapdiv.style.left = sideWid;
+        var btn = $("#sidebar_btn");
+        btn.addClass('extended');
+        btn.text('◁');
+        $("#sidebar").removeClass('back');
+        btn.unbind('click');
+        btn.bind('click', hideSide);
+        $("#classic_btn").unbind('click');
     }
     function hideSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = '0px'; 
-	var btn = $("#sidebar_btn");
-	btn.removeClass('extended');
-	btn.text('▷');
-	$("#sidebar").addClass('back');
-	btn.unbind('click');
-	btn.bind('click', showSide);
-	$("#classic_btn").bind('click', showCal);
+        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+        mapdiv.style.left = '0px'; 
+        var btn = $("#sidebar_btn");
+        btn.removeClass('extended');
+        btn.text('▷');
+        $("#sidebar").addClass('back');
+        btn.unbind('click');
+        btn.bind('click', showSide);
+        $("#classic_btn").bind('click', showCal);
     }
-    
+
     $("#calendar").addClass('hidden');
     $("#sidebar").removeClass('hidden');
     $("#sidebar").addClass('back');
@@ -148,48 +148,49 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-	$("#addEventButt").unbind('click');
-	$(".datepicker").datepicker();
-	$(".slider").slider();
-	$("#sidebar_btn").click();
+        $("#addEventButt").unbind('click');
+        $(".datepicker").datepicker();
+        $(".slider").slider();
+        $("#sidebar_btn").click();
         //add the event to events
-	$("#addEventButt").bind('click', function() {
-		var e = Event.createEvent(p);
-		events.push(e);
-		//sort by addTime
-		//THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
-		events.sort(function (x, y) {
-			return x.addTime - y.addTime;
-		    });
-		$("#sidebar_btn").click();
-		$.post('/newevententry',
-		       {       title: 'test',
-			       description: e.description,
-			       place: e.position,
-			       weight: e.weight,
-			       time: e.time,
-			       endTime: e.endTime,
-			       position: [e.position.lng, e.position.lat],
-			       privacy: false,
-			       addTime: e.addTime,
-			       alarms:[]
-			       },
-		       function(res) {
-			   console.log(res);
-			   alert(res);
-		       }
-		    );
-		//clear previous paths
-		walkings = [];
-		//generate new paths
-		for (i=0; i<events.length-1; ++i) {
-		    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-		    var from = events[i].position;
-		    var to = events[i+1].position;
-		    walking.search(from, to);
-		    walkings.push(walking);
-		}
-	    });
+        $("#addEventButt").bind('click', function() {
+            var e = Event.createEvent(p);
+            events.push(e);
+            //sort by addTime
+            //THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
+            events.sort(function (x, y) {
+                return x.addTime - y.addTime;
+            });
+            $("#sidebar_btn").click();
+            $.post('/newevententry',
+                {       
+                    title       : 'test',
+                    description : e.description,
+                    place       : e.position,
+                    weight      : e.weight,
+                    time        : e.time,
+                    endTime     : e.endTime,
+                    position    : [e.position.lng, e.position.lat],
+                    privacy     : false,
+                    addTime     : e.addTime,
+                    alarms      :[]
+                },
+                function(res) {
+                    console.log(res);
+                    alert(res);
+                }
+                );
+            //clear previous paths
+            walkings = [];
+            //generate new paths
+            for (i=0; i<events.length-1; ++i) {
+                var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
+                var from = events[i].position;
+                var to = events[i+1].position;
+                walking.search(from, to);
+                walkings.push(walking);
+            }
+        });
     }
 
 
@@ -197,7 +198,7 @@ $(document).ready(function () {
     var txtMenuItem = [
     {
         text:'放大',
-            callback:function(){map.zoomIn()}
+        callback:function(){map.zoomIn()}
     },
     {
         text:'缩小',
@@ -238,4 +239,8 @@ $(document).ready(function () {
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
     setSlidingMap();
+
+    $.getScript('/javascripts/recommend.js', function() {
+        recommend_douban(map);
+    });
 });
