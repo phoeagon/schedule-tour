@@ -115,7 +115,7 @@ var tour = function(eventEntries) {
 							var tmp1 = route[i+1];
 							route[i+1] = i1; 
 							for (var i2 = i + 2;i2<route.length;i2++)
-							`{
+							{
 								var tmp2 = route[i2];
 								route[i2] = tmp1;
 								tmp1 = tmp2;
@@ -157,3 +157,7 @@ var tour = function(eventEntries) {
     return bestEvents;
 };
 
+//tour stub
+var tour = function(events) {
+    return events;
+}

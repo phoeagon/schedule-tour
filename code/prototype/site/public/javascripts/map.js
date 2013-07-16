@@ -92,6 +92,19 @@ function setSlidingMap() {
     $("#side_collapse").bind('click', hideSide);
 }
 
+var drawRoute = function(map, walkings, events) {
+    //clear previous paths
+    //walkings = [];
+    walkings.splice(0);
+    //generate new paths
+    for (i=0; i<events.length-1; ++i) {
+        var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
+        var from = new BMap.Point(events[i].position[0], events[i].position[1]);
+        var to = new BMap.Point(events[i+1].position[0], events[i+1].position[1]);
+        walking.search(from, to);
+        walkings.push(walking);
+    }
+}
 
 $(document).ready(function () {
 
@@ -180,16 +193,8 @@ $(document).ready(function () {
                     alert(res);
                 }
                 );
-            //clear previous paths
-            walkings = [];
-            //generate new paths
-            for (i=0; i<events.length-1; ++i) {
-                var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-                var from = events[i].position;
-                var to = events[i+1].position;
-                walking.search(from, to);
-                walkings.push(walking);
-            }
+            tour(events);
+            drawRoute(map, walkings, events);
         });
     }
 
@@ -227,20 +232,20 @@ $(document).ready(function () {
     map.addContextMenu(contextMenu);
 
     $.post('/evententries', {}, function(res) {
-	    var obj = JSON.parse(res);
-	    var eventsBuff = obj.eventEntries;
-	    for(var i = 0; i < eventsBuff.length; i++) {
-		var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
-		map.addOverlay(marker);
-		events.push(eventsBuff[i]);
+        var obj = JSON.parse(res);
+        var eventsBuff = obj.eventEntries;
+        for(var i = 0; i < eventsBuff.length; i++) {
+            var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
+            map.addOverlay(marker);
+            events.push(eventsBuff[i]);
 	    }
+        tour(events);
+        drawRoute(map, walkings, events);
 	});
 
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
     setSlidingMap();
 
-    $.getScript('/javascripts/recommend.js', function() {
-        recommend_douban(map);
-    });
+    recommend_douban(map);
 });
