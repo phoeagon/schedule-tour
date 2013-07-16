@@ -96,11 +96,13 @@ var drawRoute = function(map, walkings, events, polylines) {
     //clear previous paths
     //walkings = [];
     walkings.splice(0);
-    //generate new paths
-    for (var i=0; i<polylines.length-1; ++i) {
+    //remove old paths
+    for (var i=0; i<polylines.length; ++i) {
         map.removeOverlay(polylines[i]);
     }
     polylines.splice(0);
+    console.log(events);
+    //generate new paths
     for (var i=0; i<events.length-1; ++i) {
         var walking = new BMap.WalkingRoute(map);
         var from = new BMap.Point(events[i].position[0], events[i].position[1]);
@@ -135,7 +137,7 @@ $(document).ready(function () {
             var mk = new BMap.Marker(r.point);
             map.addOverlay(mk);
             map.panTo(r.point);
-            alert('您的位置：'+r.point.lng+','+r.point.lat);
+            console.log('您的位置：'+r.point.lng+','+r.point.lat);
             map.centerAndZoom(r, 14);
         }
         else {
@@ -181,11 +183,6 @@ $(document).ready(function () {
         $("#addEventButt").bind('click', function() {
             var e = Event.createEvent(p);
             events.push(e);
-            //sort by addTime
-            //THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
-            events.sort(function (x, y) {
-                return x.addTime - y.addTime;
-            });
             $("#sidebar_btn").click();
             $.post('/newevententry',
                 {       
@@ -195,7 +192,7 @@ $(document).ready(function () {
                     weight      : e.weight,
                     time        : e.time,
                     endTime     : e.endTime,
-                    position    : [e.position.lng, e.position.lat],
+                    position    : e.position,
                     privacy     : false,
                     addTime     : e.addTime,
                     alarms      :[]
@@ -243,6 +240,7 @@ $(document).ready(function () {
     }
     map.addContextMenu(contextMenu);
 
+    //TODO: disable the button of adding event
     $.post('/evententries', {}, function(res) {
         var obj = JSON.parse(res);
         var eventsBuff = obj.eventEntries;
@@ -253,6 +251,7 @@ $(document).ready(function () {
 	    }
         tour(events);
         drawRoute(map, walkings, events, polylines);
+        //TODO: enable the button of adding event
 	});
 
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
