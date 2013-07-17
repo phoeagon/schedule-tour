@@ -5,7 +5,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , flash = require("connect-flash")
@@ -36,7 +35,7 @@ app.configure(function(){
         store: new MongoStore({ 
             db: settings.mongo_db
         }) ,
-        cookie: { maxAge: 60000 } 
+        cookie: { maxAge: 600000 } 
     }));
     //app.use(express.cookieParser('keyboard cat'));
 }); 
@@ -59,11 +58,14 @@ if ('development' == app.get('env')) {
 account.setRouter(app);
 eventEntry.setRouter(app);
 
+var configRoutes = require('./routes/config');
 app.get('/html.calender',function(req,res){
         res.render('calender',{});
     });
+app.get('/user.config',configRoutes.getConfig);
+app.post('/user.config',configRoutes.getConfig);
 app.get('/', routes.index);
-app.get('/users', user.list);
+
 
 var gcmroute = require('./routes/gcm');
 app.get('/gcmstatus',gcmroute.gcmstatus);

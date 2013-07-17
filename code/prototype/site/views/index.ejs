@@ -61,7 +61,8 @@
     </div>
     <button id="setting_show_button" class="btn buttons" >Settings</button>
   </body>
-  <script type="text/javascript">
+    <script type="text/javascript" src="./javascripts/configClient.js"></script>
+  <script type="text/javascript" >
     $.get('html.calender',function(data){
         $('#calendar').html(data);
     });
@@ -82,5 +83,6 @@
             ]
         });
     });
+    configClient.getConfig( configClient.applyConfig );
   </script>
 </html>
