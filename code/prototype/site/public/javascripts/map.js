@@ -245,6 +245,7 @@ $(document).ready(function () {
     //TODO: disable the button of adding event
     $.post('/evententries', {}, function(res) {
         var obj = JSON.parse(res);
+	globalEventCache = obj;	//global
         var eventsBuff = obj.eventEntries;
         for(var i = 0; i < eventsBuff.length; i++) {
             var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));

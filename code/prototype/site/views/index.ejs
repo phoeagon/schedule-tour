@@ -13,6 +13,7 @@
     <script type="text/javascript" src="/javascripts/map.js"></script>
     <script type="text/javascript" src="/javascripts/recommend.js"></script>
     <script type="text/javascript" src="/javascripts/tour.js"></script>
+    <script type="text/javascript" src="/javascripts/moment.min.js"></script>
     
     <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
     <script src='/fullcalendar/fullcalendar.min.js'></script>
@@ -70,12 +71,29 @@
       $(document).ready(function(){
 	    $.get('html.calender',function(data){
 		//$('#calendar').html(data);
+		if (globalEventCache)
+		    var events = globalEventCache.eventEntries;
+		else
+		    var events = [];
+		var feed = [];
+		for ( var e in events ){
+		    feed.push( { title: events[e].title ,
+				 start: new Date(events[e].time) ,
+				 end: moment(events[e].time).add('hour',1).toDate() ,
+				 //tmp, assume an hour
+				 allDay: false
+				 // assume not allday
+			     })
+		}
+		console.log( "feed=");
+		console.log( feed );
 		$('#calendar').fullCalendar({
 			    header: {
 				    left: 'prev,next today',
 				    center: 'title',
 				    right: 'month,agendaWeek,agendaDay'
 			    },
+			    events : feed , 
 			    eventClick: function(event) {
 				    // opens events in a popup window
 				    window.open(event.url, 'gcalevent', 'width=700,height=600');
@@ -114,6 +132,7 @@
 		current_config = data;
 		configClient.applyConfig( data );
 	    });
+		
 	});
   </script>
 </html>
