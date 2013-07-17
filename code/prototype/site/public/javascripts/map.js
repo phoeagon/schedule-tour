@@ -188,7 +188,7 @@ $(document).ready(function () {
                 {       
                     title       : 'test',
                     description : e.description,
-                    place       : e.position,
+		    place       : e.position,
                     weight      : e.weight,
                     time        : e.time,
                     endTime     : e.endTime,
