@@ -186,8 +186,7 @@ $(document).ready(function () {
             var e = Event.createEvent(p);
             events.push(e);
             $("#sidebar_btn").click();
-            $.post('/newevententry',
-                {       
+	    var newEvent = {       
                     title       : 'test',
                     description : e.description,
 		    place       : e.position,
@@ -198,7 +197,8 @@ $(document).ready(function () {
                     privacy     : false,
                     addTime     : e.addTime,
                     alarms      :[]
-                },
+                }
+            $.post('/newevententry', newEvent  ,
                 function(res) {
                     console.log(res);
                     alert(res);
@@ -207,7 +207,7 @@ $(document).ready(function () {
             tour(events);
             drawRoute(map, walkings, events, polylines);
 	    if (calendarRenderer)
-		calendarRenderer.render();
+		calendarRenderer.addEvent( newEvent );
         });
     }
 

@@ -18,12 +18,11 @@ calendarRenderer.render = function(){
 			     // assume not allday
 			 })
 	    }
-	    console.log( "feed=");
-	    console.log( feed );
 	    calendarRenderer.refreshCalendar( feed );
 	});
 }
 calendarRenderer.refreshCalendar = function( feed ){
+    console.log( feed );
     $('#calendar').html('');
     $('#calendar').fullCalendar({
 	header: {
@@ -48,7 +47,8 @@ calendarRenderer.refreshCalendar = function( feed ){
     });
 }
 calendarRenderer.addEvent = function( event ){
-    globalEventCache.push( event );
+    console.log("calendarRendere.addEvent");
+    globalEventCache.eventEntries.push( event );
     calendarRenderer.render();
 }
 calendarRenderer.updateEvent = function( event ){
