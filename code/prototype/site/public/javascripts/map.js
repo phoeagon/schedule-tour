@@ -274,7 +274,7 @@ $(document).ready(function () {
         for(var i = 0; i < eventsBuff.length; i++) {
             //var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
             events.push(eventsBuff[i]);
-	    var marker = newMarkerWithDeleteBtn(map, new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]), eventsBuff[i], events.length()-1);
+	    var marker = newMarkerWithDeleteBtn(map, new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]), eventsBuff[i], events.length-1);
             //map.addOverlay(marker);
 	    }
         tour(events);
