@@ -67,22 +67,20 @@ var newEntry = function(req, res) {
 };
 
 var removeEntry = function(req, res) {
-    EventEntry.remove(
-      {
-        id: req.body.id
-      },
-      function(err) {
-        if (err) {
-          res.end(JSON.stringify({
-            code  : 'ERR',
-            msg   : err
-          }));
-          return;
-        }
+  EventEntry
+    .where('_id')
+    .equals(req.body.id)
+    .remove(function(err) {
+      if (err) {
         res.end(JSON.stringify({
-          code          : 'OK'
+          code  : 'ERR',
+          msg   : err
         }));
-
+        return;
+      }
+      res.end(JSON.stringify({
+        code          : 'OK'
+      }));
     });
 };
 
@@ -95,8 +93,8 @@ var setRouter = function(app) {
   app.post('/evententries', checkLogin);
   app.post('/evententries', listEntries);
 
-  app.post('/removeentries', checkLogin);
-  app.post('/removeentries', removeEntry);
+  app.post('/removeevententry', checkLogin);
+  app.post('/removeevententry', removeEntry);
 };
 
 module.exports = {
