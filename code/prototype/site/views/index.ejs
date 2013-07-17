@@ -63,31 +63,33 @@
   </body>
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
   <script type="text/javascript" >
-    $.get('html.calender',function(data){
-        $('#calendar').html(data);
-    });
-    $('#toggle_map_style').click(function(){
-            $('#map').toggleClass('styledHue');
-	    current_config.mapStyle ^= 1;
-	    configClient.saveConfig( current_config );
-        });
-    $('#setting_show_button').click(function(){
-        $( "#setting_panel" ).dialog({
-            autoOpen: true,
-            width: "90%",
-            buttons: [
-                {
-                    text: "Ok",
-                    click: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            ]
-        });
-    });
-    configClient.getConfig( function(data){
-	current_config = data;
-	configClient.applyConfig( data );
-    });
+      $(document).ready(function(){
+	    $.get('html.calender',function(data){
+		$('#calendar').html(data);
+	    });
+	    $('#toggle_map_style').click(function(){
+		    $('#map').toggleClass('styledHue');
+		    current_config.mapStyle ^= 1;
+		    configClient.saveConfig( current_config );
+		});
+	    $('#setting_show_button').click(function(){
+		$( "#setting_panel" ).dialog({
+		    autoOpen: true,
+		    width: "90%",
+		    buttons: [
+			{
+			    text: "Ok",
+			    click: function() {
+				$( this ).dialog( "close" );
+			    }
+			}
+		    ]
+		});
+	    });
+	    configClient.getConfig( function(data){
+		current_config = data;
+		configClient.applyConfig( data );
+	    });
+	}
   </script>
 </html>

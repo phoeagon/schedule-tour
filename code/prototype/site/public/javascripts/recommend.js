@@ -20,11 +20,11 @@ var recommend_douban = function(map) {
                 var marker = new BMap.Marker(point);
 
                 var opts = {
-                    title : e.title
+                    title : '<b>'+e.title+'</b>'
                 };
                 var sContent = "<img style='float:right;margin:4px' id='imgDemo' src='" + e.image + "' width='139' height='104'/>" + 
-                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content + "</p>" + 
-                    "<p>See more here: " + e.alt + "</p>" +
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
+                    "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
                 var infoWindow = new BMap.InfoWindow(sContent, opts);  // 创建信息窗口对象
                 map.addOverlay(marker);
