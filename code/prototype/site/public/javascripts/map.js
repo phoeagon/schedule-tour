@@ -21,21 +21,6 @@ createEvent :   function(p) {
 }
 };
 
-function newMarkerWithPointAndEvent(theMap, point, e) {
-    var marker = new BMap.Marker(point);
-    theMap.addOverlay(marker);
-    var infoContent = 
-	"<h4>"+e.title+"</h4>"+
-	"<h5>"+"Start Time:"+e.time+"</h5>"+
-	"<h5>"+"End Time:"+e.endTime+"</h5>"+
-	"<p>"+e.description+"</p>"+
-	"<button>Delete</button>";
-    var infoWindow = new BMap.InfoWindow(infoContent);
-    marker.addEventListener('click', function() {
-	    this.openInfoWindow(infoWindow);
-	});
-}
-
 function setSlidingMap() {
     var mapdiv = document.getElementById('map');
     var calend = document.getElementById('calendar');
@@ -259,6 +244,25 @@ $(document).ready(function () {
     }
     map.addContextMenu(contextMenu);
 
+    function newMarkerWithDeleteBtn(theMap, point, e, index) {
+	var marker = new BMap.Marker(point);
+	theMap.addOverlay(marker);
+	var btnID = 'deleter'+index;
+	var infoContent = 
+	    "<h4>"+e.title+"</h4>"+
+	    "<h5>"+"Start Time:"+e.time+"</h5>"+
+	    "<h5>"+"End Time:"+e.endTime+"</h5>"+
+	    "<p>"+e.description+"</p>"+
+	    "<button id=\""+btnID+"\">Delete</button>";
+	var infoWindow = new BMap.InfoWindow(infoContent);
+	$(btnID).bind('click', function() {
+		events.splice(index, 1);
+	    });
+	marker.addEventListener('click', function() {
+		this.openInfoWindow(infoWindow);
+	    });
+    }
+    
     //TODO: disable the button of adding event
     $.post('/evententries', {}, function(res) {
         var obj = JSON.parse(res);
@@ -269,9 +273,9 @@ $(document).ready(function () {
         var eventsBuff = obj.eventEntries;
         for(var i = 0; i < eventsBuff.length; i++) {
             //var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
-	    var marker = newMarkerWithPointAndEvent(map, new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]), eventsBuff[i]);
-            //map.addOverlay(marker);
             events.push(eventsBuff[i]);
+	    var marker = newMarkerWithDeleteBtn(map, new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]), eventsBuff[i], events.length()-1);
+            //map.addOverlay(marker);
 	    }
         tour(events);
         drawRoute(map, walkings, events, polylines);
