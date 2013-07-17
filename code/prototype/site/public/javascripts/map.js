@@ -206,6 +206,8 @@ $(document).ready(function () {
                 );
             tour(events);
             drawRoute(map, walkings, events, polylines);
+	    if (calendarRenderer)
+		calendarRenderer.render();
         });
     }
 

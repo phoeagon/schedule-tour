@@ -106,7 +106,6 @@ var checkFeasibility = function(route) {
 					route[i1] = tmp;
 				}
 		}
-
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
         if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
