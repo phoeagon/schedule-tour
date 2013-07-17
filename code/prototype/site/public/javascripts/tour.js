@@ -1,28 +1,44 @@
-//get a specific path time
+
+
+var tour = function(eventEntries,map) {
+    var timeMap = [];
+	
+	for (var i=0;i<eventEntries.length;i++)
+	{
+		var times = [];
+		for (var i1=0;i1<eventEntries.length;i1++)
+			times.push(0);
+		timeMap.push(times);
+	}
+    //sort the events by dating time
+    eventEntries.sort(function(a,b) {
+        return a.time - b.time;
+    });
+	
+	
+	///
+	//get a specific path time
 //require timeMap
 var getPathTime = function(i, j) {
-    while (timeMap[i][j] === -1);
+    //while (timeMap[i][j] === -1);
+	
+
     return timeMap[i][j];
 }
 
 //get all path time from baidu
 //require eventEntries, timeMap, BMapWalkingRoute
-var getAllPathTime = function() {
-    var len = eventEntries.length;
-    for (var i=0; i<len; ++i) {
-        for (var j=0; j<len; ++j) {
-            timeMap[i][j] = i===j ? 0 : -1;
-        }
-    }
-    for (var i=0; i<len; ++i) {
-        for (var j=i+1; j<len; ++j) {
-            var walking = new BMapWalkingRoute(map);
-            walking.setSearchCompleteCallback(function(results) {
-                timeMap[j][i] = timeMap[i][j] = results.getPlan(0).getDuration(false);
-            });
-            walking.search(eventEntries[i].position, eventEntries[j].position);
-        }
-    }
+var getAllPathTime = function(i,j,n) {
+
+  	if (j == n) {getPathTime(i+1, i+1, n);return;}
+	if (i == n) return;
+     var walking = new BMap.WalkingRoute(map);
+     walking.setSearchCompleteCallback(function(results) {
+         timeMap[j][i] = timeMap[i][j] = results.getPlan(0).getDuration(false);
+		 getPathTime(i,j+1,n);
+     });
+    walking.search(eventEntries[i].position, eventEntries[j].position);
+	
 }
 
 //caculate the time wasted
@@ -54,29 +70,44 @@ var checkFeasibility = function(route) {
     }
     return true;
 }
-
-var tour = function(eventEntries) {
-    var timeMap = [[]];
-    //sort the events by dating time
-    eventEntries.sort(function(a,b) {
-        return a.time - b.time;
-    });
-
-    getAllPathTime();
+	
+	
+	///
+	alert(1);
+    getAllPathTime(0,0,eventEntries.length);
+	//alert(2);
     var route = [];
 	var nullroute = [];
     for (var i=0; i<eventEntries.length; ++i) {
-       if (eventEntries[i].time != null) route.push(i);
-		if (eventEntries[i].time == null) nullroute[i] = true;
+       if (eventEntries[i].time != null) {route.push(i);nullroute.push(false);}
+	  	//alert(eventEntries[i].time); 
+	  // alert(2);
+		if (eventEntries[i].time == null) nullroute.push(true);
     }
-	
+	//alert(3);
+	//eventEntries[i].time
 	
 	
 	//Added by mfy
+	for (var i=0;i<route.length;++i)
+	{
+		var tmp = new Date(eventEntries[route[i]].time);
+		tmp.setHours(23-i,59-i,59-i);
+		eventEntries[route[i]].time = tmp;
+		var tmp1 = new Date();
+		tmp1.setSeconds(2);
+		eventEntries[route[i]].duration = tmp1;
+		//eventEntries[route[i]].time.setHours(23-i,59-i,59-i);
+		//eventEntries[i].time.setMinutes(59-i);
+		//eventEntries[i].time.setSeconds(59-i);
+		//alert(eventEntries[route[i]].time);
+	}
+	
+	
 	for (var i=0;i<eventEntries.length;++i)
 	{
 		for (var i1=i+1;i1<eventEntries.length;++i1)
-			if ((eventEntries[route[i]].time > eventEntries[route[i1]].time)&&(!nullroute[route[i]])&&(!nullroute[route[i1]])) 
+			if ((!nullroute[route[i]])&&(!nullroute[route[i1]])&&(eventEntries[route[i]].time > eventEntries[route[i1]].time)) 
 				{
 					var tmp = route[i];
 					route[i] = route[i1];
@@ -84,14 +115,16 @@ var tour = function(eventEntries) {
 				}
 		}
 		
-	
-
+	alert(2);	
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
        // var x = route[i];
        // var y = route[i + 1];
         //var eX = eventEntries[x];
         //var eY = eventEntries[y];
+		alert(eventEntries[route[i]].time);
+		alert(eventEntries[route[i]].duration);
+		alert(getPathTime(route[i],route[i+1]));
         if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
             if (eventEntries[route[i]].weight == eventEntries[route[i+1]].weight) {
                 //throw the warning
@@ -105,6 +138,8 @@ var tour = function(eventEntries) {
 				//alert("#"+i+"spliced");
             --i;
         }
+		
+		alert("111");
 		if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],route[i+1]) < eventEntries[route[i+1]].time){
 			
 			for (var i1 = 0 ;i1 < eventEntries.length;i1++)
@@ -112,6 +147,7 @@ var tour = function(eventEntries) {
 				//Check whether it can add some addtitional events
 					{if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1) + eventEntries[i1].duration + getPathTime(i1,route[i+1]) < eventEntries[route[i+1]].time)
 						{
+							eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1);
 							var tmp1 = route[i+1];
 							route[i+1] = i1; 
 							for (var i2 = i + 2;i2<route.length;i2++)
@@ -124,12 +160,22 @@ var tour = function(eventEntries) {
 						}
 						}
 			
-		}
-		
+		}		
     }
+	
+	for (var i1 = 0;i1 < eventEntries.length;i1++)
+		if ((nullroute[i1])&&(eventEntries[i1].time == null)) 
+						{
+							eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],i1);
+							route.push(i1);
+							break;
+						}
+	
+//	if (eventEntries[route[route.length-1]])
+	
 
     //best Route
-    var bestWastedTime = calcWastedTime(eventEntries);
+/*    var bestWastedTime = calcWastedTime(eventEntries);
     var bestRoute = route.slice(0);
 
     //for each two adjoining events
@@ -149,15 +195,17 @@ var tour = function(eventEntries) {
             bestRoute = newRoute.slice(0);
         }
     }
-
+*/
     var bestEvent = [];
-    for (var i=0; i<bestRoute.length; ++i) {
-        bestEvents[i] = eventEntries[bestRoute[i]];
+    for (var i=0; i<route.length; ++i) {
+        bestEvent[i] = eventEntries[route[i]];
     }
-    return bestEvents;
+    return bestEvent;
+	
 };
 
 //tour stub
-var tour = function(events) {
-    return events;
-}
+//var tour = function(events) {
+	//alert(events[0].time);
+  //  return events;
+//}
