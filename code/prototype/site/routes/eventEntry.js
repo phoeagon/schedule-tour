@@ -84,6 +84,37 @@ var removeEntry = function(req, res) {
     });
 };
 
+var updateEntry = function(req, res) {
+  var eventEntry = new EventEntry({
+      user        : req.session.user._id,
+      title       : req.body.title,
+      description : req.body.description,
+      place       : req.body.place,
+      weight      : req.body.weight,
+      time        : req.body.time,
+      endTime     : req.body.endTime,
+      position    : req.body.position,
+      privacy     : req.body.privacy,
+      finished    : false,
+      alarms      : req.body.alarms
+  });
+  EventEntry.findByIdAndUpdate(req.body.id,
+      eventEntry,
+      function(err) {
+        if (err) {
+          res.end(JSON.stringify({
+            code  : 'ERR',
+            msg   : err
+          }));
+          return;
+        }
+        res.end(JSON.stringify({
+          code  : 'OK'
+        }));
+
+      });
+}
+
 var setRouter = function(app) {
   app.post('/newevententry', checkLogin);
   app.post('/newevententry', newEntry);
@@ -95,6 +126,8 @@ var setRouter = function(app) {
 
   app.post('/removeevententry', checkLogin);
   app.post('/removeevententry', removeEntry);
+  app.post('/updateevententry', checkLogin);
+  app.post('/updateevententry', updateEntry);
 };
 
 module.exports = {
