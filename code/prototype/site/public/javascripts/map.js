@@ -6,8 +6,8 @@ createEvent :   function(p) {
         e.title = null;
         e.place = '';
         e.position = [p.lng, p.lat];
-        e.time = $("#dateFrom").datepicker("getDate");
-        e.endTime = $("#dateUntil").datepicker("getDate");
+        e.time = $("#dateFrom").datetimepicker("getDate");
+        e.endTime = $("#dateUntil").datetimepicker("getDate");
         e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
@@ -15,7 +15,7 @@ createEvent :   function(p) {
         e.finish = null;
         e.addTime = new Date();
 
-        $(".datepicker").datepicker();
+        $(".datepicker").datetimepicker();
         $(".slider").slider();
         return e;
 }
@@ -176,7 +176,7 @@ $(document).ready(function () {
         map.addOverlay(marker);
         //create an Event Object
         $("#addEventButt").unbind('click');
-        $(".datepicker").datepicker();
+        $(".datepicker").datetimepicker();
         $(".slider").slider();
         $("#sidebar_btn").click();
         //add the event to events
