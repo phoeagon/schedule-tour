@@ -7,7 +7,13 @@ var EventEntry = require('../models/types/eventEntry');
 var utility = require('../models/utility');
 var passwordHash = utility.passwordHash;
 var ObjectId = require('../models/mongoose').Types.ObjectId;
-var checkLogin = require('./account').checkLogin;
+var checkLogin = function(req, res, next) {
+    if (req.session.user) {
+	next();
+    } else {
+	res.end(JSON.stringify({ code : 'needLogIn' }));
+    }
+}
 
 var listEntries = function(req, res) {
     EventEntry.find(
