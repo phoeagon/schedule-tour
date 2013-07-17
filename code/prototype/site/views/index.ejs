@@ -68,6 +68,8 @@
     });
     $('#toggle_map_style').click(function(){
             $('#map').toggleClass('styledHue');
+	    current_config.mapStyle ^= 1;
+	    configClient.saveConfig( current_config );
         });
     $('#setting_show_button').click(function(){
         $( "#setting_panel" ).dialog({
@@ -83,6 +85,9 @@
             ]
         });
     });
-    configClient.getConfig( configClient.applyConfig );
+    configClient.getConfig( function(data){
+	current_config = data;
+	configClient.applyConfig( data );
+    });
   </script>
 </html>

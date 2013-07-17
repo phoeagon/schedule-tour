@@ -17,8 +17,6 @@ configClient.applyConfig = function( data ){
     else 
         $('#map').removeClass('styledHue');
 }
-configClient.saveConfig = function( user , setting ){
-    if ( !user )
-        return;
+configClient.saveConfig = function( setting ){
     $.post("/user.config", $.param(setting) );
 }

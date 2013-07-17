@@ -63,7 +63,7 @@ app.get('/html.calender',function(req,res){
         res.render('calender',{});
     });
 app.get('/user.config',configRoutes.getConfig);
-app.post('/user.config',configRoutes.getConfig);
+app.post('/user.config',configRoutes.saveConfig);
 app.get('/', routes.index);
 
 

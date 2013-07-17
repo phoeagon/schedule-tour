@@ -15,7 +15,10 @@ configManager.loadSetting = function( username , callback ){
     if ( username === '' )
         callback( null , default_setting );
     else{
+        console.log( "configManager.loadSetting" )
+        console.log( username )
         config.findOne( { username : username } , function(err,obj){
+            console.log ( obj );
             if ( err || !obj )
                 callback( null , default_setting );
             else
@@ -27,16 +30,17 @@ configManager.updateSetting = function( username , setting , callback ){
     if ( username === '' )
         callback( null , default_setting );
     else{
+        console.log( "configManager.updateSetting" );
+        console.log( setting );
         config.findOne( { username : username } , function(err,obj){
             if ( err || !obj )
-                callback( null , default_setting );
-            else{
+                obj = new config({username : username , setting : setting});
+            else
                 obj.setting = setting;
-                obj.setDirty();
-                obj.save(function(){
-                        callback( null , setting );
-                    });
-            }
+            obj.setDirty();
+            obj.save(function(){
+                    callback( null , setting );
+                });
         });
     }
 }

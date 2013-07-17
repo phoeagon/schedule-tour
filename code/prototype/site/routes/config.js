@@ -19,13 +19,13 @@ configRoutes.getConfig = function(req,res,next){
 }
 configRoutes.saveConfig = function(req,res,next){
     var configManager = require('../models/configManager')
-    //console.log(configManager);
+    console.log( req.body );
     res.writeHead(200, { 'Content-Type': 'application/json' });
     if ( req.session.user ){
         var obj = {};
         for ( var ele in configManager.default_setting )
             obj[ele] = req.body[ ele ] ;
-        
+        console.log( obj );
         configManager.updateSetting( req.session.user.name , obj , function( err , setting ){
             res.write(JSON.stringify(setting));
         });
