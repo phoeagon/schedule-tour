@@ -35,9 +35,8 @@ var listEntries = function(req, res) {
 
     });
   }
-var setRouter = function(app) {
-  app.post('/newevententry', checkLogin);
-  app.post('/newevententry', function(req, res) {
+
+var newEntry = function(req, res) {
     var eventEntry = new EventEntry({
       user        : req.session.user._id,
       title       : req.body.title,
@@ -65,15 +64,9 @@ var setRouter = function(app) {
       }));
 
     });
-  });
+};
 
-  app.get('/evententries', checkLogin);
-  app.get('/evententries', listEntries);
-  app.post('/evententries', checkLogin);
-  app.post('/evententries', listEntries);
-
-  app.post('/removeentries', checkLogin);
-  app.post('/removeentries', function(req, res) {
+var removeEntry = function(req, res) {
     EventEntry.remove(
       {
         id: req.body.id
@@ -91,9 +84,19 @@ var setRouter = function(app) {
         }));
 
     });
-  });
+};
 
-  
+var setRouter = function(app) {
+  app.post('/newevententry', checkLogin);
+  app.post('/newevententry', newEntry);
+
+  app.get('/evententries', checkLogin);
+  app.get('/evententries', listEntries);
+  app.post('/evententries', checkLogin);
+  app.post('/evententries', listEntries);
+
+  app.post('/removeentries', checkLogin);
+  app.post('/removeentries', removeEntry);
 };
 
 module.exports = {
