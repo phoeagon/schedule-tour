@@ -65,6 +65,26 @@ var setRouter = function(app) {
     });
   });
 
+  app.post('/removeentries', checkLogin);
+  app.post('/removeentries', function(req, res) {
+    EventEntry.remove(
+      {
+        id: req.body.id
+      },
+      function(err) {
+        if (err) {
+          res.end(JSON.stringify({
+            code  : 'ERR',
+            msg   : err
+          }));
+          return;
+        }
+        res.end(JSON.stringify({
+          code          : 'OK'
+        }));
+
+    });
+  });
   
 };
 
