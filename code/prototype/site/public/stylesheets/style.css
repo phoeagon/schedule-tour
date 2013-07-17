@@ -164,3 +164,7 @@ td
 .visibilityhidden{
     visibility:hidden;
 }
+
+#calendar{
+    overflow: auto;
+}

@@ -46,6 +46,8 @@ function setSlidingMap() {
         btn.bind('click', hideCal);
         $("#sidebar_btn").unbind('click');
         $("#setting_show_button").addClass('visibilityhidden');
+	$('.fc-button-agendaDay').click();
+	$('.fc-button-today').click();
     }
     function hideCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});

@@ -13,6 +13,10 @@
     <script type="text/javascript" src="/javascripts/map.js"></script>
     <script type="text/javascript" src="/javascripts/recommend.js"></script>
     <script type="text/javascript" src="/javascripts/tour.js"></script>
+    
+    <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
+    <script src='/fullcalendar/fullcalendar.min.js'></script>
+    <script src='/fullcalendar/gcal.js'></script>
 
   </head>
   <body>
@@ -65,7 +69,27 @@
   <script type="text/javascript" >
       $(document).ready(function(){
 	    $.get('html.calender',function(data){
-		$('#calendar').html(data);
+		//$('#calendar').html(data);
+		$('#calendar').fullCalendar({
+			    header: {
+				    left: 'prev,next today',
+				    center: 'title',
+				    right: 'month,agendaWeek,agendaDay'
+			    },
+			    eventClick: function(event) {
+				    // opens events in a popup window
+				    window.open(event.url, 'gcalevent', 'width=700,height=600');
+				    return false;
+			    },
+			    
+			    loading: function(bool) {
+				    if (bool) {
+					    $('#loading').show();
+				    }else{
+					    $('#loading').hide();
+				    }
+			    }
+			});
 	    });
 	    $('#toggle_map_style').click(function(){
 		    $('#map').toggleClass('styledHue');

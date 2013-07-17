@@ -5,7 +5,7 @@ var configManager = {};
 module.exports = configManager;
 
 var default_setting = {
-    mapStyle : 1
+    mapStyle : 0
 };
 
 configManager.default_setting = default_setting;
