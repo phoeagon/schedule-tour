@@ -73,18 +73,14 @@ var checkFeasibility = function(route) {
 	
 	
 	///
-	alert(1);
     getAllPathTime(0,0,eventEntries.length);
-	//alert(2);
     var route = [];
 	var nullroute = [];
     for (var i=0; i<eventEntries.length; ++i) {
        if (eventEntries[i].time != null) {route.push(i);nullroute.push(false);}
 	  	//alert(eventEntries[i].time); 
-	  // alert(2);
 		if (eventEntries[i].time == null) nullroute.push(true);
     }
-	//alert(3);
 	//eventEntries[i].time
 	
 	
@@ -97,10 +93,6 @@ var checkFeasibility = function(route) {
 		var tmp1 = new Date();
 		tmp1.setSeconds(2);
 		eventEntries[route[i]].duration = tmp1;
-		//eventEntries[route[i]].time.setHours(23-i,59-i,59-i);
-		//eventEntries[i].time.setMinutes(59-i);
-		//eventEntries[i].time.setSeconds(59-i);
-		//alert(eventEntries[route[i]].time);
 	}
 	
 	
@@ -114,17 +106,9 @@ var checkFeasibility = function(route) {
 					route[i1] = tmp;
 				}
 		}
-		
-	alert(2);	
+
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
-       // var x = route[i];
-       // var y = route[i + 1];
-        //var eX = eventEntries[x];
-        //var eY = eventEntries[y];
-		alert(eventEntries[route[i]].time);
-		alert(eventEntries[route[i]].duration);
-		alert(getPathTime(route[i],route[i+1]));
         if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
             if (eventEntries[route[i]].weight == eventEntries[route[i+1]].weight) {
                 //throw the warning
@@ -139,7 +123,6 @@ var checkFeasibility = function(route) {
             --i;
         }
 		
-		alert("111");
 		if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],route[i+1]) < eventEntries[route[i+1]].time){
 			
 			for (var i1 = 0 ;i1 < eventEntries.length;i1++)
