@@ -242,22 +242,12 @@ $(document).ready(function () {
 
     //TODO: disable the button of adding event
     $.post('/evententries', {}, function(res) {
-<<<<<<< HEAD
-	    var obj = JSON.parse(res);
-	    var eventsBuff = obj.eventEntries;
-	    for(var i = 0; i < eventsBuff.length; i++) {
-		var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
-		marker.getIcon().setSize(new BMap.Size(30, 30));
-		map.addOverlay(marker);
-		events.push(eventsBuff[i]);
-=======
         var obj = JSON.parse(res);
         var eventsBuff = obj.eventEntries;
         for(var i = 0; i < eventsBuff.length; i++) {
             var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
             map.addOverlay(marker);
             events.push(eventsBuff[i]);
->>>>>>> 33aacbea1cd24b19c5e800e35a6a7d08c881486d
 	    }
         tour(events);
         drawRoute(map, walkings, events, polylines);
