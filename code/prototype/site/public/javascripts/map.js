@@ -3,7 +3,7 @@ var Event =  {
 createEvent :   function(p) {
         var e = {};
         e.user = null;
-        e.title = null;
+        e.title = '';
         e.place = '';
         e.position = [p.lng, p.lat];
         e.time = $("#dateFrom").datetimepicker("getDate");
@@ -20,6 +20,21 @@ createEvent :   function(p) {
         return e;
 }
 };
+
+function newMarkerWithPointAndEvent(theMap, point, e) {
+    var marker = new BMap.Marker(point);
+    theMap.addOverlay(marker);
+    var infoContent = 
+	"<h4>"+e.title+"</h4>"+
+	"<h5>"+"Start Time:"+e.time+"</h5>"+
+	"<h5>"+"End Time:"+e.endTime+"</h5>"+
+	"<p>"+e.description+"</p>"+
+	"<button>Delete</button>";
+    var infoWindow = new BMap.InfoWindow(infoContent);
+    marker.addEventListener('click', function() {
+	    this.openInfoWindow(infoWindow);
+	});
+}
 
 function setSlidingMap() {
     var mapdiv = document.getElementById('map');
@@ -253,8 +268,9 @@ $(document).ready(function () {
 	}
         var eventsBuff = obj.eventEntries;
         for(var i = 0; i < eventsBuff.length; i++) {
-            var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
-            map.addOverlay(marker);
+            //var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
+	    var marker = newMarkerWithPointAndEvent(map, new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]), eventsBuff[i]);
+            //map.addOverlay(marker);
             events.push(eventsBuff[i]);
 	    }
         tour(events);
