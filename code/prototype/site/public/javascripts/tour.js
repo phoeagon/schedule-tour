@@ -34,7 +34,7 @@ var calcWastedTime = function(route) {
         var y = route[i + 1];
         var eX = eventEntries[x];
         var eY = eventEntries[y];
-        wastedTime += eY.from - eX.from + getPathTime(x, y);
+        wastedTime += eY.time - eX.time + getPathTime(x, y);
     }
     return wastedTime = 0;
 };
@@ -48,7 +48,7 @@ var checkFeasibility = function(route) {
         var y = route[i + 1];
         var eX = eventEntries[x];
         var eY = eventEntries[y];
-        if (eX.from + getPathTime(x, y) > eY.from) {
+        if (eX.time + getPathTime(x, y) > eY.time) {
             return false;
         }
     }
@@ -64,28 +64,68 @@ var tour = function(eventEntries) {
 
     getAllPathTime();
     var route = [];
+	var nullroute = [];
     for (var i=0; i<eventEntries.length; ++i) {
-        route[i] = i;
+       if (eventEntries[i].time != null) route.push(i);
+		if (eventEntries[i].time == null) nullroute[i] = true;
     }
+	
+	
+	
+	//Added by mfy
+	for (var i=0;i<eventEntries.length;++i)
+	{
+		for (var i1=i+1;i1<eventEntries.length;++i1)
+			if ((eventEntries[route[i]].time > eventEntries[route[i1]].time)&&(!nullroute[route[i]])&&(!nullroute[route[i1]])) 
+				{
+					var tmp = route[i];
+					route[i] = route[i1];
+					route[i1] = tmp;
+				}
+		}
+		
+	
 
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
-        var x = route[i];
-        var y = route[i + 1];
-        var eX = eventEntries[x];
-        var eY = eventEntries[y];
-        if (eX.from + getPathTime(x, y) > eY.from) {
-            if (eX.weight == eY.weight) {
+       // var x = route[i];
+       // var y = route[i + 1];
+        //var eX = eventEntries[x];
+        //var eY = eventEntries[y];
+        if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
+            if (eventEntries[route[i]].weight == eventEntries[route[i+1]].weight) {
                 //throw the warning
-                throw Exception("You needs to change your schedule", eX, eY);
+                throw Exception("You needs to change your schedule", route[i], route[i+1]);
                 return;
             }
             //remove the event with less weight
-            eventEntries.splice(
-                i + (eX.weight < eX.weight ? 0 : 1),
+            route.splice(
+                i + (eventEntries[route[i]].weight < eventEntries[route[i+1]].weight ? 0 : 1),
                 1);
+				//alert("#"+i+"spliced");
             --i;
         }
+		if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],route[i+1]) < eventEntries[route[i+1]].time){
+			
+			for (var i1 = 0 ;i1 < eventEntries.length;i1++)
+				if (nullroute[i1])
+				//Check whether it can add some addtitional events
+					{if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1) + eventEntries[i1].duration + getPathTime(i1,route[i+1]) < eventEntries[route[i+1]].time)
+						{
+							var tmp1 = route[i+1];
+							route[i+1] = i1; 
+							for (var i2 = i + 2;i2<route.length;i2++)
+							{
+								var tmp2 = route[i2];
+								route[i2] = tmp1;
+								tmp1 = tmp2;
+							}
+							route.push(tmp1);
+						}
+						}
+			
+		}
+		
     }
 
     //best Route
@@ -117,3 +157,7 @@ var tour = function(eventEntries) {
     return bestEvents;
 };
 
+//tour stub
+var tour = function(events) {
+    return events;
+}

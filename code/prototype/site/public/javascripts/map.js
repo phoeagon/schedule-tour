@@ -4,8 +4,8 @@ createEvent :   function(p) {
         var e = {};
         e.user = null;
         e.title = null;
-	e.place = '';
-        e.position = p;
+        e.place = '';
+        e.position = [p.lng, p.lat];
         e.time = $("#dateFrom").datepicker("getDate");
         e.endTime = $("#dateUntil").datepicker("getDate");
         e.description = document.getElementById('description').value;
@@ -15,10 +15,10 @@ createEvent :   function(p) {
         e.finish = null;
         e.addTime = new Date();
 
-	$(".datepicker").datepicker();
-	$(".slider").slider();
+        $(".datepicker").datepicker();
+        $(".slider").slider();
         return e;
-    }
+}
 };
 
 function setSlidingMap() {
@@ -35,55 +35,55 @@ function setSlidingMap() {
     var sideAnimationTime = '300ms';
     
     function showCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = calHeight;
-	var btn = $("#classic_btn");
-	btn.addClass('extended');
-	//$('#map').addClass('top_collapse');
-	btn.text('△');
-	$("#calendar").removeClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', hideCal);
-	$("#sidebar_btn").unbind('click');
-	$("#setting_show_button").addClass('visibilityhidden');
+        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+        mapdiv.style.top = calHeight;
+        var btn = $("#classic_btn");
+        btn.addClass('extended');
+        //$('#map').addClass('top_collapse');
+        btn.text('△');
+        $("#calendar").removeClass('hidden');
+        btn.unbind('click');
+        btn.bind('click', hideCal);
+        $("#sidebar_btn").unbind('click');
+        $("#setting_show_button").addClass('visibilityhidden');
     }
     function hideCal() {
-	$("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	mapdiv.style.top = '0px'; 
-	var btn = $("#classic_btn");
-	btn.removeClass('extended');
-	//$('#map').removeClass('top_collapse');
-	btn.text('▽');
-	$("#calendar").addClass('hidden');
-	btn.unbind('click');
-	btn.bind('click', showCal);
-	$("#sidebar_btn").bind('click', showSide);
-	$("#setting_show_button").removeClass('visibilityhidden');
+        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+        mapdiv.style.top = '0px'; 
+        var btn = $("#classic_btn");
+        btn.removeClass('extended');
+        //$('#map').removeClass('top_collapse');
+        btn.text('▽');
+        $("#calendar").addClass('hidden');
+        btn.unbind('click');
+        btn.bind('click', showCal);
+        $("#sidebar_btn").bind('click', showSide);
+        $("#setting_show_button").removeClass('visibilityhidden');
     }
 
     function showSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = sideWid;
-	var btn = $("#sidebar_btn");
-	btn.addClass('extended');
-	btn.text('◁');
-	$("#sidebar").removeClass('back');
-	btn.unbind('click');
-	btn.bind('click', hideSide);
-	$("#classic_btn").unbind('click');
+        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+        mapdiv.style.left = sideWid;
+        var btn = $("#sidebar_btn");
+        btn.addClass('extended');
+        btn.text('◁');
+        $("#sidebar").removeClass('back');
+        btn.unbind('click');
+        btn.bind('click', hideSide);
+        $("#classic_btn").unbind('click');
     }
     function hideSide() {
-	$("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-	mapdiv.style.left = '0px'; 
-	var btn = $("#sidebar_btn");
-	btn.removeClass('extended');
-	btn.text('▷');
-	$("#sidebar").addClass('back');
-	btn.unbind('click');
-	btn.bind('click', showSide);
-	$("#classic_btn").bind('click', showCal);
+        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+        mapdiv.style.left = '0px'; 
+        var btn = $("#sidebar_btn");
+        btn.removeClass('extended');
+        btn.text('▷');
+        $("#sidebar").addClass('back');
+        btn.unbind('click');
+        btn.bind('click', showSide);
+        $("#classic_btn").bind('click', showCal);
     }
-    
+
     $("#calendar").addClass('hidden');
     $("#sidebar").removeClass('hidden');
     $("#sidebar").addClass('back');
@@ -92,6 +92,32 @@ function setSlidingMap() {
     $("#side_collapse").bind('click', hideSide);
 }
 
+var drawRoute = function(map, walkings, events, polylines) {
+    //clear previous paths
+    //walkings = [];
+    walkings.splice(0);
+    //remove old paths
+    for (var i=0; i<polylines.length; ++i) {
+        map.removeOverlay(polylines[i]);
+    }
+    polylines.splice(0);
+    console.log(events);
+    //generate new paths
+    for (var i=0; i<events.length-1; ++i) {
+        var walking = new BMap.WalkingRoute(map);
+        var from = new BMap.Point(events[i].position[0], events[i].position[1]);
+        var to = new BMap.Point(events[i+1].position[0], events[i+1].position[1]);
+        walking.setSearchCompleteCallback(function(res){
+            console.log(res);
+            var path = res.getPlan(0).getRoute(0).getPath();
+            var polyline = new BMap.Polyline(path, {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});
+            map.addOverlay(polyline);
+            polylines.push(polyline);
+        });
+        walking.search(from, to);
+        walkings.push(walking);
+    }
+}
 
 $(document).ready(function () {
 
@@ -111,7 +137,7 @@ $(document).ready(function () {
             var mk = new BMap.Marker(r.point);
             map.addOverlay(mk);
             map.panTo(r.point);
-            alert('您的位置：'+r.point.lng+','+r.point.lat);
+            console.log('您的位置：'+r.point.lng+','+r.point.lat);
             map.centerAndZoom(r, 14);
         }
         else {
@@ -140,6 +166,7 @@ $(document).ready(function () {
     var events = [];
     //walkings to save all path generated by map api
     var walkings = [];
+    var polylines = [];
     //STUB: fetch event data from server
     //
     //add event listener
@@ -148,48 +175,36 @@ $(document).ready(function () {
         var marker = new BMap.Marker(p), px = map.pointToPixel(p);
         map.addOverlay(marker);
         //create an Event Object
-	$("#addEventButt").unbind('click');
-	$(".datepicker").datepicker();
-	$(".slider").slider();
-	$("#sidebar_btn").click();
+        $("#addEventButt").unbind('click');
+        $(".datepicker").datepicker();
+        $(".slider").slider();
+        $("#sidebar_btn").click();
         //add the event to events
-	$("#addEventButt").bind('click', function() {
-		var e = Event.createEvent(p);
-		events.push(e);
-		//sort by addTime
-		//THIS NEEDS TO BE IMPLEMENTED BY ANOTHER WAY
-		events.sort(function (x, y) {
-			return x.addTime - y.addTime;
-		    });
-		$("#sidebar_btn").click();
-		$.post('/newevententry',
-		       {       title: 'test',
-			       description: e.description,
-			       place: e.position,
-			       weight: e.weight,
-			       time: e.time,
-			       endTime: e.endTime,
-			       position: [e.position.lng, e.position.lat],
-			       privacy: false,
-			       addTime: e.addTime,
-			       alarms:[]
-			       },
-		       function(res) {
-			   console.log(res);
-			   alert(res);
-		       }
-		    );
-		//clear previous paths
-		walkings = [];
-		//generate new paths
-		for (i=0; i<events.length-1; ++i) {
-		    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: false}});
-		    var from = events[i].position;
-		    var to = events[i+1].position;
-		    walking.search(from, to);
-		    walkings.push(walking);
-		}
-	    });
+        $("#addEventButt").bind('click', function() {
+            var e = Event.createEvent(p);
+            events.push(e);
+            $("#sidebar_btn").click();
+            $.post('/newevententry',
+                {       
+                    title       : 'test',
+                    description : e.description,
+                    place       : e.position,
+                    weight      : e.weight,
+                    time        : e.time,
+                    endTime     : e.endTime,
+                    position    : e.position,
+                    privacy     : false,
+                    addTime     : e.addTime,
+                    alarms      :[]
+                },
+                function(res) {
+                    console.log(res);
+                    alert(res);
+                }
+                );
+            tour(events);
+            drawRoute(map, walkings, events, polylines);
+        });
     }
 
 
@@ -197,7 +212,7 @@ $(document).ready(function () {
     var txtMenuItem = [
     {
         text:'放大',
-            callback:function(){map.zoomIn()}
+        callback:function(){map.zoomIn()}
     },
     {
         text:'缩小',
@@ -225,7 +240,9 @@ $(document).ready(function () {
     }
     map.addContextMenu(contextMenu);
 
+    //TODO: disable the button of adding event
     $.post('/evententries', {}, function(res) {
+<<<<<<< HEAD
 	    var obj = JSON.parse(res);
 	    var eventsBuff = obj.eventEntries;
 	    for(var i = 0; i < eventsBuff.length; i++) {
@@ -233,10 +250,23 @@ $(document).ready(function () {
 		marker.getIcon().setSize(new BMap.Size(30, 30));
 		map.addOverlay(marker);
 		events.push(eventsBuff[i]);
+=======
+        var obj = JSON.parse(res);
+        var eventsBuff = obj.eventEntries;
+        for(var i = 0; i < eventsBuff.length; i++) {
+            var marker = new BMap.Marker(new BMap.Point(eventsBuff[i].position[0], eventsBuff[i].position[1]));
+            map.addOverlay(marker);
+            events.push(eventsBuff[i]);
+>>>>>>> 33aacbea1cd24b19c5e800e35a6a7d08c881486d
 	    }
+        tour(events);
+        drawRoute(map, walkings, events, polylines);
+        //TODO: enable the button of adding event
 	});
 
     map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
     setSlidingMap();
+
+    recommend_douban(map);
 });
