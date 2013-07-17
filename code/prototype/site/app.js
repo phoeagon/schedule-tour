@@ -5,7 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
+//  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , flash = require("connect-flash")
@@ -66,7 +66,7 @@ app.get('/html.calender',function(req,res){
 app.get('/user.config',configRoutes.getConfig);
 app.post('/user.config',configRoutes.saveConfig);
 app.get('/', routes.index);
-app.get('/users', user.list);
+//app.get('/users', user.list);
 
 var gcmroute = require('./routes/gcm');
 app.get('/gcmstatus',gcmroute.gcmstatus);

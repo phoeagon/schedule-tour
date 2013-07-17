@@ -26,7 +26,7 @@ var setRouter = function(app) {
       finished    : false,
       alarms      : req.body.alarms
     });
-    eventEntry.save(function(err) {
+    eventEntry.save(function(err, eventEntry) {
       if (err) {
         res.end(JSON.stringify({
           code  : 'ERR',
@@ -35,7 +35,8 @@ var setRouter = function(app) {
         return;
       }
       res.end(JSON.stringify({
-        code  : 'OK'
+        code  : 'OK',
+        id    : eventEntry.id
       }));
 
     });
