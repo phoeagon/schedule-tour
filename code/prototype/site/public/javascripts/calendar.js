@@ -1,4 +1,6 @@
-$(document).ready(function(){
+var calendarRenderer = {};
+
+calendarRenderer.render = function(){
 	    $.get('html.calender',function(data){
 		//$('#calendar').html(data);
 		if (globalEventCache)
@@ -39,4 +41,7 @@ $(document).ready(function(){
 			    }
 			});
 	    });
-})
+}
+
+
+$(document).ready(   calendarRenderer.render    )
