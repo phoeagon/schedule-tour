@@ -9,7 +9,26 @@ var passwordHash = utility.passwordHash;
 var ObjectId = require('../models/mongoose').Types.ObjectId;
 var checkLogin = require('./account').checkLogin;
 
+var listEntries = function(req, res) {
+    EventEntry.find(
+      {
+        user: req.session.user._id
+      },
+      function(err, eventEntries) {
+        if (err) {
+          res.end(JSON.stringify({
+            code  : 'ERR',
+            msg   : err
+          }));
+          return;
+        }
+        res.end(JSON.stringify({
+          code          : 'OK',
+          eventEntries  : eventEntries
+        }));
 
+    });
+  }
 var setRouter = function(app) {
   app.post('/newevententry', checkLogin);
   app.post('/newevententry', function(req, res) {
@@ -42,28 +61,10 @@ var setRouter = function(app) {
     });
   });
 
-
+  app.get('/evententries', checkLogin);
+  app.get('/evententries', listEntries);
   app.post('/evententries', checkLogin);
-  app.post('/evententries', function(req, res) {
-    EventEntry.find(
-      {
-        user: req.session.user._id
-      },
-      function(err, eventEntries) {
-        if (err) {
-          res.end(JSON.stringify({
-            code  : 'ERR',
-            msg   : err
-          }));
-          return;
-        }
-        res.end(JSON.stringify({
-          code          : 'OK',
-          eventEntries  : eventEntries
-        }));
-
-    });
-  });
+  app.post('/evententries', listEntries);
 
   app.post('/removeentries', checkLogin);
   app.post('/removeentries', function(req, res) {
