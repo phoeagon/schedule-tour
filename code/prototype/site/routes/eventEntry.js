@@ -9,9 +9,11 @@ var passwordHash = utility.passwordHash;
 var ObjectId = require('../models/mongoose').Types.ObjectId;
 var checkLogin = function(req, res, next) {
     if (req.session.user) {
-	next();
+        console.log('loged in');
+        next();
     } else {
-	res.end(JSON.stringify({ code : 'needLogIn' }));
+        console.log('needs login');
+        res.end(JSON.stringify({ code : 'needLogIn' }));
     }
 }
 
@@ -44,8 +46,10 @@ var newEntry = function(req, res) {
       place       : req.body.place,
       weight      : req.body.weight,
       time        : req.body.time,
-      endTime     : req.body.endTime,
+      endTime        : req.body.endTime,
+      duration    : req.body.duration,
       position    : req.body.position,
+      gps         : req.body.gps,
       privacy     : req.body.privacy,
       finished    : false,
       alarms      : req.body.alarms
@@ -60,7 +64,7 @@ var newEntry = function(req, res) {
       }
       res.end(JSON.stringify({
         code  : 'OK',
-        id    : eventEntry.id
+        _id    : eventEntry._id
       }));
 
     });
@@ -69,7 +73,7 @@ var newEntry = function(req, res) {
 var removeEntry = function(req, res) {
   EventEntry
     .where('_id')
-    .equals(req.body.id)
+    .equals(req.body._id)
     .remove(function(err) {
       if (err) {
         res.end(JSON.stringify({
@@ -93,12 +97,14 @@ var updateEntry = function(req, res) {
       weight      : req.body.weight,
       time        : req.body.time,
       endTime     : req.body.endTime,
+      duration    : req.body.duration,
       position    : req.body.position,
+      gps         : req.body.gps,
       privacy     : req.body.privacy,
       finished    : false,
       alarms      : req.body.alarms
   });
-  EventEntry.findByIdAndUpdate(req.body.id,
+  EventEntry.findByIdAndUpdate(req.body._id,
       eventEntry,
       function(err) {
         if (err) {
@@ -128,6 +134,19 @@ var setRouter = function(app) {
   app.post('/removeevententry', removeEntry);
   app.post('/updateevententry', checkLogin);
   app.post('/updateevententry', updateEntry);
+
+  app.post('/event/new', checkLogin);
+  app.post('/event/new', newEntry);
+
+  app.get('/event/all', checkLogin);
+  app.get('/event/all', listEntries);
+  app.post('/event/all', checkLogin);
+  app.post('/event/all', listEntries);
+
+  app.post('/event/remove', checkLogin);
+  app.post('/event/remove', removeEntry);
+  app.post('/event/update', checkLogin);
+  app.post('/event/update', updateEntry);
 };
 
 module.exports = {

@@ -11,8 +11,10 @@ var EventEntrySchema = mongoose.Schema({
     place       :   String,
     weight      :   Number,
     time        :   Date,
+    endTime     :   Date,
     duration    :   Date,
     position    :   [SchemaTypes.Double],
+    gps         :   [SchemaTypes.Double],
     alarms      :   [],
     privacy     :   Boolean,
     finished    :   Boolean

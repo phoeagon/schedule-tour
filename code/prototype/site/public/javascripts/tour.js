@@ -188,6 +188,5 @@ var checkFeasibility = function(route) {
 
 //tour stub
 //var tour = function(events) {
-	//alert(events[0].time);
-  //  return events;
+//    return events;
 //}
