@@ -65,8 +65,8 @@
       ▷
     </button>
     
-    <div id="reg_panel"  title="Sign Up" class="hidden">
-    <div id="login_panel"  title="Login" class="hidden">
+    <div id="reg_panel"  title="Sign Up" class="hidden"></div>
+    <div id="login_panel"  title="Login" class="hidden"></div>
     <div id="setting_panel"  title="Settings" class="hidden">
     <button id="toggle_map_style"/>Change Map Color</button>
     </div>
@@ -75,32 +75,8 @@
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
     <script type="text/javascript" src="./javascripts/calendar.js"></script>
     <script type="text/javascript" src="./javascripts/login.js"></script>
+    <script type="text/javascript" src="./javascripts/setting.js"></script>
   <script type="text/javascript" >
-      $(document).ready(function(){
-	    $('#toggle_map_style').click(function(){
-		    $('#map').toggleClass('styledHue');
-		    current_config.mapStyle ^= 1;
-		    configClient.saveConfig( current_config );
-		});
-	    $('#setting_show_button').click(function(){
-		$( "#setting_panel" ).dialog({
-		    autoOpen: true,
-		    width: "90%",
-		    buttons: [
-			{
-			    text: "Ok",
-			    click: function() {
-				$( this ).dialog( "close" );
-			    }
-			}
-		    ]
-		});
-	    });
-	    configClient.getConfig( function(data){
-		current_config = data;
-		configClient.applyConfig( data );
-	    });
-		
-	});
+
   </script>
 </html>
