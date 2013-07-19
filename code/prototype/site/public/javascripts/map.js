@@ -262,7 +262,7 @@ var ScheduleTour = (function() {
                 addInfoWindowToEvent(map, newEvent);
                 events.push(newEvent);
             }
-            tour(events);
+            events = tour(events);
             drawRoute(map, events, polylines);
             //TODO: enable the button of adding event
         });
@@ -329,9 +329,9 @@ var ScheduleTour = (function() {
                 description :   $('#description').val(),
                 place       :   '',
                 weight      :   $('#weight').slider('value'),
-                time        :   $('#dateFrom').datetimepicker('getDate'),
-                endTime     :   $('#dateUntil').datetimepicker('getDate'),
-                duration    :   0,
+                time        :   new Date($('#dateFrom').datetimepicker('getDate')),
+                endTime     :   new Date($('#dateUntil').datetimepicker('getDate')),
+                duration    :   new Date($('#dateUntil').datetimepicker('getDate')) - new Date($('#dateFrom').datetimepicker('getDate')),
                 position    :   [p.lng, p.lat],
                 privacy     :   false,
                 addTime     :   new Date(),
@@ -348,7 +348,7 @@ var ScheduleTour = (function() {
             });
             newEvent.marker = marker;
             events.push(newEvent);
-            tour(events);
+            events = tour(events);
             drawRoute();
             if (calendarRenderer)
                 calendarRenderer.refresh();
@@ -375,7 +375,7 @@ var ScheduleTour = (function() {
             console.log(res);
         });
         events.splice(index, 1);
-        tour(events);
+        events = tour(events);
         drawRoute();
         if (calendarRenderer)
             calendarRenderer.refresh();
