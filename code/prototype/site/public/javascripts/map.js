@@ -143,6 +143,7 @@ var markerOnDraging= function() {
 };
 
 var ScheduleTour = (function() {
+    globalEventCache = {};
     //map of baidu
     var map = null;
     //events to save all events
@@ -217,6 +218,8 @@ var ScheduleTour = (function() {
                 alert("should log in");
                 return;
             }
+	    globalEventCache = res.eventEntries		//global
+	    console.log( globalEventCache )
             var eventsBuff = res.eventEntries;
             for(var i = 0; i < eventsBuff.length; i++) {
                 events.push(newMarkerToEvent(map, eventsBuff[i]));
@@ -276,7 +279,7 @@ var ScheduleTour = (function() {
             tour(events);
             drawRoute();
             if (calendarRenderer)
-                calendarRenderer.addEvent( newEvent );
+                calendarRenderer.refresh();
         });
     }
 
@@ -299,8 +302,8 @@ var ScheduleTour = (function() {
         events.splice(index, 1);
         tour(events);
         drawRoute();
-        if (calendarRenderer)
-            calendarRenderer.addEvent( newEvent );
+	if (calendarRenderer)
+	    calendarRenderer.refresh();
     }
 
     var drawRoute = function() {

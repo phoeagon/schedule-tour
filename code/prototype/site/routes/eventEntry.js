@@ -121,6 +121,31 @@ var updateEntry = function(req, res) {
       });
 }
 
+var listCalendarEntries = function(req, res) {
+    EventEntry.find(
+      {
+        user: req.session.user._id
+      },
+      function(err, eventEntries) {
+        if (err) {
+          res.end(JSON.stringify(err));
+          return;
+        }
+        var pool = eventEntries;
+        for (var ele in pool){
+            pool[ele]= {
+                start : pool[ele].time ,
+                end : pool[ele].endTime , 
+                allDay : false , //assume
+                title : pool[ele].title
+            }
+            console.log( pool[ele] )
+        }
+        res.end(JSON.stringify( pool ));
+
+    });
+  }
+
 var setRouter = function(app) {
   app.post('/newevententry', checkLogin);
   app.post('/newevententry', newEntry);
@@ -129,6 +154,8 @@ var setRouter = function(app) {
   app.get('/evententries', listEntries);
   app.post('/evententries', checkLogin);
   app.post('/evententries', listEntries);
+  
+  app.get('/calendarentries', listCalendarEntries);
 
   app.post('/removeevententry', checkLogin);
   app.post('/removeevententry', removeEntry);

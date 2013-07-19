@@ -3,21 +3,7 @@ var calendarRenderer = {};
 calendarRenderer.render = function(){
     console.log("calendarRenderer.render")
 	$.get('html.calender',function(data){
-	    //$('#calendar').html(data);
-	    if (globalEventCache)
-		var events = globalEventCache.eventEntries;
-	    else
-		var events = [];
-	    var feed = [];
-	    for ( var e in events ){
-		feed.push( { title: events[e].title ,
-			     start: new Date(events[e].time) ,
-			     end: moment(events[e].time).add('hour',1).toDate() ,
-			     //tmp, assume an hour
-			     allDay: false
-			     // assume not allday
-			 })
-	    }
+	    var feed = './calendarentries'
 	    calendarRenderer.refreshCalendar( feed );
 	});
 }
@@ -46,10 +32,11 @@ calendarRenderer.refreshCalendar = function( feed ){
 	}
     });
 }
+calendarRenderer.refresh = function(){
+    calendarRenderer.render();	//refresh
+}
 calendarRenderer.addEvent = function( event ){
-    console.log("calendarRendere.addEvent");
-    globalEventCache.eventEntries.push( event );
-    calendarRenderer.render();
+    calendarRenderer.render();	//refresh
 }
 calendarRenderer.updateEvent = function( event ){
 }
