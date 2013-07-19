@@ -1,6 +1,12 @@
-<% if (error) { %>
-<div style="color:red;background-color:pink;"><%= error %></div>
+<div id="flash-msg"/>
+<% if (error!==null) { %>
+    <div class="alert alert-error"><%= error %>
+        <div style="display:inline;position:relative;float:right;width:8%;"><button class="btn" id="close-flash-btn">X</button></div>
+    </div>
+<% }else if (success!==null) { %>
+    <div class="alert alert-success"><%= success %>
+        <div style="display:inline;position:relative;float:right;width:8%;"><button class="btn" id="close-flash-btn">X</button></div>
+    </div>
+
 <% } %>
-<% if (success) { %>
-<div style="color:green;background-color:rgb(200,255,200);"><%= success %></div>
-<% } %>
+</div>

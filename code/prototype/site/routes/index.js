@@ -4,5 +4,10 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'GCM' });
+  //req.flash("error","Hello world");
+  res.render('index', { title: 'Schedule-tour' ,
+                        error : req.flash("error") ,
+                        success : req.flash("success")
+                       }
+            );
 };
