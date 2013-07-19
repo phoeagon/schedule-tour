@@ -166,7 +166,8 @@ var ScheduleTour = (function() {
             }
         },{enableHighAccuracy: true})
     }
-
+   $(document).ready(function(){ $('#geoloc_btn').click( geolocate ); });
+    
     var initMap = function(id) {
         map = new BMap.Map(id);
         var point = new BMap.Point(116.404, 39.915);

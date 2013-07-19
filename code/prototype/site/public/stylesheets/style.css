@@ -99,15 +99,15 @@ body {
     display:none;
 }
 
-#classic_btn {
+#calendar_btn {
     top:0;
-    left:35%;
+    left:70%;
     width:30%;
     height:10%;
     transition:top 300ms;
     -webkit-transition:top 300ms;
 }
-#classic_btn.extended {
+#calendar_btn.extended {
     top : 90%;
 }
 #sidebar_btn {
@@ -171,7 +171,7 @@ td
 #search_panel{
     position: absolute;
     top : 0%;
-    left:   10%;
-    width: 30%;
+    left:   5%;
+    width: 60%;
     height: 10%;
 }
