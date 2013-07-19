@@ -277,6 +277,10 @@ var ScheduleTour = (function() {
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
+            var du = new Date($('#dateUntil').val())
+            var df = new Date($('#dateFrom').val())
+            if ( du.valueOf() < df.valueOf() )
+                return;
             var newEvent = {
                 title       :   'title',
                 description :   $('#description').val(),
@@ -344,7 +348,11 @@ var ScheduleTour = (function() {
             var to = new BMap.Point(events[i+1].position[0], events[i+1].position[1]);
             walking.setSearchCompleteCallback(function(res){
                 console.log(res);
-                var path = res.getPlan(0).getRoute(0).getPath();
+                try{
+                    var path = res.getPlan(0).getRoute(0).getPath();
+                }catch(err){
+                    var path = {}
+                }
                 var polyline = new BMap.Polyline(path, {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});
                 map.addOverlay(polyline);
                 polylines.push(polyline);

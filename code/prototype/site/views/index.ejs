@@ -48,7 +48,8 @@
             <label class="control-label" for="end_date_datepicker">End Date:</label>         
             <input type="text" class="datepicker" name="end_date" id="dateUntil"/>
           </div>
-          <div class="control-group">       
+	  <div class="alert alert-error hidden" id="fix-date-msg">Fix your date first!</div>
+          <div class="control-group">
             <label class="control-label">Type:</label>       
             <input type="radio" name="routine" value="routine">Routine
             <input type="radio" name="routine" value="once">Once 
@@ -98,5 +99,6 @@
     setTimeout(function(){
 	$('#close-flash-btn').click();
     },5000);//wait 5 secs
+    $.getScript("/javascripts/validation.js")
   </script>
 </html>
