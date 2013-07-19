@@ -43,13 +43,13 @@ var setRouter = function(app) {
         }
         if (err) {
           req.flash('error', err);
-          return res.redirect('/reg');
+          return res.redirect('/?action=reg');
         }
         //如果不存在則新增用戶
         newUser.save(function(err) {
           if (err) {
             req.flash('error', err);
-            return res.redirect('/reg');
+            return res.redirect('/?action=reg');
           }
           req.session.user = newUser;
           req.flash('success', '註冊成功');
