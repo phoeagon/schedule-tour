@@ -4,10 +4,10 @@
  */
 
 exports.index = function(req, res){
-  //req.flash("error","Hello world");
+  //console.log( "error: " + JSON.stringify(req.flash("error")))
   res.render('index', { title: 'Schedule-tour' ,
-                        error : req.flash("error") ,
-                        success : req.flash("success")
+                        error : req.flash("error")[0] ,
+                        success : req.flash("success")[0]
                        }
             );
 };

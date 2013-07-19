@@ -1,9 +1,9 @@
 <div id="flash-msg"/>
-<% if (error!==null) { %>
+<% if (error) { %>
     <div class="alert alert-error"><%= error %>
         <div style="display:inline;position:relative;float:right;width:8%;"><button class="btn" id="close-flash-btn">X</button></div>
     </div>
-<% }else if (success!==null) { %>
+<% }else if (success) { %>
     <div class="alert alert-success"><%= success %>
         <div style="display:inline;position:relative;float:right;width:8%;"><button class="btn" id="close-flash-btn">X</button></div>
     </div>
