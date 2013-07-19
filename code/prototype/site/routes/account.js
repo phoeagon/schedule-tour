@@ -62,7 +62,9 @@ var setRouter = function(app) {
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
     res.render('login', {
-      title: '用戶登入',
+      title     :   '用戶登入',
+      error     :   req.flash('error'),
+      success   :   req.flash('success')
     });
   });
   
@@ -71,6 +73,7 @@ var setRouter = function(app) {
     //生成口令的散列值
     var password = passwordHash( req.body.password , req.body.username );
     
+    //req.flash("error", "erro");
     User.findOne(
       {
         name: req.body.username
@@ -78,11 +81,11 @@ var setRouter = function(app) {
       function(err, user) {
         if (!user) {
           req.flash('error', '用戶不存在');
-          return res.redirect('/login');
+          return res.redirect('/');
         }
         if (user.password != password) {
           req.flash('error', '用戶口令錯誤');
-          return res.redirect('/login');
+          return res.redirect('/');
         }
         req.session.user = user;
         req.flash('success', '登入成功');
