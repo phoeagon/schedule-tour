@@ -69,7 +69,7 @@ function setSlidingMap() {
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = calHeight;
-        var btn = $("#classic_btn");
+        var btn = $("#calendar_btn");
         btn.addClass('extended');
         //$('#map').addClass('top_collapse');
         btn.text('△');
@@ -78,13 +78,14 @@ function setSlidingMap() {
         btn.bind('click', hideCal);
         $("#sidebar_btn").unbind('click');
         $("#setting_show_button").addClass('visibilityhidden');
-	$('.fc-button-agendaDay').click();
-	$('.fc-button-today').click();
+        $('.fc-button-agendaDay').click();
+        $('.fc-button-today').click();
+        $("#search_panel").addClass('hidden');
     }
     function hideCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = '0px'; 
-        var btn = $("#classic_btn");
+        var btn = $("#calendar_btn");
         btn.removeClass('extended');
         //$('#map').removeClass('top_collapse');
         btn.text('▽');
@@ -93,6 +94,7 @@ function setSlidingMap() {
         btn.bind('click', showCal);
         $("#sidebar_btn").bind('click', showSide);
         $("#setting_show_button").removeClass('visibilityhidden');
+        $("#search_panel").removeClass('hidden');
     }
 
     function showSide() {
@@ -104,7 +106,7 @@ function setSlidingMap() {
         $("#sidebar").removeClass('back');
         btn.unbind('click');
         btn.bind('click', hideSide);
-        $("#classic_btn").unbind('click');
+        $("#calendar_btn").unbind('click');
     }
     function hideSide() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
@@ -115,13 +117,13 @@ function setSlidingMap() {
         $("#sidebar").addClass('back');
         btn.unbind('click');
         btn.bind('click', showSide);
-        $("#classic_btn").bind('click', showCal);
+        $("#calendar_btn").bind('click', showCal);
     }
 
     $("#calendar").addClass('hidden');
     $("#sidebar").removeClass('hidden');
     $("#sidebar").addClass('back');
-    $("#classic_btn").bind('click', showCal);
+    $("#calendar_btn").bind('click', showCal);
     $("#sidebar_btn").bind('click', showSide);
     $("#side_collapse").bind('click', hideSide);
 }

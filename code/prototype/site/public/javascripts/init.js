@@ -23,7 +23,7 @@ function initialize() {
     function showCal() {
 	$("#allmap").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = calHeight;
-	var btn = $("#classic_btn");
+	var btn = $("#calendar_btn");
 	btn.css({'top':calHeight});
 	btn.text('^');
 	$("#calendar").removeClass('hidden');
@@ -34,7 +34,7 @@ function initialize() {
     function hideCal() {
 	$("#allmap").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	mapdiv.style.top = '0px'; 
-	var btn = $("#classic_btn");
+	var btn = $("#calendar_btn");
 	btn.css({'top':'0px'});
 	btn.text('V');
 	$("#calendar").addClass('hidden');
@@ -52,7 +52,7 @@ function initialize() {
 	$("#sidebar").removeClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', hideSide);
-	$("#classic_btn").unbind('click');
+	$("#calendar_btn").unbind('click');
     }
     function hideSide() {
 	$("#allmap").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
@@ -63,11 +63,11 @@ function initialize() {
 	$("#sidebar").addClass('hidden');
 	btn.unbind('click');
 	btn.bind('click', showSide);
-	$("#classic_btn").bind('click', showCal);
+	$("#calendar_btn").bind('click', showCal);
     }
     
     $("#calendar").removeClass('hidden');
-    $("#classic_btn").bind('click', showCal);
+    $("#calendar_btn").bind('click', showCal);
     $("#sidebar_btn").bind('click', showSide);
 }
 
