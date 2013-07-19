@@ -21,7 +21,7 @@ var setRouter = function(app) {
     //檢驗用戶兩次輸入的口令是否一致
     if (req.body['password-repeat'] != req.body['password']) {
       req.flash('error', '兩次輸入的口令不一致');
-      return res.redirect('/reg');
+      return res.redirect('/?action=reg');
     }
   
     //生成口令的散列值
