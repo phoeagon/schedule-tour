@@ -4,10 +4,10 @@ mapSearch.search = function( map , searchFor ){
         renderOptions:{map: map, autoViewport:true}
     });
     console.log( local.search )
-    local.search( "上海" );
+    local.search( searchFor );
 }
 mapSearch.callback = function(){
-    mapSearch.search( map , $('#goto_place').val() );
+    mapSearch.search( ScheduleTour.getMap() , $('#goto_place').val() );
 }
 mapSearch.setSearchBarCallback = function(){
     //fix ENTER

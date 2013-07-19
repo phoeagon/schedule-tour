@@ -353,12 +353,6 @@ var ScheduleTour = (function() {
         }
     }
 
-    var searchAndGo = function(str) {
-        var local = new BMap.LocalSearch(map, {
-            renderOptions:{map: map}
-        });
-        local.search(str);
-    }
 
     return {
         initMap                 :   initMap,
@@ -369,7 +363,7 @@ var ScheduleTour = (function() {
         enableLongPress         :   enableLongPress,
         addRecommendation       :   addRecommendation,
         addEvent                :   addEvent,
-        searchAndGo             :   searchAndGo
+        getMap                  :   function(){return map}
     };
 
 }());
@@ -379,9 +373,7 @@ $(document).ready(function () {
     ScheduleTour.initMap("map");
     ScheduleTour.geolocate();
     ScheduleTour.fetchEventsFromServer();
-    $('#search_go').click(function() {
-        ScheduleTour.searchAndGo($('#search_loc').find('[type="text"]').val());
-    });
+    
 
     function newMarkerWithDeleteBtn(theMap, point, e, index) {
         var marker = new BMap.Marker(point);
@@ -407,6 +399,6 @@ $(document).ready(function () {
     ScheduleTour.enableLongPress();
     setSlidingMap();
 
-    //$.getScript("/javascripts/map_search.js")
+    $.getScript("/javascripts/map_search.js")
     //recommend_douban(map);
 });
