@@ -243,9 +243,8 @@ var ScheduleTour = (function() {
     }
 
     
-    var enableLongPress = function(longPressCallback) {
-        map.addEventListener('longpress', longPressCallback);
-        //map.addEventListener('longpress', function(e) { addEvent(e.point); });
+    var enableLongPress = function() {
+        map.addEventListener('longpress', function(e) { addEvent(e.point); });
     }
 
     //setSlidingMap();
