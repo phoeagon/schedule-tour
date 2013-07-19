@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.configure(function(){
     app.use(express.bodyParser()); 
     app.use(express.cookieParser()); 
+    app.use (flash());
     app.use(express.session({ 
         secret: settings.cookieSecret, 
         store: new MongoStore({ 
@@ -37,7 +38,6 @@ app.configure(function(){
         }) ,
         cookie: { maxAge: 60000000 } 
     }));
-    app.use (flash());
     //app.use(express.cookieParser('keyboard cat'));
 }); 
 
