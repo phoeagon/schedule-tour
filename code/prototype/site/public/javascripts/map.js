@@ -228,7 +228,6 @@ var ScheduleTour = (function() {
         Event.fetchAllEvents(function(res) {
             if (res.code != "OK") {
                 console.log("should log in");
-                window.location = '/login';
                 return;
             }
 	    globalEventCache = res.eventEntries		//global
