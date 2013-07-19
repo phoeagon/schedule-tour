@@ -89,7 +89,8 @@ var removeEntry = function(req, res) {
 };
 
 var updateEntry = function(req, res) {
-  var eventEntry = new EventEntry({
+    console.log(req.body);
+  var eventEntry = {
       user        : req.session.user._id,
       title       : req.body.title,
       description : req.body.description,
@@ -99,12 +100,13 @@ var updateEntry = function(req, res) {
       endTime     : req.body.endTime,
       duration    : req.body.duration,
       position    : req.body.position,
-      gps         : req.body.gps,
+      gps         : req.body.gps ? req.body.gps : [],
       privacy     : req.body.privacy,
       finished    : false,
-      alarms      : req.body.alarms
-  });
-  EventEntry.findByIdAndUpdate(req.body._id,
+      alarms      : req.body.alarms ? req.body.gps : []
+  };
+  console.log(eventEntry);
+  EventEntry.findByIdAndUpdate(req.body._id, 
       eventEntry,
       function(err) {
         if (err) {
@@ -117,7 +119,6 @@ var updateEntry = function(req, res) {
         res.end(JSON.stringify({
           code  : 'OK'
         }));
-
       });
 }
 
