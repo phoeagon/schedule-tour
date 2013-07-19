@@ -254,6 +254,10 @@ var ScheduleTour = (function() {
         $("#addEventButt").unbind('click');
         $(".datepicker").datetimepicker();
         $(".slider").slider();
+	document.getElementById('description').value = '';
+	$('#weight').slider('value', 0);
+	$('#dateFrom').datetimepicker('setDate', new Date());
+	$('#dateUntil').datetimepicker('setDate', new Date());
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
@@ -271,6 +275,7 @@ var ScheduleTour = (function() {
                 finish      :   false,
                 alarms      :   []
             };
+
             $("#sidebar_btn").click();
             Event.saveEvent(newEvent, function(res){
                 console.log(res);
