@@ -6,6 +6,21 @@ loginManager.displayDialog = function(){
 	$( "#login_panel" ).dialog({
 	    autoOpen: true,
 	    width: "90%",
+	    open: function() {
+		$(this).bind("keyup",function(e){
+		  var code = e.keyCode || e.which; 
+		  if (code  == 13 || code == 10 ) {
+		    console.log( e )
+		    e.preventDefault();
+		    $(this).parent().find('button:nth-child(1)').click();
+		    return false;
+		  }		    
+		})
+		$('#username').focus()
+		$('#password').bind("blur",function(){
+		    $(this).parents('.ui-dialog-buttonpane button:eq(0)').focus();
+		})
+	    },
 	    buttons: [
 		{
 		    text: "Log in",

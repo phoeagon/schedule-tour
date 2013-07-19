@@ -396,5 +396,6 @@ $(document).ready(function () {
     ScheduleTour.enableLongPress();
     setSlidingMap();
 
+    //$.getScript("/javascripts/map_search.js")
     //recommend_douban(map);
 });
