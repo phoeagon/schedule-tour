@@ -18,6 +18,9 @@
     <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
     <script src='/fullcalendar/fullcalendar.min.js'></script>
     <script src='/fullcalendar/gcal.js'></script>
+    <script type="text/javascript">
+    <%if(user && user.name){%>username = '<%=user.name%>';<%}else{%>username=null;<%}%>
+    </script>
 
   </head>
   <body>
@@ -61,6 +64,9 @@
     <button id="sidebar_btn" class="buttons hidden">
       ▷
     </button>
+    
+    <div id="reg_panel"  title="Sign Up" class="hidden">
+    <div id="login_panel"  title="Login" class="hidden">
     <div id="setting_panel"  title="Settings" class="hidden">
     <button id="toggle_map_style"/>Change Map Color</button>
     </div>
@@ -68,6 +74,7 @@
   </body>
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
     <script type="text/javascript" src="./javascripts/calendar.js"></script>
+    <script type="text/javascript" src="./javascripts/login.js"></script>
   <script type="text/javascript" >
       $(document).ready(function(){
 	    $('#toggle_map_style').click(function(){

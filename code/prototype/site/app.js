@@ -42,6 +42,7 @@ app.configure(function(){
 }); 
 
 app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
     res.locals.success = req.session.success;
     res.locals.error = req.session.error;
     req.session.success = null;

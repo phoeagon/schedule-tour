@@ -215,7 +215,7 @@ var ScheduleTour = (function() {
         //TODO: disable the button of adding event
         Event.fetchAllEvents(function(res) {
             if (res.code != "OK") {
-                alert("should log in");
+                console.log("should log in");
                 return;
             }
 	    globalEventCache = res.eventEntries		//global
