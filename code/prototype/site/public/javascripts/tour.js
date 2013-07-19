@@ -85,15 +85,15 @@ var checkFeasibility = function(route) {
 	
 	
 	//Added by mfy
-	for (var i=0;i<route.length;++i)
-	{
-		var tmp = new Date(eventEntries[route[i]].time);
-		tmp.setHours(23-i,59-i,59-i);
-		eventEntries[route[i]].time = tmp;
-		var tmp1 = new Date();
-		tmp1.setSeconds(2);
-		eventEntries[route[i]].duration = tmp1;
-	}
+//	for (var i=0;i<route.length;++i)
+//	{
+//		var tmp = new Date(eventEntries[route[i]].time);
+//		tmp.setHours(23-i,59-i,59-i);
+//		eventEntries[route[i]].time = tmp;
+//		var tmp1 = new Date();
+//		tmp1.setSeconds(2);
+//		eventEntries[route[i]].duration = tmp1;
+//	}
 	
 	
 	for (var i=0;i<eventEntries.length;++i)
