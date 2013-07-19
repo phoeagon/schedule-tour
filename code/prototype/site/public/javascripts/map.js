@@ -70,7 +70,7 @@ function setSlidingMap() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = calHeight;
 	$('#map_pad').addClass('inUse');
-	$('#map').addClass('styledHue');
+	$('#map').addClass('disabledColor');
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //$('#map').addClass('top_collapse');
@@ -87,7 +87,7 @@ function setSlidingMap() {
     function hideCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = '0px'; 
-	$('#map').removeClass('styledHue');
+	$('#map').removeClass('disabledColor');
 	$('#map_pad').removeClass('inUse');
         var btn = $("#calendar_btn");
         btn.removeClass('extended');
@@ -105,7 +105,7 @@ function setSlidingMap() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
         mapdiv.style.left = sideWid;
 	$('#map_pad').addClass('inUse');
-	$('#map').addClass('styledHue');
+	$('#map').addClass('disabledColor');
         var btn = $("#sidebar_btn");
         btn.addClass('extended');
         btn.text('◁');
@@ -117,7 +117,7 @@ function setSlidingMap() {
     function hideSide() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
         mapdiv.style.left = '0px'; 
-	$('#map').removeClass('styledHue');
+	$('#map').removeClass('disabledColor');
 	$('#map_pad').removeClass('inUse');
         var btn = $("#sidebar_btn");
         btn.removeClass('extended');
@@ -276,12 +276,18 @@ var ScheduleTour = (function() {
         map.addOverlay(marker);
         //create an Event Object
         $("#addEventButt").unbind('click');
+	$("#side_collapse").unbind('click');
         $(".datepicker").datetimepicker();
         $(".slider").slider();
+	document.getElementById('title').value = '';
 	document.getElementById('description').value = '';
 	$('#weight').slider('value', 0);
 	$('#dateFrom').datetimepicker('setDate', new Date());
 	$('#dateUntil').datetimepicker('setDate', new Date());
+	$('#side_collapse').bind('click', function() {
+		map.removeOverlay(marker); 
+		$("#sidebar_btn").click();
+	    });
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
