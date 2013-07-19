@@ -204,11 +204,8 @@ var ScheduleTour = (function() {
         map.addContextMenu(contextMenu);
     }
 
-    var newMarkerToEvent = function(map, e) {
-        //create marker
-        var marker = new BMap.Marker(new BMap.Point(e.position[0], e.position[1]));
-        //add marker to map
-        map.addOverlay(marker);
+
+    var addInfoWindowToEvent = function(map, e) {
         var eid = e._id;
         var infoContent = 
             "<h4>"+e.title+"</h4>"+
@@ -217,9 +214,15 @@ var ScheduleTour = (function() {
             "<p>"+e.description+"</p>"+
             "<button onclick='javascript:ScheduleTour.removeEvent(\"" + eid + "\");'>Delete</button>";
         var infoWindow = new BMap.InfoWindow(infoContent);
-        marker.addEventListener('click', function() {
+        e.marker.addEventListener('click', function() {
             this.openInfoWindow(infoWindow);
         });
+    }
+    var newMarkerToEvent = function(map, e) {
+        //create marker
+        var marker = new BMap.Marker(new BMap.Point(e.position[0], e.position[1]));
+        //add marker to map
+        map.addOverlay(marker);
         //attach marker to event
         e.marker = marker;
         return e;
@@ -236,7 +239,9 @@ var ScheduleTour = (function() {
 	    console.log( globalEventCache )
             var eventsBuff = res.eventEntries;
             for(var i = 0; i < eventsBuff.length; i++) {
-                events.push(newMarkerToEvent(map, eventsBuff[i]));
+                var newEvent = newMarkerToEvent(map, eventsBuff[i]);
+                addInfoWindowToEvent(map, newEvent);
+                events.push(newEvent);
             }
             tour(events);
             drawRoute(map, events, polylines);
@@ -291,6 +296,7 @@ var ScheduleTour = (function() {
             Event.saveEvent(newEvent, function(res){
                 console.log(res);
                 newEvent._id = res._id;
+                addInfoWindowToEvent(map, newEvent);
             });
             newEvent.marker = marker;
             events.push(newEvent);
