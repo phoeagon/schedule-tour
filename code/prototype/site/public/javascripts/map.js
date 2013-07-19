@@ -63,12 +63,14 @@ function setSlidingMap() {
 
     var calHeight = '90%';
     var calAnimationTime = '300ms';
-    var sideWid = '90%';
+    var sideWid = '35%';
     var sideAnimationTime = '300ms';
     
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = calHeight;
+	$('#map_pad').addClass('inUse');
+	$('#map').addClass('styledHue');
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //$('#map').addClass('top_collapse');
@@ -85,6 +87,8 @@ function setSlidingMap() {
     function hideCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = '0px'; 
+	$('#map').removeClass('styledHue');
+	$('#map_pad').removeClass('inUse');
         var btn = $("#calendar_btn");
         btn.removeClass('extended');
         //$('#map').removeClass('top_collapse');
@@ -100,6 +104,8 @@ function setSlidingMap() {
     function showSide() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
         mapdiv.style.left = sideWid;
+	$('#map_pad').addClass('inUse');
+	$('#map').addClass('styledHue');
         var btn = $("#sidebar_btn");
         btn.addClass('extended');
         btn.text('◁');
@@ -111,6 +117,8 @@ function setSlidingMap() {
     function hideSide() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
         mapdiv.style.left = '0px'; 
+	$('#map').removeClass('styledHue');
+	$('#map_pad').removeClass('inUse');
         var btn = $("#sidebar_btn");
         btn.removeClass('extended');
         btn.text('▷');
@@ -278,7 +286,7 @@ var ScheduleTour = (function() {
         //add the event to events
         $("#addEventButt").bind('click', function() {
             var newEvent = {
-                title       :   'title',
+	        title       :   $('#title').val(),
                 description :   $('#description').val(),
                 place       :   '',
                 weight      :   $('#weight').slider('value'),
