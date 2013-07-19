@@ -353,6 +353,8 @@ var ScheduleTour = (function() {
         fetchEventsFromServer   :   fetchEventsFromServer,
         drawRoute               :   drawRoute,
         removeEvent             :   removeEvent,
+        enableLongPress         :   enableLongPress,
+        addRecommendation       :   addRecommendation,
         addEvent                :   addEvent
     };
 
@@ -385,6 +387,7 @@ $(document).ready(function () {
     
     //map.addEventListener('longpress', function(e) { addEvent(e.point); });
 
+    ScheduleTour.enableLongPress();
     setSlidingMap();
 
     //recommend_douban(map);
