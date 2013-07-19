@@ -71,7 +71,6 @@ var setRouter = function(app) {
     //生成口令的散列值
     var password = passwordHash( req.body.password , req.body.username );
     
-    req.flash("error", "erro");
     User.findOne(
       {
         name: req.body.username
@@ -109,7 +108,7 @@ var setRouter = function(app) {
 function checkLogin(req, res, next) {
   if (!req.session.user) {
     req.flash('error', '未登入');
-    return res.redirect('/login');
+    return res.redirect('/');
   }
   next();
 }
