@@ -84,7 +84,9 @@ loginManager.displayRegistrationDialog = function(){
 }
 loginManager.testLogin = function(){
     console.log(username);
-    if ( username === null )
+    if ( currentAction && currentAction=="reg" )
+	loginManager.displayRegistrationDialog();
+    else if ( username === null )
 	loginManager.displayDialog();
 }
 $(document).ready(   loginManager.testLogin    )
