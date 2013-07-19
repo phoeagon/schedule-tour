@@ -92,5 +92,8 @@
     $('#close-flash-btn').click(function(e){
 	$("#flash-msg").remove()
     })
+    setTimeout(function(){
+	$('#close-flash-btn').click();
+    },5000);//wait 5 secs
   </script>
 </html>

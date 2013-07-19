@@ -52,6 +52,18 @@ loginManager.displayRegistrationDialog = function(){
 	$( "#reg_panel" ).dialog({
 	    autoOpen: true,
 	    width: "90%",
+	    open: function() {
+		$(this).bind("keyup",function(e){
+		  var code = e.keyCode || e.which; 
+		  if (code  == 13 || code == 10 ) {
+		    console.log( e )
+		    e.preventDefault();
+		    $(this).parent().find('button:nth-child(1)').click();
+		    return false;
+		  }		    
+		})
+		$('#username').focus()
+	    },
 	    buttons: [
 		{
 		    text: "Sign Up",
