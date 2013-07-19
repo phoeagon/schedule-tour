@@ -270,10 +270,10 @@ var ScheduleTour = (function() {
         $("#addEventButt").unbind('click');
         $(".datepicker").datetimepicker();
         $(".slider").slider();
-	document.getElementById('description').value = '';
-	$('#weight').slider('value', 0);
-	$('#dateFrom').datetimepicker('setDate', new Date());
-	$('#dateUntil').datetimepicker('setDate', new Date());
+        document.getElementById('description').value = '';
+        $('#weight').slider('value', 0);
+        $('#dateFrom').datetimepicker('setDate', new Date());
+        $('#dateUntil').datetimepicker('setDate', new Date());
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
@@ -326,8 +326,8 @@ var ScheduleTour = (function() {
         events.splice(index, 1);
         tour(events);
         drawRoute();
-	if (calendarRenderer)
-	    calendarRenderer.refresh();
+        if (calendarRenderer)
+            calendarRenderer.refresh();
     }
 
     var drawRoute = function() {
@@ -353,6 +353,13 @@ var ScheduleTour = (function() {
         }
     }
 
+    var searchAndGo = function(str) {
+        var local = new BMap.LocalSearch(map, {
+            renderOptions:{map: map}
+        });
+        local.search(str);
+    }
+
     return {
         initMap                 :   initMap,
         geolocate               :   geolocate,
@@ -361,7 +368,8 @@ var ScheduleTour = (function() {
         removeEvent             :   removeEvent,
         enableLongPress         :   enableLongPress,
         addRecommendation       :   addRecommendation,
-        addEvent                :   addEvent
+        addEvent                :   addEvent,
+        searchAndGo             :   searchAndGo
     };
 
 }());
@@ -371,6 +379,9 @@ $(document).ready(function () {
     ScheduleTour.initMap("map");
     ScheduleTour.geolocate();
     ScheduleTour.fetchEventsFromServer();
+    $('#search_go').click(function() {
+        ScheduleTour.searchAndGo($('#search_loc').find('[type="text"]').val());
+    });
 
     function newMarkerWithDeleteBtn(theMap, point, e, index) {
         var marker = new BMap.Marker(point);
