@@ -207,6 +207,17 @@ var ScheduleTour = (function() {
         var marker = new BMap.Marker(new BMap.Point(e.position[0], e.position[1]));
         //add marker to map
         map.addOverlay(marker);
+        var eid = e._id;
+        var infoContent = 
+            "<h4>"+e.title+"</h4>"+
+            "<h5>"+"Start Time:"+e.time+"</h5>"+
+            "<h5>"+"End Time:"+e.endTime+"</h5>"+
+            "<p>"+e.description+"</p>"+
+            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + eid + "\");'>Delete</button>";
+        var infoWindow = new BMap.InfoWindow(infoContent);
+        marker.addEventListener('click', function() {
+            this.openInfoWindow(infoWindow);
+        });
         //attach marker to event
         e.marker = marker;
         return e;
