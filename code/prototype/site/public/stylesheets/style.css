@@ -168,3 +168,10 @@ td
 #calendar{
     overflow: auto;
 }
+#search_panel{
+    position: absolute;
+    top : 0%;
+    left:   10%;
+    width: 30%;
+    height: 10%;
+}
