@@ -62,7 +62,8 @@ placeManager.remove = function( lng , lat ){
 //	console.log( [ ele.point.lng , ele.point.lat ] )
 	if ( ele.point.lng == lng && ele.point.lat == lat ){
 	    console.log ( ele )
-	    placeManager.removePlace( ele ) 
+	    placeManager.removePlace( ele )
+	    break
 	}
     }
 }
