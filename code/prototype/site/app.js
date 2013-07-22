@@ -11,8 +11,8 @@ var express = require('express')
   , flash = require("connect-flash")
   , account = require('./routes/account')
   , eventEntry = require('./routes/eventEntry') 
-  , savedPlace = require('./routes/saved.place');
-
+  , savedPlace = require('./routes/saved.place')
+  , recommend = require('./routes/recommend');
 
 var app = express();
 var MongoStore = require('connect-mongo')(express);
@@ -61,6 +61,7 @@ if ('development' == app.get('env')) {
 account.setRouter(app);
 eventEntry.setRouter(app);
 savedPlace.setRouter(app)
+recommend.setRouter(app);
 
 var configRoutes = require('./routes/config');
 app.get('/html.calender',function(req,res){
