@@ -1,23 +1,26 @@
 mygeolocate = {}
 
 mygeolocate.myLocationMarker = {};
+mygeolocate.panTo = function(map){
+    map.panTo(mygeolocate.myLocationPoint);
+}
 mygeolocate.locate = function( map ) {
-        mygeolocate.geolocation = new BMap.Geolocation();
-        var geolocation = mygeolocate.geolocation;
+        console.log("mygeolocate.locate")
+        var geolocation = navigator.geolocation;
         geolocation.getCurrentPosition(function(res) {
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                var mk = new BMap.Marker(res.point);
+            console.log("geolocation.getCurrentPosition callback")
+            res.point = new BMap.Point( res.coords.longitude , res.coords.latitude )
+            BMap.Convertor.translate(res.point,0,function(pt){
+                mygeolocate.myLocationPoint = pt;
+                var mk = new BMap.Marker(pt);
                 map.addOverlay(mk);
-                map.panTo(res.point);
-                console.log('Your Position:'+res.point.lng+','+res.point.lat);
+                map.panTo(pt);
+                console.log('Your Position:'+pt.lng+','+pt.lat);
                 map.centerAndZoom(res, 14);
                 // store location
                 mygeolocate.myLocationMarker =  mk ;
-            }
-            else {
-                alert('failed'+this.getStatus());
-            }
-        },{enableHighAccuracy: true})
+            })
+        },function(err){console.log(err)},{enableHighAccuracy: true})
     }
 mygeolocate.watchlocate = function( map ){
     var geolocation = navigator.geolocation;
@@ -32,7 +35,8 @@ mygeolocate.watchlocate = function( map ){
             BMap.Convertor.translate(gpspt,0,function(pt){
                 console.log( pt )
                 mygeolocate.myLocationMarker.setPosition( pt )
-                map.panTo( pt );
+                mygeolocate.myLocationPoint = pt;
+                //map.panTo( pt );
             })
         }catch(err){ console.log(err) }
     } ,function(err){} , {enableHighAccuracy: true})

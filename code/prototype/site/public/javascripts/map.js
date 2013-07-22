@@ -156,7 +156,10 @@ var ScheduleTour = (function() {
     var geolocate = function(){
         mygeolocate.locate(map)
     }
-   $(document).ready(function(){ $('#geoloc_btn').click( geolocate ); });
+    var panTo = function(){
+        mygeolocate.panTo(map)
+    }
+   $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
     
     var initMap = function(id) {
         map = new BMap.Map(id);
@@ -366,6 +369,7 @@ $(document).ready(function () {
 
     ScheduleTour.initMap("map");
     ScheduleTour.geolocate();
+    setTimeout(function(){ mygeolocate.watchlocate( map ) } , 1000 )
     ScheduleTour.fetchEventsFromServer();
     
 
