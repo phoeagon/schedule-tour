@@ -381,7 +381,7 @@ $(document).ready(function () {
 
     ScheduleTour.initMap("map");
     ScheduleTour.geolocate();
-    setTimeout(function(){ mygeolocate.watchlocate( map ) } , 1000 )
+    setTimeout(function(){ mygeolocate.watchlocate( ScheduleTour.getMap() ) } , 1000 )
     ScheduleTour.fetchEventsFromServer();
     
 
