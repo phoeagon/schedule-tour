@@ -211,7 +211,7 @@ var ScheduleTour = (function() {
 		    "<h5>"+"Start Time:"+e.time+"</h5>"+
 		    "<h5>"+"End Time:"+e.endTime+"</h5>"+
 		    "<p>"+e.description+"</p>"+
-		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><hr/>";
+		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
 	for (var i = 0; i < locals.length; i++) {
 	    if (locals[i]._id != eid) {
 		var ee = locals[i];
@@ -220,15 +220,16 @@ var ScheduleTour = (function() {
 		    "<h5>"+"Start Time:"+ee.time+"</h5>"+
 		    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
 		    "<p>"+ee.description+"</p>"+
-		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><hr/>";
+		    "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
 	    }
 	}
-	var infoContent = infoContent + "<button onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
-	console.log(infoContent);
+    infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
+	infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
         var infoWindow = new BMap.InfoWindow(infoContent);
 	e.marker.removeEventListener('click');
         e.marker.addEventListener('click', function() {
             this.openInfoWindow(infoWindow);
+            placeManager.configureButton( map )
         });
     }
     var newMarkerToEvent = function(map, e) {
@@ -261,7 +262,7 @@ var ScheduleTour = (function() {
                 return;
             }
 	    globalEventCache = res.eventEntries		//global
-	    console.log( globalEventCache )
+	    //console.log( globalEventCache )
             var eventsBuff = res.eventEntries;
             for(var i = 0; i < eventsBuff.length; i++) {
                 var newEvent = newMarkerToEvent(map, eventsBuff[i]);
@@ -358,7 +359,7 @@ var ScheduleTour = (function() {
             drawRoute();
             if (calendarRenderer)
                 calendarRenderer.refresh();
-	});
+        });
     }
 
     //remove event listener
@@ -400,7 +401,7 @@ var ScheduleTour = (function() {
             var from = new BMap.Point(events[i].position[0], events[i].position[1]);
             var to = new BMap.Point(events[i+1].position[0], events[i+1].position[1]);
             walking.setSearchCompleteCallback(function(res){
-                console.log(res);
+               // console.log(res);
                 try{
                     var path = res.getPlan(0).getRoute(0).getPath();
                 }catch(err){
