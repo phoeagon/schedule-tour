@@ -153,20 +153,8 @@ var ScheduleTour = (function() {
     //polylines to save all path
     var polylines = [];
 
-    var geolocate = function() {
-        var geolocation = new BMap.Geolocation();
-        geolocation.getCurrentPosition(function(res) {
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                var mk = new BMap.Marker(res.point);
-                map.addOverlay(mk);
-                map.panTo(res.point);
-                console.log('Your Position:'+res.point.lng+','+res.point.lat);
-                map.centerAndZoom(res, 14);
-            }
-            else {
-                alert('failed'+this.getStatus());
-            }
-        },{enableHighAccuracy: true})
+    var geolocate = function(){
+        mygeolocate.locate(map)
     }
    $(document).ready(function(){ $('#geoloc_btn').click( geolocate ); });
     
