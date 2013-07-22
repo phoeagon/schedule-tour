@@ -268,7 +268,7 @@ var ScheduleTour = (function() {
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
-            if ( !validationManager() )
+            if ( !validationManager.checkEndTimeAfterStartTime() )
                 return;
             var newEvent = {
                 title       :   'title',
