@@ -69,8 +69,6 @@ function setSlidingMap() {
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
         mapdiv.style.top = calHeight;
-	$('#map_pad').addClass('inUse');
-	$('#map').addClass('disabledColor');
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //$('#map').addClass('top_collapse');
@@ -282,6 +280,8 @@ var ScheduleTour = (function() {
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
+            if ( !validationManager.checkEndTimeAfterStartTime() )
+                return;
             var newEvent = {
 	        title       :   $('#title').val(),
                 description :   $('#description').val(),
