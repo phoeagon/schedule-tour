@@ -277,9 +277,7 @@ var ScheduleTour = (function() {
         $("#sidebar_btn").click();
         //add the event to events
         $("#addEventButt").bind('click', function() {
-            var du = new Date($('#dateUntil').val())
-            var df = new Date($('#dateFrom').val())
-            if ( du.valueOf() < df.valueOf() )
+            if ( !validationManager() )
                 return;
             var newEvent = {
                 title       :   'title',

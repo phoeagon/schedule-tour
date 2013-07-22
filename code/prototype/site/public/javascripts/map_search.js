@@ -11,6 +11,7 @@ mapSearch.callback = function(){
 }
 mapSearch.setSearchBarCallback = function(){
     //fix ENTER
+    $('#search_go').click( mapSearch.callback )
     $('form').bind("keydown", function(e) {
       var code = e.keyCode || e.which; 
       if (code  == 13 || code == 10 ) {
