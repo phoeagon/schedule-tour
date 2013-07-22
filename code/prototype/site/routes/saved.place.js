@@ -64,7 +64,7 @@ var newPlace = function(req, res) {
 var removePlace = function(req, res) {
   savedPlace
     .where('_id')
-    .equals(req.body._id)
+    .equals(req.query._id)
     .remove(function(err) {
       if (err) {
         res.end(JSON.stringify({

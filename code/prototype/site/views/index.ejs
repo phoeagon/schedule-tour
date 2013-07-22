@@ -114,7 +114,6 @@
     var locationLock = ($('#lock-location').val()=='Off');
     $('#lock-location').toggleSwitch({
         change : function(e){
-            console.log(e)
             if ( $('#lock-location').val()=='Off' )
                 locationLock = false;
             else locationLock = true;
