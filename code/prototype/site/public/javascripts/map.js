@@ -204,22 +204,44 @@ var ScheduleTour = (function() {
 
     var addInfoWindowToEvent = function(map, e) {
         var eid = e._id;
-        var infoContent = 
-            "<h4>"+e.title+"</h4>"+
-            "<h5>"+"Start Time:"+e.time+"</h5>"+
-            "<h5>"+"End Time:"+e.endTime+"</h5>"+
-            "<p>"+e.description+"</p>"+
-            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + eid + "\");'>Delete</button>";
+	var pos = e.position;
+	var locals = findEventByPos(pos);
+	locals.push(e);
+	var infoContent = "";
+	for (var i = 0; i < locals.length; i++) {
+	    var ee = locals[i];
+	    infoContent = infoContent +
+		"<h4>"+ee.title+"</h4>"+
+		"<h5>"+"Start Time:"+ee.time+"</h5>"+
+		"<h5>"+"End Time:"+ee.endTime+"</h5>"+
+		"<p>"+ee.description+"</p>"+
+		"<button onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><hr/>";
+	}
+	var infoContent = infoContent + "<button onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
+	console.log(infoContent);
         var infoWindow = new BMap.InfoWindow(infoContent);
+	e.marker.removeEventListener('click');
         e.marker.addEventListener('click', function() {
             this.openInfoWindow(infoWindow);
         });
     }
     var newMarkerToEvent = function(map, e) {
+	var p = new BMap.Point(e.position[0], e.position[1]);
+        var localEvents = findEventByPos(e.position);
+	var marker = null;
+	if (localEvents.length == 0) {
+	    marker = new BMap.Marker(p);
+	    marker.refCount = 1;
+	    var px = map.pointToPixel(p);
+	    map.addOverlay(marker);
+	} else {
+	    marker = localEvents[0].marker;
+	    marker.refCount++;
+	}/*
         //create marker
         var marker = new BMap.Marker(new BMap.Point(e.position[0], e.position[1]));
         //add marker to map
-        map.addOverlay(marker);
+        map.addOverlay(marker);*/
         //attach marker to event
         e.marker = marker;
         return e;
@@ -257,12 +279,32 @@ var ScheduleTour = (function() {
         recommend_douban(map);
     }
 
+    //find event by location
+
+    var findEventByPos = function(pos) {
+	var e = [];
+	for (var i = 0; i < events.length; i++) {
+	    if (events[i].position[0] == pos[0] && events[i].position[1] == pos[1]) {
+		e.push(events[i]);
+	    }
+	}
+	return e;
+    }
+
     //add event listener
     var addEvent = function (p) {
         //add marker to map
-        var marker = new BMap.Marker(p);
-        var px = map.pointToPixel(p);
-        map.addOverlay(marker);
+        var localEvents = findEventByPos([p.lng, p.lat]);
+	var marker = null;
+	if (localEvents.length == 0) {
+	    marker = new BMap.Marker(p);
+	    marker.refCount = 1;
+	    var px = map.pointToPixel(p);
+	    map.addOverlay(marker);
+	} else {
+	    marker = localEvents[0].marker;
+	    marker.refCount++;
+	}
         //create an Event Object
         $("#addEventButt").unbind('click');
 	$("#side_collapse").unbind('click');
@@ -299,9 +341,10 @@ var ScheduleTour = (function() {
 
             $("#sidebar_btn").click();
             Event.saveEvent(newEvent, function(res){
-                console.log(res);
+                console.log("newEvent response:" + res);
                 newEvent._id = res._id;
-                addInfoWindowToEvent(map, newEvent);
+		newEvent.marker = marker;
+		addInfoWindowToEvent(map, newEvent);
             });
             newEvent.marker = marker;
             events.push(newEvent);
@@ -322,8 +365,11 @@ var ScheduleTour = (function() {
         if (index === events.length) return;
 
         var marker = events[index].marker;
+	marker.refCount--;
         if (marker === null) return;
-        map.removeOverlay(marker);
+	if (marker.refCount == 0) {
+	    map.removeOverlay(marker);
+	}
         //create an Event Object
         Event.removeEvent(_id, function(res){
             console.log(res);
