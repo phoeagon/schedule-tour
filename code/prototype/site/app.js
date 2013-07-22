@@ -10,7 +10,8 @@ var express = require('express')
   , path = require('path')
   , flash = require("connect-flash")
   , account = require('./routes/account')
-  , eventEntry = require('./routes/eventEntry');
+  , eventEntry = require('./routes/eventEntry') 
+  , savedPlace = require('./routes/saved.place');
 
 
 var app = express();
@@ -59,6 +60,7 @@ if ('development' == app.get('env')) {
 
 account.setRouter(app);
 eventEntry.setRouter(app);
+savedPlace.setRouter(app)
 
 var configRoutes = require('./routes/config');
 app.get('/html.calender',function(req,res){

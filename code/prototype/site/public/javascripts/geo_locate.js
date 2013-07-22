@@ -34,6 +34,10 @@ mygeolocate.watchlocate = function( map ){
             var gpspt = new BMap.Point( y , x )
             BMap.Convertor.translate(gpspt,0,function(pt){
                 console.log( pt )
+                if (!mygeolocate.myLocationMarker){
+                    mygeolocate.myLocationMarker = new BMap.Marker(pt)
+                    map.addOverlay( mygeolocate.myLocationMarker )
+                }
                 mygeolocate.myLocationMarker.setPosition( pt )
                 mygeolocate.myLocationPoint = pt;
                 //map.panTo( pt );
