@@ -207,15 +207,21 @@ var ScheduleTour = (function() {
 	var pos = e.position;
 	var locals = findEventByPos(pos);
 	locals.push(e);
-	var infoContent = "";
+	var infoContent = "<h4>"+e.title+"</h4>"+
+		    "<h5>"+"Start Time:"+e.time+"</h5>"+
+		    "<h5>"+"End Time:"+e.endTime+"</h5>"+
+		    "<p>"+e.description+"</p>"+
+		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><hr/>";
 	for (var i = 0; i < locals.length; i++) {
-	    var ee = locals[i];
-	    infoContent = infoContent +
-		"<h4>"+ee.title+"</h4>"+
-		"<h5>"+"Start Time:"+ee.time+"</h5>"+
-		"<h5>"+"End Time:"+ee.endTime+"</h5>"+
-		"<p>"+ee.description+"</p>"+
-		"<button onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><hr/>";
+	    if (locals[i]._id != eid) {
+		var ee = locals[i];
+		infoContent = infoContent +
+		    "<h4>"+ee.title+"</h4>"+
+		    "<h5>"+"Start Time:"+ee.time+"</h5>"+
+		    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
+		    "<p>"+ee.description+"</p>"+
+		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><hr/>";
+	    }
 	}
 	var infoContent = infoContent + "<button onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 	console.log(infoContent);
@@ -352,7 +358,7 @@ var ScheduleTour = (function() {
             drawRoute();
             if (calendarRenderer)
                 calendarRenderer.refresh();
-        });
+	});
     }
 
     //remove event listener
