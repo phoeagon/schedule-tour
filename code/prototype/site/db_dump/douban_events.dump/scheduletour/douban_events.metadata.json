@@ -1,1 +1,1 @@
-{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "scheduletour.douban_events", "name" : "_id_" }, { "v" : 1, "key" : { "geo" : "2d" }, "ns" : "scheduletour.douban_events", "name" : "geo_2d" } ] }
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "scheduletour.douban_events", "name" : "_id_" }, { "v" : 1, "key" : { "geo" : "2dsphere" }, "ns" : "scheduletour.douban_events", "name" : "geo_2dsphere" } ] }
