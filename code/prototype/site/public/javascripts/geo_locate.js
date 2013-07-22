@@ -1,6 +1,6 @@
 mygeolocate = {}
 
-mygeolocate.myLocationMarker = {};
+mygeolocate.myLocationMarker = null;
 mygeolocate.panTo = function(map){
     map.panTo(mygeolocate.myLocationPoint);
 }
