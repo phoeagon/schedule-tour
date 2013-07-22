@@ -15,6 +15,9 @@
     <script type="text/javascript" src="/javascripts/tour.js"></script>
     <script type="text/javascript" src="/javascripts/moment.min.js"></script>
     
+    <script type="text/javascript" src="/plugins/toggleSwitch.js"></script>
+    <link rel="stylesheet" href="/plugins/toggleSwitch.css" />
+    
     <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
     <script src='/fullcalendar/fullcalendar.min.js'></script>
     <script src='/fullcalendar/gcal.js'></script>
@@ -78,6 +81,10 @@
     <div id="search_panel" class="search_panel">
     <form id="search_loc" style="height:100%;">
 	<input type="button" id="geoloc_btn" value="&#8982;" class="geoloc_btn " style="width:20%;height:100%;font-size:100%;"/>
+  <select id="lock-location" class="toggleswitch">
+    <option>LockLocation</option>
+    <option>Off</option>
+  </select>
 	<input type="text" placeholder="Search and go" style="width:55%;height:100%;font-size:100%;" id="goto_place"/>
 	<input type="button" id="search_go" value="Go" class="btn-primary" style="width:20%;height:100%;font-size:100%;"/>
     </form>
@@ -98,11 +105,20 @@
     <script type="text/javascript" src="./javascripts/placeManager.js"></script>
   <script type="text/javascript" >
     $('#close-flash-btn').click(function(e){
-	$("#flash-msg").remove()
+        $("#flash-msg").remove()
     })
     setTimeout(function(){
-	$('#close-flash-btn').click();
+        $('#close-flash-btn').click();
     },5000);//wait 5 secs
     $.getScript("/javascripts/validation.js")
+    var locationLock = ($('#lock-location').val()=='Off');
+    $('#lock-location').toggleSwitch({
+        change : function(e){
+            console.log(e)
+            if ( $('#lock-location').val()=='Off' )
+                locationLock = false;
+            else locationLock = true;
+        }
+    });
   </script>
 </html>

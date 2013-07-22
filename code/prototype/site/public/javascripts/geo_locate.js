@@ -44,7 +44,8 @@ mygeolocate.watchlocate = function( map ){
                 }
                 mygeolocate.myLocationMarker.setPosition( pt )
                 mygeolocate.myLocationPoint = pt;
-                //map.panTo( pt );
+                if (locationLock)
+                    map.panTo( pt );
             })
         }catch(err){ console.log(err) }
     } ,function(err){} , {enableHighAccuracy: true})
