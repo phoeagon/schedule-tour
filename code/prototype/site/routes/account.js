@@ -21,7 +21,7 @@ var setRouter = function(app) {
     //檢驗用戶兩次輸入的口令是否一致
     if (req.body['password-repeat'] != req.body['password']) {
       req.flash('error', '兩次輸入的口令不一致');
-      return res.redirect('/reg');
+      return res.redirect('/?action=reg');
     }
   
     //生成口令的散列值
@@ -43,13 +43,13 @@ var setRouter = function(app) {
         }
         if (err) {
           req.flash('error', err);
-          return res.redirect('/reg');
+          return res.redirect('/?action=reg');
         }
         //如果不存在則新增用戶
         newUser.save(function(err) {
           if (err) {
             req.flash('error', err);
-            return res.redirect('/reg');
+            return res.redirect('/?action=reg');
           }
           req.session.user = newUser;
           req.flash('success', '註冊成功');
@@ -62,7 +62,9 @@ var setRouter = function(app) {
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
     res.render('login', {
-      title: '用戶登入',
+      title     :   '用戶登入',
+      error     :   req.flash('error'),
+      success   :   req.flash('success')
     });
   });
   
@@ -71,7 +73,7 @@ var setRouter = function(app) {
     //生成口令的散列值
     var password = passwordHash( req.body.password , req.body.username );
     
-    req.flash("error", "erro");
+    //req.flash("error", "erro");
     User.findOne(
       {
         name: req.body.username
@@ -79,11 +81,11 @@ var setRouter = function(app) {
       function(err, user) {
         if (!user) {
           req.flash('error', '用戶不存在');
-          return res.redirect('/login');
+          return res.redirect('/');
         }
         if (user.password != password) {
           req.flash('error', '用戶口令錯誤');
-          return res.redirect('/login');
+          return res.redirect('/');
         }
         req.session.user = user;
         req.flash('success', '登入成功');
@@ -109,7 +111,7 @@ var setRouter = function(app) {
 function checkLogin(req, res, next) {
   if (!req.session.user) {
     req.flash('error', '未登入');
-    return res.redirect('/login');
+    return res.redirect('/');
   }
   next();
 }

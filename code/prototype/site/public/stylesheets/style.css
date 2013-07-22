@@ -172,6 +172,15 @@ td
     position: absolute;
     top : 0%;
     left:   5%;
-    width: 60%;
+    min-width: 40%;
+    max-width:  60%;
     height: 10%;
 }
+#flash-msg{
+    position:absolute;
+    top:10%;
+    width:50%;
+    left:25%;
+    z-index:200;
+}
+
