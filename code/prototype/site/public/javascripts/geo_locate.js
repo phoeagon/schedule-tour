@@ -27,16 +27,14 @@ mygeolocate.watchlocate = function( map ){
             var y = res.coords.longitude
             //x += 0.1
             //y += 0.1
-            map.removeOverlay( mygeolocate.myLocationMarker )
+            //map.removeOverlay( mygeolocate.myLocationMarker )
             var gpspt = new BMap.Point( y , x )
             BMap.Convertor.translate(gpspt,0,function(pt){
                 console.log( pt )
-                map.addOverlay( 
-                    mygeolocate.myLocationMarker = new BMap.Marker( pt )
-                    )
+                mygeolocate.myLocationMarker.setPosition( pt )
                 map.panTo( pt );
             })
-        }catch(err){ alert(err) }
+        }catch(err){ console.log(err) }
     } ,function(err){} , {enableHighAccuracy: true})
 }
 mygeolocate.remove_watchlocate = function(){
