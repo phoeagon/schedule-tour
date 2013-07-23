@@ -5,7 +5,7 @@ var SchemaTypes = mongoose.Schema.Types;
 
 //schema of EventEntry
 var EventEntrySchema = mongoose.Schema({
-    user        :   {type: SchemaTypes.ObjectId, ref: 'users'},
+    user        :   {type: String, ref: 'users'},
     title       :   String,
     description :   String,
     place       :   String,
