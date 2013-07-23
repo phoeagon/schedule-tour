@@ -1,6 +1,6 @@
 Baidu Map API Notes
 ================================================
-Qiu Zhe
+Qiu Zhe, MinGKai
 
 ## Baidu地圖氣泡內無法使用Jquery-UI的各種widget
 
