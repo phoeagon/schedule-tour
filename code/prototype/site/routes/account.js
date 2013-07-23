@@ -106,6 +106,13 @@ var setRouter = function(app) {
       });
   app.post('/changePassword', checkLogin);
   app.post('/changePassword', doChangePassword);
+
+  app.post('/friend/add', checkLogin);
+  app.post('/friend/add', friends.addFriend);
+  app.post('/friend/del', checkLogin);
+  app.post('/friend/del', friends.delFriend);
+  app.post('/friend/list', checkLogin);
+  app.post('/friend/list', friends.listFriends);
 };
 
 function checkLogin(req, res, next) {
@@ -160,6 +167,161 @@ function doChangePassword( req , res , next ) {
       }
   );
 }
+
+
+var friends = (function() {
+    var resEndJSON = function(res, code, msg) {
+        res.end(JSON.stringify({
+            code    :   code,
+            msg     :   msg
+        }));
+    };
+
+    var add_friend = function(req, res) {
+        var target = req.body.target;
+        if (req.session.user.name == target) {
+            resEndJSON(res, 'ERR', 'cannot add yourself');
+            return;
+        }
+
+        User.findOne(
+            {
+                name: req.session.user.name
+            },
+            function(err, user) {
+                if (!user) {
+                    resEndJSON(res, 'ERR', 'Account Not Exists');
+                    return;
+                }
+                if (-1 !== user.friendsTo.indexOf(target)) {
+                    resEndJSON(res, 'ERR', 'Already Friends');
+                    return;
+                }
+                user.friendsTo.push(target);
+
+                user.save(function(err) {
+                    if (err) {
+                        resEndJSON(res, 'ERR', 'Save Friend Failed');
+                        return;
+                    }
+
+                    //backwards
+                    User.findOne(
+                        {
+                            name: target
+                        },
+                        function(err, targetUser) {
+                            if (!targetUser) {
+                                resEndJSON(res, 'ERR', 'Target Account Not Exists');
+                                return;
+                            }
+                            if (-1 !== targetUser.friendsFrom.indexOf(user.name)) {
+                                resEndJSON(res, 'ERR', 'Already Friends');
+                                return;
+                            }
+                            targetUser.friendsFrom.push(user.name);
+
+                            targetUser.save(function(err) {
+                                if (err) {
+                                    resEndJSON(res, 'ERR', 'Save Friend Failed');
+                                    return;
+                                }
+                                req.session.user = user;
+                                resEndJSON(res, 'OK', 'Save Friend Successfully');
+                                return;
+                            });
+                        }
+                    );
+                    return;
+                });
+            }
+        );
+    };
+
+    var del_friend = function(req, res) {
+        var target = req.body.target;
+        if (req.session.user.name == target) {
+            resEndJSON(res, 'ERR', 'cannot delete yourself');
+            return;
+        }
+        User.findOne(
+            {
+                name: req.session.user.name
+            },
+            function(err, user) {
+                if (!user) {
+                    resEndJSON('ERR', 'Account Not Exists');
+                    return;
+                }
+                var index = user.friendsTo.indexOf(target);
+                if (-1 === index) {
+                    resEndJSON(res, 'ERR', 'No Such Friend Found');
+                    return;
+                }
+                user.friendsTo.splice(index, 1);
+
+                user.save(function(err) {
+                    if (err) {
+                        resEndJSON(res, 'ERR', 'Delete Friend Failed');
+                        return;
+                    }
+
+                    //backwards
+                    User.findOne(
+                        {
+                            name: target
+                        },
+                        function(err, targetUser) {
+                            if (!targetUser) {
+                                resEndJSON('ERR', 'Target Account Not Exists');
+                                return;
+                            }
+                            var index = targetUser.friendsFrom.indexOf(user.name);
+                            if (-1 === index) {
+                                resEndJSON(res, 'ERR', 'No Such Friend Found');
+                                return;
+                            }
+                            targetUser.friendsFrom.splice(index, 1);
+
+                            targetUser.save(function(err) {
+                                if (err) {
+                                    resEndJSON(res, 'ERR', 'Delete Friend Failed');
+                                    return;
+                                }
+                                req.session.user = user;
+                                resEndJSON(res, 'OK', 'Delete Friend Successfully');
+                                return;
+                            });
+                        }
+                    );
+                    return;
+                });
+            }
+        );
+    };
+
+    var list_friends = function(req, res) {
+        User.findOne(
+            {
+                name: req.session.user.name
+            },
+            function(err, user) {
+                if (!user) {
+                    resEndJSON(res, 'ERR', 'Account Not Exists');
+                    return;
+                }
+                resEndJSON(res, 'OK', {friendsTo:user.friendsTo, friendsFrom:user.friendsFrom});
+                return;
+            }
+        );
+    }
+
+    return {
+        addFriend   :   add_friend,
+        delFriend   :   del_friend,
+        listFriends :   list_friends
+    };
+})();
 
 module.exports = {
     setRouter   :   setRouter,

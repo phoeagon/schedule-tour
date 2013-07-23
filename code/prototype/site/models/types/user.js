@@ -4,7 +4,9 @@ var mongoose = require('../mongoose');
 var UserSchema = mongoose.Schema({
     name        :   String,
     password    :   String,
-    salt        :   Date
+    salt        :   Date,
+    friendsTo   :   [String],
+    friendsFrom :   [String]
 });
 
 var SCHEMA_NAME = 'User';
