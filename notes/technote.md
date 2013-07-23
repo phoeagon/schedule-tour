@@ -1,6 +1,13 @@
 TechNote
 =====================
     phoeagon, July 3
+    MinGKai, July 23
+
+## Information & News
+    Chrome 29 Beta added WebRTC & WebAudio support (including Android version)
+    [link](http://pcedu.pconline.com.cn/338/3386916.html)
+    conversta.io makes WebRTC much more easier
+    [link](https://hacks.mozilla.org/2013/03/making-webrtc-simple-with-conversat-io/)
 
 ## Baidu Map API
 [link](http://developer.baidu.com/map/)
@@ -12,21 +19,7 @@ Cache in Local Storage
 
 ## Database Design
 
-    MongoDB
-        User
-            email
-            passwd
-        Event
-            user
-            title
-            position
-            from
-            until
-            description
-            alarms
-            privacy
-            weight
-            finish
+See /code/prototype/site/models/types/
 
 ## Native App
 
