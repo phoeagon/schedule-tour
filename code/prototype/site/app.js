@@ -12,6 +12,7 @@ var express = require('express')
   , account = require('./routes/account')
   , eventEntry = require('./routes/eventEntry') 
   , savedPlace = require('./routes/saved.place')
+  , message = require('./routes/message')
   , recommend = require('./routes/recommend');
 
 var app = express();
@@ -62,6 +63,7 @@ account.setRouter(app);
 eventEntry.setRouter(app);
 savedPlace.setRouter(app)
 recommend.setRouter(app);
+message.setRouter(app);
 
 var configRoutes = require('./routes/config');
 app.get('/html.calender',function(req,res){
