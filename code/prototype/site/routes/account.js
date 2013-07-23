@@ -9,7 +9,7 @@ var passwordHash = utility.passwordHash;
 
 var setRouter = function(app) {
   
-  app.get('/reg', checkNotLogin);
+  //app.get('/reg', checkNotLogin);
   app.get('/reg', function(req, res) {
     res.render('reg', {
       title: '用戶註冊',
@@ -28,14 +28,14 @@ var setRouter = function(app) {
     var password = passwordHash( req.body.password , req.body.username );
     
     var newUser = new User({
-      name: req.body.username,
+      _id: req.body.username,
       password: password
     });
     
     //檢查用戶名是否已經存在
     User.findOne(
       {
-        name: newUser.name
+        _id: newUser.name
       },
       function(err, user) {
         if (user) {
@@ -59,7 +59,7 @@ var setRouter = function(app) {
     );
   });
   
-  app.get('/login', checkNotLogin);
+  //app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
     res.render('login', {
       title     :   '用戶登入',
@@ -76,7 +76,7 @@ var setRouter = function(app) {
     //req.flash("error", "erro");
     User.findOne(
       {
-        name: req.body.username
+        _id: req.body.username
       },
       function(err, user) {
         if (!user) {
@@ -116,6 +116,8 @@ var setRouter = function(app) {
 };
 
 function checkLogin(req, res, next) {
+  console.log(req.session);
+  console.log(req.session.user);
   if (!req.session.user) {
     req.flash('error', '未登入');
     return res.redirect('/');
@@ -143,7 +145,7 @@ function doChangePassword( req , res , next ) {
     }
   User.findOne(
       {
-        name: req.body.username
+        _id: req.body.username
       },
       function(err, user) {
         if (!user) {
@@ -179,14 +181,14 @@ var friends = (function() {
 
     var add_friend = function(req, res) {
         var target = req.body.target;
-        if (req.session.user.name == target) {
+        if (req.session.user._id == target) {
             resEndJSON(res, 'ERR', 'cannot add yourself');
             return;
         }
 
         User.findOne(
             {
-                name: req.session.user.name
+                _id: req.session.user._id
             },
             function(err, user) {
                 if (!user) {
@@ -208,18 +210,18 @@ var friends = (function() {
                     //backwards
                     User.findOne(
                         {
-                            name: target
+                            _id: target
                         },
                         function(err, targetUser) {
                             if (!targetUser) {
                                 resEndJSON(res, 'ERR', 'Target Account Not Exists');
                                 return;
                             }
-                            if (-1 !== targetUser.friendsFrom.indexOf(user.name)) {
+                            if (-1 !== targetUser.friendsFrom.indexOf(user._id)) {
                                 resEndJSON(res, 'ERR', 'Already Friends');
                                 return;
                             }
-                            targetUser.friendsFrom.push(user.name);
+                            targetUser.friendsFrom.push(user._id);
 
                             targetUser.save(function(err) {
                                 if (err) {
@@ -240,13 +242,13 @@ var friends = (function() {
 
     var del_friend = function(req, res) {
         var target = req.body.target;
-        if (req.session.user.name == target) {
+        if (req.session.user._id== target) {
             resEndJSON(res, 'ERR', 'cannot delete yourself');
             return;
         }
         User.findOne(
             {
-                name: req.session.user.name
+                _id: req.session.user._id
             },
             function(err, user) {
                 if (!user) {
@@ -269,14 +271,14 @@ var friends = (function() {
                     //backwards
                     User.findOne(
                         {
-                            name: target
+                            _id: target
                         },
                         function(err, targetUser) {
                             if (!targetUser) {
                                 resEndJSON('ERR', 'Target Account Not Exists');
                                 return;
                             }
-                            var index = targetUser.friendsFrom.indexOf(user.name);
+                            var index = targetUser.friendsFrom.indexOf(user._id);
                             if (-1 === index) {
                                 resEndJSON(res, 'ERR', 'No Such Friend Found');
                                 return;
@@ -303,7 +305,7 @@ var friends = (function() {
     var list_friends = function(req, res) {
         User.findOne(
             {
-                name: req.session.user.name
+                _id: req.session.user._id
             },
             function(err, user) {
                 if (!user) {

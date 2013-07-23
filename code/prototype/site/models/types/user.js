@@ -2,11 +2,11 @@ var mongoose = require('../mongoose');
 
 //schema of User
 var UserSchema = mongoose.Schema({
-    name        :   String,
+    _id         :   String,
     password    :   String,
     salt        :   Date,
-    friendsTo   :   [String],
-    friendsFrom :   [String]
+    friendsTo   :   [{type: String, ref: 'users'}],
+    friendsFrom :   [{type: String, ref: 'users'}]
 });
 
 var SCHEMA_NAME = 'User';
