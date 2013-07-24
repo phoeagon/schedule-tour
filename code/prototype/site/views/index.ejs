@@ -22,7 +22,7 @@
     <script src='/fullcalendar/fullcalendar.min.js'></script>
     <script src='/fullcalendar/gcal.js'></script>
     <script type="text/javascript">
-    <%if(user && user.name){%>username = '<%=user.name%>';<%}else{%>username=null;<%}%>
+    <%if(user && user._id){%>username = '<%=user._id%>';<%}else{%>username=null;<%}%>
     <%if (action){%> currentAction = '<%= action%>';<%}else{%>
 	currentAction = null;
 	<%}%>

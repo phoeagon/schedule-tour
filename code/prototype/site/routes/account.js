@@ -9,7 +9,7 @@ var passwordHash = utility.passwordHash;
 
 var setRouter = function(app) {
   
-  //app.get('/reg', checkNotLogin);
+  app.get('/reg', checkNotLogin);
   app.get('/reg', function(req, res) {
     res.render('reg', {
       title: '用戶註冊',
@@ -59,7 +59,7 @@ var setRouter = function(app) {
     );
   });
   
-  //app.get('/login', checkNotLogin);
+  app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
     res.render('login', {
       title     :   '用戶登入',
