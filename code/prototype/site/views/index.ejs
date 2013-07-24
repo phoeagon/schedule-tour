@@ -3,9 +3,10 @@
   <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/ui-lightness/custom.css" />
+    <script type="text/javascript" src="/javascripts/bootstrap.js"></script>
     <script type="text/javascript" src="/javascripts/jquery-2.0.2.js"></script>
     <script src="javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="/javascripts/jquery-date-timepicker.js"></script>
@@ -95,6 +96,26 @@
     <button id="toggle_map_style"/>Change Map Color</button>
     </div>
     <button id="setting_show_button" class="btn buttons" >Settings</button>
+    <div class="navbar navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li id="navi_home"><a href="#">Map</a></li>
+              <li id="navi_tagcloud"><a href="#">Calendar</a></li>
+                <li id="navi_login"><a href="#">Timeline</a></li>
+                <li id="navi_reg"><a href="#">Setting</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <% include success_error_msg.ejs -%>
   </body>
     <script type="text/javascript" src="./javascripts/configClient.js"></script>

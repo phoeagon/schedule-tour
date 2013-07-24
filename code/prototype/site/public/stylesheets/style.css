@@ -207,3 +207,9 @@ td
     z-index:200;
 }
 
+#saved_places{
+    position:absolute;
+    right:5%;
+    width:20%;
+    top:15%;
+}
