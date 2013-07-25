@@ -204,47 +204,48 @@ var ScheduleTour = (function() {
 
     var addInfoWindowToEvent = function(map, e) {
         var eid = e._id;
-	var pos = e.position;
-	var locals = findEventByPos(pos);
-	locals.push(e);
-	var infoContent = "<h4>"+e.title+"</h4>"+
-		    "<h5>"+"Start Time:"+e.time+"</h5>"+
-		    "<h5>"+"End Time:"+e.endTime+"</h5>"+
-		    "<p>"+e.description+"</p>"+
-		    "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
-	for (var i = 0; i < locals.length; i++) {
-	    if (locals[i]._id != eid) {
-		var ee = locals[i];
-		infoContent = infoContent +
-		    "<h4>"+ee.title+"</h4>"+
-		    "<h5>"+"Start Time:"+ee.time+"</h5>"+
-		    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
-		    "<p>"+ee.description+"</p>"+
-		    "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
-	    }
-	}
-    infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
-	infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
+        var pos = e.position;
+        var locals = findEventByPos(pos);
+        locals.push(e);
+        var infoContent = "<h4>"+e.title+"</h4>"+
+            "<h5>"+"Start Time:"+e.time+"</h5>"+
+            "<h5>"+"End Time:"+e.endTime+"</h5>"+
+            "<p>"+e.description+"</p>"+
+            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
+        for (var i = 0; i < locals.length; i++) {
+            if (locals[i]._id != eid) {
+                var ee = locals[i];
+                infoContent = infoContent +
+                    "<h4>"+ee.title+"</h4>"+
+                    "<h5>"+"Start Time:"+ee.time+"</h5>"+
+                    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
+                    "<p>"+ee.description+"</p>"+
+                    "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
+            }
+        }
+        infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
         var infoWindow = new BMap.InfoWindow(infoContent);
-	e.marker.removeEventListener('click');
+        e.marker.removeEventListener('click');
         e.marker.addEventListener('click', function() {
             this.openInfoWindow(infoWindow);
             placeManager.configureButton( map )
         });
     }
     var newMarkerToEvent = function(map, e) {
-	var p = new BMap.Point(e.position[0], e.position[1]);
+        //var p = new BMap.Point(e.position[0], e.position[1]);
+        var p = map.newLatLng(e.position[1], e.position[0]);
         var localEvents = findEventByPos(e.position);
-	var marker = null;
-	if (localEvents.length == 0) {
-	    marker = new BMap.Marker(p);
-	    marker.refCount = 1;
-	    var px = map.pointToPixel(p);
-	    map.addOverlay(marker);
-	} else {
-	    marker = localEvents[0].marker;
-	    marker.refCount++;
-	}/*
+        var marker = null;
+        if (localEvents.length == 0) {
+            marker = new BMap.Marker(p);
+            marker.refCount = 1;
+            var px = map.pointToPixel(p);
+            map.addOverlay(marker);
+        } else {
+            marker = localEvents[0].marker;
+            marker.refCount++;
+        }/*
         //create marker
         var marker = new BMap.Marker(new BMap.Point(e.position[0], e.position[1]));
         //add marker to map
