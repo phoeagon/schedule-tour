@@ -233,8 +233,7 @@ var ScheduleTour = (function() {
         });
     }
     var newMarkerToEvent = function(map, e) {
-        //var p = new BMap.Point(e.position[0], e.position[1]);
-        var p = map.newLatLng(e.position[1], e.position[0]);
+        var p = new BMap.Point(e.position[0], e.position[1]);
         var localEvents = findEventByPos(e.position);
         var marker = null;
         if (localEvents.length == 0) {
