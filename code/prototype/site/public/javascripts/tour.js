@@ -17,62 +17,73 @@ var tour = function(eventEntries,map) {
 	
 	
 	///
-	//get a specific path time
-//require timeMap
-var getPathTime = function(i, j) {
-    //while (timeMap[i][j] === -1);
-	
-
-    return timeMap[i][j];
-}
-
-//get all path time from baidu
-//require eventEntries, timeMap, BMapWalkingRoute
-var getAllPathTime = function(i,j,n) {
-
-  	if (j == n) {getPathTime(i+1, i+1, n);return;}
-	if (i == n) return;
-     var walking = new BMap.WalkingRoute(map);
-     walking.setSearchCompleteCallback(function(results) {
-         timeMap[j][i] = timeMap[i][j] = results.getPlan(0).getDuration(false);
-		 getPathTime(i,j+1,n);
-     });
-    walking.search(eventEntries[i].position, eventEntries[j].position);
-	
-}
-
-//caculate the time wasted
-//require eventEntries
-var calcWastedTime = function(route) {
-    var wastedTime = 0;
-    for (var i=0; i<route.length-1; ++i) {
-        var x = route[i];
-        var y = route[i + 1];
-        var eX = eventEntries[x];
-        var eY = eventEntries[y];
-        wastedTime += eY.time - eX.time + getPathTime(x, y);
+    //get a specific path time
+    //require timeMap
+    var getPathTime = function(i, j) {
+        return timeMap[i][j];
     }
-    return wastedTime = 0;
-};
 
+    //get all path time from baidu
+    //require eventEntries, timeMap, BMapWalkingRoute
+    var getAllPathTime = function(i,j,n) {
 
-//check Feasibility of the given route
-//require eventEntries
-var checkFeasibility = function(route) {
-    for (var i=0; i<route.length-1; ++i) {
-        var x = route[i];
-        var y = route[i + 1];
-        var eX = eventEntries[x];
-        var eY = eventEntries[y];
-        if (eX.time + getPathTime(x, y) > eY.time) {
-            return false;
+        if (j == n) {getPathTime(i+1, i+1, n);return;}
+        if (i == n) return;
+        /* baidu version
+        var walking = new BMap.WalkingRoute(map);
+        walking.setSearchCompleteCallback(function(results) {
+            timeMap[j][i] = timeMap[i][j] = results.getPlan(0).getDuration(false);
+            getPathTime(i,j+1,n);
+        });
+        walking.search(eventEntries[i].position, eventEntries[j].position);
+        */
+
+        from = eventEntries[i].position;
+        to = eventEntries[i+1].position;
+        var directionsService = new google.maps.DirectionsService(map);
+        var request = {
+            origin      :   new google.maps.LatLng(from[0], from[1]),
+            destination :   new google.maps.LatLng(to[0], to[1]),
+            travelMode  :   google.maps.TravelMode.WALKING
+        };
+        directionsService.route(request, function(response, status) {
+            timeMap[i][j] = timeMap[j][i] = response.routes[0].legs[0].duration;
+            getPathTime(i,j+1,n);
+        });
+    }
+
+    //caculate the time wasted
+    //require eventEntries
+    var calcWastedTime = function(route) {
+        var wastedTime = 0;
+        for (var i=0; i<route.length-1; ++i) {
+            var x = route[i];
+            var y = route[i + 1];
+            var eX = eventEntries[x];
+            var eY = eventEntries[y];
+            wastedTime += eY.time - eX.time + getPathTime(x, y);
         }
-    }
-    return true;
-}
-	
-	
-	///
+        return wastedTime = 0;
+    };
+
+
+    //check Feasibility of the given route
+    //require eventEntries
+    var checkFeasibility = function(route) {
+        for (var i=0; i<route.length-1; ++i) {
+            var x = route[i];
+            var y = route[i + 1];
+            var eX = eventEntries[x];
+            var eY = eventEntries[y];
+            if (eX.time + getPathTime(x, y) > eY.time) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+
+    ///
     getAllPathTime(0,0,eventEntries.length);
     var route = [];
 	var nullroute = [];
@@ -141,18 +152,18 @@ var checkFeasibility = function(route) {
 							}
 							route.push(tmp1);
 						}
-						}
+                    }
 			
 		}		
     }
 	
 	for (var i1 = 0;i1 < eventEntries.length;i1++)
 		if ((nullroute[i1])&&(eventEntries[i1].time == null)) 
-						{
-							eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],i1);
-							route.push(i1);
-							break;
-						}
+        {
+            eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],i1);
+            route.push(i1);
+            break;
+        }
 	
 //	if (eventEntries[route[route.length-1]])
 	
