@@ -16,6 +16,7 @@
     <script type="text/javascript" src="/javascripts/recommend.js"></script>
     <script type="text/javascript" src="/javascripts/tour.js"></script>
     <script type="text/javascript" src="/javascripts/moment.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.js"></script>
     
     <script type="text/javascript" src="/plugins/toggleSwitch.js"></script>
     <link rel="stylesheet" href="/plugins/toggleSwitch.css" />
@@ -38,9 +39,6 @@
     </div>
     <div id="calendar" class="hidden">
     </div>
-    <button id="calendar_btn" class="buttons btn">
-      ▽
-    </button>
     <div id="sidebar" class="hidden">
       <form id="eventInfo"><fieldset>
 	  <div class="control-group">
@@ -97,8 +95,29 @@
     <button id="toggle_map_style"/>Change Map Color</button>
     </div>
     <div id="avatar_div"></div>
-    <button id="setting_show_button" class="btn buttons" >Settings</button>
     <% include success_error_msg.ejs -%>
+
+    <div class="navbar navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li id="navi_home"><a href="#">Map</a></li>
+              <li id="navi_tagcloud"><a href="#" id="calendar_btn">Calendar▽</a></li>
+                <li id="navi_login"><a href="#">Timeline</a></li>
+                <li id="navi_reg "><a href="#" id="setting_show_button">Setting</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </body>
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
     <script type="text/javascript" src="./javascripts/calendar.js"></script>

@@ -141,9 +141,6 @@ body {
     transition:left 300ms;
     -webkit-transition:left 300ms;
 }
-#sidebar_btn.extended {
-    left: 90%;
-}
 .buttons {
     position:absolute;
     z-index:100;

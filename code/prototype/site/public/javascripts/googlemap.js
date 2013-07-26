@@ -72,12 +72,11 @@ function setSlidingMap() {
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //$('#map').addClass('top_collapse');
-        btn.text('△');
+        btn.text('Calendar△');
         $("#calendar").removeClass('hidden');
         btn.unbind('click');
         btn.bind('click', hideCal);
         $("#sidebar_btn").unbind('click');
-        $("#setting_show_button").addClass('visibilityhidden');
         $('.fc-button-agendaDay').click();
         $('.fc-button-today').click();
         $("#search_panel").addClass('hidden');
@@ -90,12 +89,11 @@ function setSlidingMap() {
         var btn = $("#calendar_btn");
         btn.removeClass('extended');
         //$('#map').removeClass('top_collapse');
-        btn.text('▽');
+        btn.text('Calendar▽');
         $("#calendar").addClass('hidden');
         btn.unbind('click');
         btn.bind('click', showCal);
         $("#sidebar_btn").bind('click', showSide);
-        $("#setting_show_button").removeClass('visibilityhidden');
         $("#search_panel").removeClass('hidden');
     }
 
