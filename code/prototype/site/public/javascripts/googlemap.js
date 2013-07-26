@@ -485,6 +485,33 @@ var ScheduleTour = (function() {
         }
     }
 
+    var weatherLayer = null;
+    var enableWeatherLayer = function() {
+        if (weatherLayer) {
+            weatherLayer.setMap(map);
+            return;
+        }
+        weatherLayer = new google.maps.weather.WeatherLayer({
+            temperatureUnits: google.maps.weather.TemperatureUnit.CELSIUS
+        });
+        weatherLayer.setMap(map);
+    };
+    var disableWeatherLayer = function() {
+        if (weather) weatherLayer.setMap(map);
+    };
+    var cloudLayer = null;
+    var enableCloudLayer = function() {
+        if (cloudLayer) {
+            cloudLayer.setMap(map);
+            return;
+        }
+        var cloudLayer = new google.maps.weather.CloudLayer();
+        cloudLayer.setMap(map);
+    };
+    var disableCloudLayer = function() {
+        if (cloudLayer) cloudLayer.setMap(null);
+    };
+
 
     return {
         initMap                 :   initMap,
@@ -496,7 +523,11 @@ var ScheduleTour = (function() {
         enableRightClick        :   enableRightClick,
         addRecommendation       :   addRecommendation,
         addEvent                :   addEvent,
-        getMap                  :   function(){return map}
+        getMap                  :   function(){return map},
+        enableWeatherLayer      :   enableWeatherLayer,
+        disableWeatherLayer     :   disableWeatherLayer,
+        enableCloudLayer        :   enableCloudLayer,
+        disableCloudLayer       :   disableCloudLayer
     };
 
 }());
@@ -511,6 +542,8 @@ $(document).ready(function () {
     //ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
     setSlidingMap();
+    ScheduleTour.enableWeatherLayer();
+    ScheduleTour.enableCloudLayer();
 
 //    $.getScript("/javascripts/map_search.js")
     //recommend_douban(map);
