@@ -206,4 +206,11 @@ td
     left:25%;
     z-index:200;
 }
-
+#avatar_div{
+    position:absolute;
+    right:100px;
+    top:20%;
+    width:100px;
+    height:100px;
+    background-color:red;
+}
