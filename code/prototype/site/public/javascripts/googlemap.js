@@ -417,7 +417,7 @@ var ScheduleTour = (function() {
         marker.refCount--;
         if (marker === null) return;
         if (marker.refCount == 0) {
-            map.removeOverlay(marker);
+            marker.setMap(null);
         }
         //create an Event Object
         Event.removeEvent(_id, function(res){
@@ -512,6 +512,6 @@ $(document).ready(function () {
     ScheduleTour.enableRightClick();
     setSlidingMap();
 
-    $.getScript("/javascripts/map_search.js")
+//    $.getScript("/javascripts/map_search.js")
     //recommend_douban(map);
 });

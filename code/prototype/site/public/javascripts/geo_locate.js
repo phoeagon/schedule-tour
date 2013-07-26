@@ -4,10 +4,12 @@ mygeolocate.myLocationMarker = null;
 mygeolocate.panTo = function(map){
     map.panTo(mygeolocate.myLocationPoint);
 }
+/*
 var icon = new BMap.Icon('/images/point.png',new BMap.Size(40, 40),{
     anchor: new BMap.Size(20, 20) , 
     infoWindowAnchor: new BMap.Size(40, 40)
 })
+*/
 mygeolocate.locate = function( map ) {
         console.log("mygeolocate.locate")
         var geolocation = navigator.geolocation;
