@@ -198,7 +198,10 @@ var ScheduleTour = (function() {
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: true,
+            zoomControl: true,
+            scaleControl: true
         };
         map = new google.maps.Map(
             mapDOM,
@@ -453,9 +456,14 @@ var ScheduleTour = (function() {
                 var markerArray = [];
                 var infoWindowArray = [];
                 var myRoute = response.routes[0].legs[0];
+                var icon = {
+                    url: '/images/circle.png',
+                    anchor: new google.maps.Point(10, 10)
+                };
                 for (var j=0; j<myRoute.steps.length; ++j){
                     var marker = new google.maps.Marker({
                         position: myRoute.steps[j].start_point,
+                        icon: icon,
                         map: map
                     });
                     var infoWindow = new google.maps.InfoWindow({
@@ -499,7 +507,7 @@ $(document).ready(function () {
 
     ScheduleTour.initMap($('#map')[0]);
     ScheduleTour.geolocate();
-    //setTimeout(function(){ mygeolocate.watchlocate( ScheduleTour.getMap() ) } , 1000 )
+    setTimeout(function(){ mygeolocate.watchlocate( ScheduleTour.getMap() ) } , 1000 )
     ScheduleTour.fetchEventsFromServer();
     
     //ScheduleTour.enableLongPress();
