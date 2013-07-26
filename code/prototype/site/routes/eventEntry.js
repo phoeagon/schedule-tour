@@ -178,5 +178,6 @@ var setRouter = function(app) {
 };
 
 module.exports = {
-  setRouter : setRouter
+  setRouter : setRouter ,
+  checkLogin : checkLogin
 };
