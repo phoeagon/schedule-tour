@@ -1,10 +1,41 @@
 mapSearch = {};
 mapSearch.search = function( map , searchFor ){
+    var placeService = new google.maps.places.PlacesService(map);
+    var searchRequest = {
+        location    :   map.getCenter(),
+        keyword    :   searchFor,
+        radius      :   500000
+    };
+    placeService.nearbySearch(searchRequest, callback);
+    var infoWindow = new google.maps.InfoWindow();
+
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                createMarker(results[i]);
+            }
+        }
+    };
+    function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+        });
+
+        var infoWindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(place.name);
+            infoWindow.open(map, this);
+        });
+    };
+    /*
     var local = new BMap.LocalSearch(map, {
         renderOptions:{map: map, autoViewport:true}
     });
     console.log( local.search )
     local.search( searchFor );
+    */
 }
 mapSearch.callback = function(){
     mapSearch.search( ScheduleTour.getMap() , $('#goto_place').val() );
