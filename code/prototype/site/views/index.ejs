@@ -96,6 +96,7 @@
     <div id="setting_panel"  title="Settings" class="hidden">
     <button id="toggle_map_style"/>Change Map Color</button>
     </div>
+    <div id="avatar_div"></div>
     <button id="setting_show_button" class="btn buttons" >Settings</button>
     <% include success_error_msg.ejs -%>
   </body>
@@ -121,5 +122,11 @@
             else locationLock = true;
         }
     });
+    console.log( $('<img>').attr('id','avatar_img')
+            .attr('src','/img/avatar/'+username)
+            .attr('width','100px')
+            .attr('height','100px').appendTo('#avatar_div') )
+
+        
   </script>
 </html>

@@ -85,7 +85,7 @@ app.post('/gcmSend',gcmroute.gcmDoSend );
 
 var imageRouter = require('./routes/image')
 
-app.get('/img/gravatar/:username',imageRouter.display);
+app.get('/img/avatar/:username',imageRouter.display);
 app.post('/img/upload',eventEntry.checkLogin);
 app.post('/img/upload',imageRouter.display);
 
