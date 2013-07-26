@@ -26,6 +26,25 @@ mygeolocate.locate = function( map ) {
             })
         },function(err){console.log(err)},{enableHighAccuracy: true})
     }
+
+mygeolocate.locate = function( map ) {
+        console.log("mygeolocate.locate")
+        var geolocation = navigator.geolocation;
+        geolocation.getCurrentPosition(function(res) {
+            console.log("geolocation.getCurrentPosition callback")
+            var latLng = new google.maps.LatLng( res.coords.longitude , res.coords.latitude )
+            mygeolocate.myLocationPoint = latLng;
+            var mk = new google.maps.Marker({
+                map:map,
+                position: latLng,
+                icon: '/images/point.png'
+            });
+            map.panTo(latLng);
+            console.log('Your Position:'+pt.lng+','+pt.lat);
+            // store location
+            mygeolocate.myLocationMarker =  mk ;
+        },function(err){console.log(err)},{enableHighAccuracy: true})
+    }
 mygeolocate.watchlocate = function( map ){
     var geolocation = navigator.geolocation;
     mygeolocate.watchID = geolocation.watchPosition( function relocate( res ){
@@ -47,6 +66,33 @@ mygeolocate.watchlocate = function( map ){
                 if (locationLock)
                     map.panTo( pt );
             })
+        }catch(err){ console.log(err) }
+    } ,function(err){} , {enableHighAccuracy: true})
+}
+
+mygeolocate.watchlocate = function( map ){
+    var geolocation = navigator.geolocation;
+    mygeolocate.watchID = geolocation.watchPosition( function relocate( res ){
+        try{
+            var x = res.coords.latitude
+            var y = res.coords.longitude
+            //x += 0.1
+            //y += 0.1
+            //map.removeOverlay( mygeolocate.myLocationMarker )
+            var latLng = new google.maps.LatLng( x , y )
+            console.log( latLng )
+            if (!mygeolocate.myLocationMarker){
+                mygeolocate.myLocationMarker = new google.maps.Marker({
+                    map: map,
+                    position:latLng,
+                    icon: '/images/point.png'
+                    })
+            }
+            mygeolocate.myLocationMarker.setPosition( latLng )
+            mygeolocate.myLocationPoint = latLng;
+            if (locationLock)
+                map.panTo( latLng );
+
         }catch(err){ console.log(err) }
     } ,function(err){} , {enableHighAccuracy: true})
 }
