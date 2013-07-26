@@ -497,7 +497,7 @@ var ScheduleTour = (function() {
         weatherLayer.setMap(map);
     };
     var disableWeatherLayer = function() {
-        if (weather) weatherLayer.setMap(map);
+        if (weatherLayer) weatherLayer.setMap(map);
     };
     var cloudLayer = null;
     var enableCloudLayer = function() {
