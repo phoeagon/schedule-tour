@@ -191,6 +191,30 @@ var tour = function(eventEntries,map) {
     }
 */
     var bestEvent = [];
+//	var ttm = new Date(eventEntries[route[0]].time);
+	//var acco = 1;
+//	var ssrc = 0;
+	
+//(ts.getDate() == ttm.getDate())
+//	for (var i = 0;i<route.length;++i)
+//	{
+//		var ts = new Date(eventEntries[route[i]].time);
+		//alert(ts);
+		//alert(ttm);
+//		if ((ts.getFullYear() == ttm.getFullYear())&&(ts.getMonth() == ttm.getMonth())&&(ts.getDate() == ttm.getDate()))
+//		{
+//			bestEvent[ssrc+acco] = eventEntries[route[i]];
+//			acco = acco + 1;
+//		}
+//		else {
+//			bestEvent[ssrc] = acco - 1;
+//			ssrc = ssrc + acco;
+//			acco = 1;
+//			ttm = new Date(eventEntries[route[i]].time);
+//			bestEvent[ssrc+acco] = eventEntries[route[i]];
+//			acco = acco + 1;
+//			}
+//	}
     for (var i=0; i<route.length; ++i) {
         bestEvent[i] = eventEntries[route[i]];
     }
