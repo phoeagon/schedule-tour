@@ -193,6 +193,7 @@ var ScheduleTour = (function() {
     $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
     
     var initMap = function(mapDOM) {
+        google.maps.visualRefresh = true;
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644),
