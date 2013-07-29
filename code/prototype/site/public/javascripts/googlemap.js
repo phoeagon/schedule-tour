@@ -256,7 +256,7 @@ var ScheduleTour = (function() {
             }
         }
         infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
-        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new BMap.Point("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 
         var infoWindow = new google.maps.InfoWindow({
             content :   infoContent
@@ -267,7 +267,7 @@ var ScheduleTour = (function() {
         });
     }
     var newMarkerToEvent = function(map, e) {
-        var p = new google.maps.LatLng(e.position[1], e.position[0]);
+        var p = new google.maps.LatLng(e.position[0], e.position[1]);
         var localEvents = findEventByPos(e.position);
         var marker = null;
         if (localEvents.length == 0) {
@@ -295,18 +295,18 @@ var ScheduleTour = (function() {
             }
 	    globalEventCache = res.eventEntries		//global
 	    //console.log( globalEventCache )
-            var eventsBuff = res.eventEntries;
-            for(var i = 0; i < eventsBuff.length; i++) {
-                var newEvent = newMarkerToEvent(map, eventsBuff[i]);
-                addInfoWindowToEvent(map, newEvent);
-                newEvent.time = new Date(newEvent.time);
-                newEvent.endTime = new Date(newEvent.endTime);
-                newEvent.duration = new Date(newEvent.duration);
-                events.push(newEvent);
-            }
-            events = tour(events);
-            drawRoute(map, events, polylines);
-            //TODO: enable the button of adding event
+        var eventsBuff = res.eventEntries;
+        for(var i = 0; i < eventsBuff.length; i++) {
+            var newEvent = newMarkerToEvent(map, eventsBuff[i]);
+            addInfoWindowToEvent(map, newEvent);
+            newEvent.time = new Date(newEvent.time);
+            newEvent.endTime = new Date(newEvent.endTime);
+            newEvent.duration = new Date(newEvent.duration);
+            events.push(newEvent);
+        }
+        events = tour(events);
+        drawRoute(map, events, polylines);
+        //TODO: enable the button of adding event
         });
     }
 
@@ -366,8 +366,8 @@ var ScheduleTour = (function() {
         $('#dateFrom').datetimepicker('setDate', new Date());
         $('#dateUntil').datetimepicker('setDate', new Date());
         $('#side_collapse').bind('click', function() {
-		marker.setMap(null); 
-		$("#sidebar_btn").click();
+            marker.setMap(null); 
+            $("#sidebar_btn").click();
 	    });
         $("#sidebar_btn").click();
         //add the event to events
@@ -395,13 +395,12 @@ var ScheduleTour = (function() {
                 newEvent._id = res._id;
                 newEvent.marker = marker;
                 addInfoWindowToEvent(map, newEvent);
+                events.push(newEvent);
+                events = tour(events);
+                drawRoute();
+                if (calendarRenderer)
+                    calendarRenderer.refresh();
             });
-            newEvent.marker = marker;
-            events.push(newEvent);
-            events = tour(events);
-            drawRoute();
-            if (calendarRenderer)
-                calendarRenderer.refresh();
         });
     }
 
@@ -433,11 +432,15 @@ var ScheduleTour = (function() {
 
     var drawRoute = function() {
         //remove old paths
-        for (var i=0; i<routeArray.length; ++i) {
-            for (var j=0; j<routeArray[i].markerArray.length; ++j) {
-                routeArray[i].markerArray[j].setMap(null);
-            }
-        }
+        routeArray.map(function(route) {
+            route.markerArray.map(function(marker) {
+                marker.setMap(null);
+            });
+            route.infoWindowArray.map(function(infoWindow) {
+                infoWindow.setMap(null);
+            });
+            route.directionsDisplay.setMap(null);
+        });
         routeArray = [];
 
         //generate new paths
