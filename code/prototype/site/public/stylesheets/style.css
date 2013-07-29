@@ -62,13 +62,23 @@ body {
 
 #map {
     width:100%;
-    top:0px;
-    left:0px;
     z-index:0;
-    transition:top 200ms;
-    -webkit-transition:top 200ms;
+    transition:top 300ms;
+    -webkit-transition:top 300ms;
     box-shadow: 15px 15px 15px 15px #000000;
     -webkit-box-shadow: 15px 15px 15px 15px #000000;
+}
+
+#map.left_collapse{
+    transition: left 300ms;
+    -webkit-transition: left 300ms;
+    left:90%;
+}
+
+#map.top_collapse{
+    transition: top 300ms;
+    -webkit-transition: top 300ms;
+    top:90%;
 }
 
 #map_pad {
@@ -83,15 +93,11 @@ body {
     z-index:10;
 }
 
-#map.left_collapse{
-    left: 90%;
-}
-#map.top_collapse{
-    top: 90%;
-}
 #calender-table{
     margin-left:auto;
     margin-right:auto;
+    transition: 300ms;
+    -webkit-transition: 300ms;
 }
 #calendar {
     position:absolute;
@@ -100,9 +106,11 @@ body {
     width:100%;
     height:90%;
     background-color:#eee;
+    transition: 300ms;
+    -webkit-transition: 300ms;
     box-shadow: 0px 5px 10px #000000;
     -webkit-box-shadow: 0px 5px 10px #000000;
-    z-index:20;
+    z-index:-5;
 }
 
 #sidebar {
@@ -111,7 +119,7 @@ body {
     position:absolute;
     top:0;
     left:0px;
-    width:35%;
+    width:90%;
     height:100%;
     -webkit-transition:500ms;
     transition:500ms;
@@ -131,6 +139,7 @@ body {
 
 .hidden {
     display:none;
+    z-index:-100;
 }
 
 #calendar_btn {
