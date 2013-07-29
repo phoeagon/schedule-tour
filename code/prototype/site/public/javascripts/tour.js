@@ -190,31 +190,39 @@ var tour = function(eventEntries,map) {
         }
     }
 */
+/*
     var bestEvent = [];
-//	var ttm = new Date(eventEntries[route[0]].time);
-	//var acco = 1;
-//	var ssrc = 0;
+    var today = new Date();
+    route.map(function(r) {
+        var ts = new Date(eventEntries[r].time);
+        if ((ts.getFullYear() == today.getFullYear())&&(ts.getMonth() == today.getMonth())&&(ts.getDate() == today.getDate()))
+        {
+            bestEvent.push(eventEntries[r]);
+		}
+    });
+    */
+    /*
+	var ttm = new Date(eventEntries[route[0]].time);
+	var acco = 1;
+	var ssrc = 0;
 	
-//(ts.getDate() == ttm.getDate())
-//	for (var i = 0;i<route.length;++i)
-//	{
-//		var ts = new Date(eventEntries[route[i]].time);
-		//alert(ts);
-		//alert(ttm);
-//		if ((ts.getFullYear() == ttm.getFullYear())&&(ts.getMonth() == ttm.getMonth())&&(ts.getDate() == ttm.getDate()))
-//		{
-//			bestEvent[ssrc+acco] = eventEntries[route[i]];
-//			acco = acco + 1;
-//		}
-//		else {
-//			bestEvent[ssrc] = acco - 1;
-//			ssrc = ssrc + acco;
-//			acco = 1;
-//			ttm = new Date(eventEntries[route[i]].time);
-//			bestEvent[ssrc+acco] = eventEntries[route[i]];
-//			acco = acco + 1;
-//			}
-//	}
+    var array = [];
+    //(ts.getDate() == ttm.getDate())
+	for (var i = 0;i<route.length;++i)
+	{
+		var ts = new Date(eventEntries[route[i]].time);
+		if ((ts.getFullYear() == ttm.getFullYear())&&(ts.getMonth() == ttm.getMonth())&&(ts.getDate() == ttm.getDate()))
+        {
+            array.push(eventEntries[route[i]]);
+		}
+        else {
+            bestEvent.push(array);
+            array = [];
+        }
+	}
+    if (array.length > 0) bestEvent.push(array);
+    */
+    var bestEvent = [];
     for (var i=0; i<route.length; ++i) {
         bestEvent[i] = eventEntries[route[i]];
     }
