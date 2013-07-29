@@ -61,17 +61,11 @@ function setSlidingMap() {
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
-    var calHeight = '90%';
-    var calAnimationTime = '300ms';
-    var sideWid = '90%';
-    var sideAnimationTime = '300ms';
-    
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-        mapdiv.style.top = calHeight;
+	$('#map').css({'top' : calHeight});
         var btn = $("#calendar_btn");
         btn.addClass('extended');
-        //$('#map').addClass('top_collapse');
         btn.text('Calendar△');
         $("#calendar").removeClass('hidden');
         btn.unbind('click');
@@ -79,27 +73,30 @@ function setSlidingMap() {
         $("#sidebar_btn").unbind('click');
         $('.fc-button-agendaDay').click();
         $('.fc-button-today').click();
+	setTimeout(function() {
+		$('#calendar').css({'z-index':'1'});}, parseInt(calAnimationTime));
         $("#search_panel").addClass('hidden');
     }
     function hideCal() {
+	$('#calendar').css({'z-index':'-5'});
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-        mapdiv.style.top = '0px'; 
-	$('#map').removeClass('disabledColor');
+	$('#map').css({'top':'0'});
 	$('#map_pad').removeClass('inUse');
         var btn = $("#calendar_btn");
         btn.removeClass('extended');
-        //$('#map').removeClass('top_collapse');
+        $('#map').removeClass('top_collapse');
         btn.text('Calendar▽');
-        $("#calendar").addClass('hidden');
         btn.unbind('click');
         btn.bind('click', showCal);
         $("#sidebar_btn").bind('click', showSide);
+        setTimeout(function() {
+		$("#calendar").addClass('hidden');}, parseInt(calAnimationTime));
         $("#search_panel").removeClass('hidden');
     }
 
     function showSide() {
-        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-        mapdiv.style.left = sideWid;
+        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});        
+	$("#map").css({'left' : sideWid});
 	$('#map_pad').addClass('inUse');
 	$('#map').addClass('disabledColor');
         var btn = $("#sidebar_btn");
@@ -112,7 +109,7 @@ function setSlidingMap() {
     }
     function hideSide() {
         $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
-        mapdiv.style.left = '0px'; 
+	$("#map").css({'left' : '0'});
 	$('#map').removeClass('disabledColor');
 	$('#map_pad').removeClass('inUse');
         var btn = $("#sidebar_btn");
