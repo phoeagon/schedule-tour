@@ -19,6 +19,8 @@ import com.google.android.gcm.GCMRegistrar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -26,15 +28,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class MainActivity extends Activity {
+public class SendMsgStatus extends Activity {
   private GCMReceiver mGCMReceiver;
   private IntentFilter mOnRegisteredFilter;
 
   private TextView mStatus;
-
+  Button configBtn;
+  Context context;
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    context = this;
     setContentView(R.layout.activity_main);
     mStatus = (TextView) findViewById(R.id.status);
 
@@ -59,6 +63,14 @@ public class MainActivity extends Activity {
     } else {
       GCMRegistrar.register(this, Constants.SENDER_ID);
     }
+    configBtn = (Button)findViewById(R.id.ConfigButton);
+    configBtn.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(context,ConfigPreference.class);
+            startActivity(i);
+        	
+        }
+    });
   }
 
   private void sendIdToServer(String regId) {

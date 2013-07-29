@@ -2,12 +2,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_medium"
-        android:text="@string/unregistered"
-        android:typeface="monospace"
-        tools:context=".MainActivity" />
+        android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    <Button
+	        android:id="@+id/ConfigButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="39dp"
+	        android:text="Configure" />
+	 	<Button
+	        android:id="@+id/AboutButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="39dp"
+	        android:text="About" />
+	 	</LinearLayout>
+	    <TextView
+	        android:id="@+id/status"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="@dimen/padding_medium"
+	        android:text="@string/unregistered"
+	        android:typeface="monospace"
+	        tools:context=".SendMsgStatus" />
+    </LinearLayout>
 </RelativeLayout>
