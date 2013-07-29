@@ -1,3 +1,13 @@
+html {
+    height:100%;
+}
+
+body {
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
 body, html, #map {
     position:absolute;
     width: 100%;
@@ -15,7 +25,7 @@ body, html, #map {
     filter:url(../svg/filters.svg#hue180);
 }
 
-#l-map{
+/*#l-map{
     height:100%;
     width:78%;
     float:left;
@@ -27,6 +37,7 @@ body, html, #map {
     width:20%;
     float:left;
 }
+*/
 
 a {
   color: #00B7FF;
