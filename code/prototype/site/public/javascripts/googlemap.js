@@ -61,6 +61,9 @@ function setSlidingMap() {
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
 
+    $("#timeline_btn").bind('click', function() {
+	    $("#timeline").toggleClass('shown');});
+
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
 	$('#map').css({'top' : calHeight});
