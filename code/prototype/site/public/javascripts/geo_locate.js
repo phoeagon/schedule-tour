@@ -42,6 +42,7 @@ mygeolocate.locate = function( map ) {
                 icon: '/images/point.png'
             });
             map.panTo(latLng);
+            //map.setZoom(14);
             console.log('Your Position:'+pt.lng+','+pt.lat);
             // store location
             mygeolocate.myLocationMarker =  mk ;
@@ -65,8 +66,10 @@ mygeolocate.watchlocate = function( map ){
                 }
                 mygeolocate.myLocationMarker.setPosition( pt )
                 mygeolocate.myLocationPoint = pt;
-                if (locationLock)
+                if (locationLock) {
                     map.panTo( pt );
+                    map.setZoom(15);
+                }
             })
         }catch(err){ console.log(err) }
     } ,function(err){} , {enableHighAccuracy: true})
