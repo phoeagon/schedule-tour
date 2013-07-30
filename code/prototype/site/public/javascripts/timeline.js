@@ -11,12 +11,12 @@ function updateTimeline(){
                 if ( data[ele].end.valueOf() - data[ele].start.valueOf() < 1000*3600 )
                     delete data[ele].end;
                 data[ele].content = content_tag ;
-            $(document).ready(function() {
+            
                 var timeline = new links.Timeline(document.getElementById("timeline"))
                 var options = {
                     zoomable : true ,
                     cluster :  true 
-                }
+                
                 timeline.draw(data, options);
             });
             }
