@@ -240,8 +240,8 @@ var ScheduleTour = (function() {
         var locals = findEventByPos(pos);
         locals.push(e);
         var infoContent = "<h4>"+e.title+"</h4>"+
-            "<h5>"+"Start Time:"+e.time+"</h5>"+
-            "<h5>"+"End Time:"+e.endTime+"</h5>"+
+            "<h5>"+"Start Time:"+moment(e.time).calendar()+"</h5>"+
+            "<h5>"+"End Time:"+moment(e.endTime).calendar()+"</h5>"+
             "<p>"+e.description+"</p>"+
             "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
         for (var i = 0; i < locals.length; i++) {
@@ -249,8 +249,8 @@ var ScheduleTour = (function() {
                 var ee = locals[i];
                 infoContent = infoContent +
                     "<h4>"+ee.title+"</h4>"+
-                    "<h5>"+"Start Time:"+ee.time+"</h5>"+
-                    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
+                    "<h5>"+"Start Time:"+moment(ee.time).calendar()+"</h5>"+
+                    "<h5>"+"End Time:"+moment(ee.endTime).calendar()+"</h5>"+
                     "<p>"+ee.description+"</p>"+
                     "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
             }
