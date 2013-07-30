@@ -113,7 +113,7 @@
     </form>
     </div>
     <div id="avatar_div"></div>
-    <div id="timeline" style="background-color:red;z-index:999;position:absolute;bottom:10%;left:0px;width:100%;height:10%;">
+    <div id="timeline">
     </div>
     <script type="text/javascript">
         $.getJSON('tl.json' , function(data){
@@ -132,7 +132,7 @@
     </script>
     <% include success_error_msg.ejs -%>
 
-    <div class="navbar navbar-fixed-bottom">
+    <div id="navbar" class="navbar navbar-fixed-bottom">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -144,7 +144,7 @@
             <ul class="nav">
               <li id="navi_home"><a href="#">Map</a></li>
               <li id="navi_tagcloud"><a href="#" id="calendar_btn">Calendar▽</a></li>
-                <li id="navi_login"><a href="#">Timeline</a></li>
+                <li id="navi_login"><a href="#" id="timeline_btn">Timeline</a></li>
                 <li id="navi_reg "><a href="#" id="setting_show_button">Setting</a></li>
               
             </ul>
