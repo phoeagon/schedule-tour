@@ -243,7 +243,7 @@ var ScheduleTour = (function() {
             "<h5>"+"Start Time:"+moment(e.time).calendar()+"</h5>"+
             "<h5>"+"End Time:"+moment(e.endTime).calendar()+"</h5>"+
             "<p>"+e.description+"</p>"+
-            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
+            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");' class='btn btn-default'>Delete</button><br/>";
         for (var i = 0; i < locals.length; i++) {
             if (locals[i]._id != eid) {
                 var ee = locals[i];
@@ -252,10 +252,10 @@ var ScheduleTour = (function() {
                     "<h5>"+"Start Time:"+moment(ee.time).calendar()+"</h5>"+
                     "<h5>"+"End Time:"+moment(ee.endTime).calendar()+"</h5>"+
                     "<p>"+ee.description+"</p>"+
-                    "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
+                    "<button class='btn btn-default' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
             }
         }
-        infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
+        infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
         infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 
         var infoWindow = new google.maps.InfoWindow({
@@ -264,6 +264,7 @@ var ScheduleTour = (function() {
         google.maps.event.clearListeners(e.marker, 'click');
         google.maps.event.addListener(e.marker, 'click', function() {
             infoWindow.open(map, e.marker);
+            placeManager.configureButton( map )
         });
     }
     var newMarkerToEvent = function(map, e) {
