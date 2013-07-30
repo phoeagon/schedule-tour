@@ -52,7 +52,7 @@
     <div id="calendar" class="hidden">
     </div>
     <div id="sidebar" class="hidden">
-      <form id="eventInfo" class="form-horizontal"><fieldset>
+      <form id="eventInfo" class=""><fieldset>
 	  <div class="control-group">
             <label class="control-label" for="title">Title:</label>
             <input type="text" class="title" name="title" id="title"/>
@@ -151,31 +151,25 @@
             });
           </script>
 
-          <div class="control-group">
-            <label class="control-label">Type:</label>       
-            <input type="radio" name="routine" value="routine">Routine
-            <input type="radio" name="routine" value="once">Once 
-          </div>
-          <div class="control-group"> 
-            <label class="control-label">Priority:</label>           
-            <div type="text" class="slider" name="priority" id="weight">
-          </div>
-          <div class='control-group'>
-            <label class='control-label'>Position</label>
-            <input type='text' placeholder='Lat'></input>
-            <input type='text' placeholder='Lng'></input>
-            <input type='text' placeholder='Place Name'></input>
-          </div>
-          <div class='control-group'>
-              <label class='control-label'>Privacy</label>
-              <input name='privacyRadioGroup' type='radio'>Public</input>
-              <input name='privacyRadioGroup' type='radio' checked='checked'>Private</input>
-          </div>
-	  </div>
+      <div class="control-group"> 
+          <label class="control-label">Priority:</label>           
+          <div type="text" class="slider" name="priority" id="weight"></div>
+      </div>
+      <div class='control-group'>
+          <label class='control-label'>Position</label>
+          <input type='text' placeholder='Lat'></input>
+          <input type='text' placeholder='Lng'></input>
+          <input type='text' placeholder='Place Name'></input>
+      </div>
+      <div class='control-group'>
+          <label class='control-label'>Privacy</label>
+          <input name='privacyRadioGroup' type='radio'>Public</input>
+          <input name='privacyRadioGroup' type='radio' checked='checked'>Private</input>
+      </div>
 	  <div class="control-group">  
             <label class="control-label">Note:</label>           
             <textarea id="description" name="add-event-note"></textarea>
-          </div>
+        </div>
 	</fieldset>
       </form>
       <button id="addEventButt" class="btn-primary">Submit</button>
