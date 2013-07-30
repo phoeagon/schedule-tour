@@ -4,3 +4,17 @@ function checkMobile (){
 	    return true;
 	return false;
     }
+    function addResizeListener(){
+	$(window).resize( function(){
+	    var height = $(window).height();
+	    var width = $(window).width();
+
+	    if(width>height) {
+		//$("#main_div").removeClass('portrait_div');
+	      // Landscape
+	    } else {
+	      // Portrait
+		//$("#main_div").addClass('portrait_div');
+	    }
+	});
+    }
