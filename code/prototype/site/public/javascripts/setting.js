@@ -11,7 +11,7 @@ settingAdapter.setFormTrigger = function(){
 	    $( "#setting_panel" ).removeClass("hidden")
 	    $( "#setting_panel" ).dialog({
 		autoOpen: true,
-		width: "90%",
+		width: "600px",
 		buttons: [
 		    {
 			text: "Ok",

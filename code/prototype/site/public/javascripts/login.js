@@ -5,7 +5,7 @@ loginManager.displayDialog = function(){
 	$( "#login_panel" ).html( data );
 	$( "#login_panel" ).dialog({
 	    autoOpen: true,
-	    width: "90%",
+	    //width: "90%",
 	    open: function() {
 		$(this).bind("keyup",function(e){
 		  var code = e.keyCode || e.which; 
@@ -51,7 +51,7 @@ loginManager.displayRegistrationDialog = function(){
 	$( "#reg_panel" ).html( data );
 	$( "#reg_panel" ).dialog({
 	    autoOpen: true,
-	    width: "90%",
+	    //width: "90%",
 	    open: function() {
 		$(this).bind("keyup",function(e){
 		  var code = e.keyCode || e.which; 
