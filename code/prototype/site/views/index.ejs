@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
     <link rel="stylesheet" href="/stylesheets/ui-lightness/custom.css" />
     <script type="text/javascript" src="/javascripts/jquery-2.0.2.js"></script>
-    <script src="javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="/javascripts/jquery-date-timepicker.js"></script>
     <!--script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=38dd6ecf06c8e26251ac409334cec4a0"></script-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxGLmTa_KJutZZEttdAw6PGuuM3030I2I&sensor=true&libraries=places,weather"></script>
@@ -83,10 +82,6 @@
     <div id="search_panel" class="search_panel">
     <form id="search_loc" style="height:100%;">
 	<input type="button" id="geoloc_btn" value="&#8982;" class="geoloc_btn " style="width:20%;height:100%;font-size:100%;"/>
-  <select id="lock-location" class="toggleswitch">
-    <option>LockLocation</option>
-    <option>Off</option>
-  </select>
 	<input type="text" placeholder="Search and go" style="width:55%;height:100%;font-size:100%;" id="goto_place"/>
 	<input type="button" id="search_go" value="Go" class="btn-primary" style="width:20%;height:100%;font-size:100%;"/>
     </form>
@@ -94,7 +89,25 @@
     <div id="reg_panel"  title="Sign Up" class="hidden"></div>
     <div id="login_panel"  title="Login" class="hidden"></div>
     <div id="setting_panel"  title="Settings" class="hidden">
-    <button id="toggle_map_style"/>Change Map Color</button>
+    <form>
+        <p>Map Color: <button id="toggle_map_style"/>Toggle </button></p>
+        <p> UI:
+         <span id="screen" style="display:inline;">
+            <input type="radio" id="auto" name="screen"  checked="checked"/><label for="auto">Auto</label>
+            <input type="radio" id="desktop" name="screen" /><label for="desktop">Desktop</label>
+            <input type="radio" id="phone" name="screen" /><label for="phone">Phone</label>
+            <input type="radio" id="tablet" name="screen" /><label for="tablet">Tablet</label>
+         </span>
+        </p>
+        <p>LockLocation:
+              <select id="lock-location" class="toggleswitch">
+                <option>On</option>
+                <option>Off</option>
+              </select>
+        </p>
+</div>
+ 
+    </form>
     </div>
     <div id="avatar_div"></div>
     <% include success_error_msg.ejs -%>
@@ -127,6 +140,7 @@
     <script type="text/javascript" src="./javascripts/geo_locate.js"></script>
     <script type="text/javascript" src="./javascripts/setting.js"></script>
     <script type="text/javascript" src="./javascripts/placeManager.js"></script>
+    <script src="/javascripts/jquery-ui.js"></script>
   <script type="text/javascript" >
     $('#close-flash-btn').click(function(e){
         $("#flash-msg").remove()
@@ -135,6 +149,7 @@
         $('#close-flash-btn').click();
     },5000);//wait 5 secs
     $.getScript("/javascripts/validation.js")
+    $('#screen').buttonset();
     var locationLock = ($('#lock-location').val()=='Off');
     $('#lock-location').toggleSwitch({
         change : function(e){
