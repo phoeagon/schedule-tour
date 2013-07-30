@@ -182,7 +182,6 @@ td
 .visibilityhidden{
     visibility:hidden;
 }
-
 #calendar{
     overflow: auto;
 }
@@ -209,4 +208,17 @@ td
    */
    -ms-user-select: none;
    user-select: none;
+}
+.center
+{
+    margin-left:auto;
+    margin-right:auto;
+}
+#login_panel{
+    margin-left: auto;
+    margin-right: auto;
+}
+.dialog_form{
+    margin: 0 auto; 
+    display: inline;
 }
