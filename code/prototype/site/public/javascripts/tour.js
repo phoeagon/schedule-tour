@@ -20,7 +20,7 @@ var tour = function(eventEntries,map) {
     //get a specific path time
     //require timeMap
     var getPathTime = function(i, j) {
-        return timeMap[i][j];
+        return ((timeMap || [[0]])[i]||[0])[j] ;
     }
 
     //get all path time from baidu

@@ -8,9 +8,10 @@ settingAdapter.setForm = function(){
 }
 settingAdapter.setFormTrigger = function(){
     $('#setting_show_button').click(function(){
+	    $( "#setting_panel" ).removeClass("hidden")
 	    $( "#setting_panel" ).dialog({
 		autoOpen: true,
-		width: "90%",
+		width: "600px",
 		buttons: [
 		    {
 			text: "Ok",

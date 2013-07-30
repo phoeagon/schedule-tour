@@ -35,7 +35,7 @@ var setRouter = function(app) {
     //檢查用戶名是否已經存在
     User.findOne(
       {
-        _id: newUser.name
+        _id: newUser._id
       },
       function(err, user) {
         if (user) {

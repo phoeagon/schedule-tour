@@ -85,10 +85,11 @@ placeManager.configureButton = function( map ){
 	var lng = $(ele).attr("lng")
 	var lat = $(ele).attr("lat")
 	console.log ( [ lng , lat ] )
-	if ( placeManager.find( lng , lat )===null )
+	if ( placeManager.find( lng , lat )===null ){
 	    $(ele).html('<button class="btn-primary" onclick="javascript:placeManager.add(\'test-fav-place\','
 		+lng+','+lat+','+map.getZoom()+')">Fav</button>')
-	else $(ele).html('<button class="btn" onclick="javascript:placeManager.remove('
+	    console.log( "not in fav" )
+	}else $(ele).html('<button class="btn" onclick="javascript:placeManager.remove('
 		+lng+','+lat+')">Unfav</button>')
     })
 }

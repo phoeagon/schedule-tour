@@ -11,12 +11,12 @@ var Event = (function() {
         e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
-        e.weight = $("#weight").slider("value");
+        e.weight = $("#weight").sliders("value");
         e.finish = null;
         e.addTime = new Date();
 
         $(".datepicker").datetimepicker();
-        $(".slider").slider();
+        $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         return e;
     };
 
@@ -60,6 +60,9 @@ function setSlidingMap() {
     mapdiv.style.left = '0px';
     $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
 		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+
+    $("#timeline_btn").bind('click', function() {
+	    $("#timeline").toggleClass('shown');});
 
     function showCal() {
         $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
@@ -237,22 +240,22 @@ var ScheduleTour = (function() {
         var locals = findEventByPos(pos);
         locals.push(e);
         var infoContent = "<h4>"+e.title+"</h4>"+
-            "<h5>"+"Start Time:"+e.time+"</h5>"+
-            "<h5>"+"End Time:"+e.endTime+"</h5>"+
+            "<h5>"+"Start Time:"+moment(e.time).calendar()+"</h5>"+
+            "<h5>"+"End Time:"+moment(e.endTime).calendar()+"</h5>"+
             "<p>"+e.description+"</p>"+
-            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");'>Delete</button><br/>";
+            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");' class='btn btn-default'>Delete</button><br/>";
         for (var i = 0; i < locals.length; i++) {
             if (locals[i]._id != eid) {
                 var ee = locals[i];
                 infoContent = infoContent +
                     "<h4>"+ee.title+"</h4>"+
-                    "<h5>"+"Start Time:"+ee.time+"</h5>"+
-                    "<h5>"+"End Time:"+ee.endTime+"</h5>"+
+                    "<h5>"+"Start Time:"+moment(ee.time).calendar()+"</h5>"+
+                    "<h5>"+"End Time:"+moment(ee.endTime).calendar()+"</h5>"+
                     "<p>"+ee.description+"</p>"+
-                    "<button class='btn' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
+                    "<button class='btn btn-default' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
             }
         }
-        infoContent = infoContent + "<span class='favbtn' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
+        infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
         infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 
         var infoWindow = new google.maps.InfoWindow({
@@ -261,6 +264,7 @@ var ScheduleTour = (function() {
         google.maps.event.clearListeners(e.marker, 'click');
         google.maps.event.addListener(e.marker, 'click', function() {
             infoWindow.open(map, e.marker);
+            placeManager.configureButton( map )
         });
     }
     var newMarkerToEvent = function(map, e) {
@@ -278,6 +282,7 @@ var ScheduleTour = (function() {
             marker = localEvents[0].marker;
             marker.refCount++;
         }
+        marker.setZIndex(2);
         //attach marker to event
         e.marker = marker;
         return e;
@@ -356,7 +361,7 @@ var ScheduleTour = (function() {
         $("#addEventButt").unbind('click');
         $("#side_collapse").unbind('click');
         $(".datepicker").datetimepicker();
-        $(".slider").slider();
+        $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         document.getElementById('title').value = '';
         document.getElementById('description').value = '';
         $('#weight').slider('value', 0);
@@ -449,8 +454,23 @@ var ScheduleTour = (function() {
                 destination :   to,
                 travelMode  :   google.maps.TravelMode.WALKING
             };
+            requestDirections(request, i);
+        }
+
+        function requestDirections(request, weight) {
             directionsService.route(request, function(response, status) {
-                var directionsDisplay = new google.maps.DirectionsRenderer({map:map});
+                console.log(weight);
+                var directionsDisplayOptions = {
+                    map             :   map,
+                    polylineOptions :   {
+                        strokeOpacity   :   0.7,
+                        strokeColor     :   'rgb(255,255,'+weight*100+')',
+                        strokeWeight    :   (weight+1)*10
+                    }
+                };
+                var directionsDisplay = new google.maps.DirectionsRenderer(
+                    directionsDisplayOptions
+                );
                 directionsDisplay.setDirections(response);
                 var markerArray = [];
                 var infoWindowArray = [];
@@ -465,6 +485,7 @@ var ScheduleTour = (function() {
                         icon: icon,
                         map: map
                     });
+                    marker.setZIndex(1);
                     var infoWindow = new google.maps.InfoWindow({
                         content :   myRoute.steps[j].instructions
                     });
@@ -478,12 +499,12 @@ var ScheduleTour = (function() {
                     directionsDisplay   :   directionsDisplay
                 });
             });
-        }
+        };
         function addInfoWindowToMarker(infoWindow, marker) {
             google.maps.event.addListener(marker, 'click', function() {
                 infoWindow.open(map, marker);
             });
-        }
+        };
     }
 
     var weatherLayer = null;

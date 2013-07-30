@@ -3,12 +3,11 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/metrics.css" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
     <link rel="stylesheet" href="/stylesheets/ui-lightness/custom.css" />
     <script type="text/javascript" src="/javascripts/jquery-2.0.2.js"></script>
-    <script src="javascripts/jquery-ui.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery-date-timepicker.js"></script>
     <!--script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=38dd6ecf06c8e26251ac409334cec4a0"></script-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxGLmTa_KJutZZEttdAw6PGuuM3030I2I&sensor=true&libraries=places,weather"></script>
     <!--script type="text/javascript" src="/javascripts/map.js"></script-->
@@ -19,6 +18,9 @@
     <script type="text/javascript" src="/javascripts/tour.js"></script>
     <script type="text/javascript" src="/javascripts/moment.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.js"></script>
+    <script type="text/javascript" src="/javascripts/tl.js/timeline-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/tl.js/timeline.css">
+
     
     <script type="text/javascript" src="/plugins/toggleSwitch.js"></script>
     <link rel="stylesheet" href="/plugins/toggleSwitch.css" />
@@ -33,6 +35,14 @@
 	<%}%>
     </script>
 
+    <style>
+      #sidebar {
+        height:700px;
+        position:relative;
+        overflow:auto;
+      }
+    </style>
+
   </head>
   <body>
     <div id="map" class="map">
@@ -42,7 +52,7 @@
     <div id="calendar" class="hidden">
     </div>
     <div id="sidebar" class="hidden">
-      <form id="eventInfo"><fieldset>
+      <form id="eventInfo" class="form-horizontal"><fieldset>
 	  <div class="control-group">
             <label class="control-label" for="title">Title:</label>
             <input type="text" class="title" name="title" id="title"/>
@@ -56,6 +66,91 @@
             <input type="text" class="datepicker" name="end_date" id="dateUntil"/>
           </div>
 	  <div class="alert alert-error hidden" id="fix-date-msg">Fix your date first!</div>
+          <div class='control-group'>
+              <input type='checkbox' value='allday' id='alldayCheckbox'>All Day</input>
+              <input type='checkbox' value='repeat' id='repeatCheckbox'>Repeat...</input>
+          </div>
+          <div id='repeatDetail' style='display:none;'>
+                <table>
+                  <tr>
+                    <th>Repeats:</th>
+                    <td><select id="repeatFrequency">
+                        <option value="0">Daily</option>
+                        <option value="1">Every weekday (Monday to Friday)</option>
+                        <option value="2">Every Monday, Wednesday, and Friday</option>
+                        <option value="3">Every Tuesday, and Thursday</option>
+                        <option value="4">Weekly</option>
+                        <option value="5">Monthly</option>
+                        <option value="6">Yearly</option>
+                    </select></td>
+                  </tr>
+                  <tr id='repeatEvery'>
+                    <th>Repeat every:</th>
+                    <td>
+                        <input type='number' id='interval' value='1'></input>
+                      <label>weeks</label>
+                    </td>
+                  </tr>
+                  <tr><th>Repeat on:</th>
+                    <td id="checkboxes">
+                      <div>
+                        <span><input type="checkbox">S</input></span>
+                        <span><input type="checkbox">M</input></span>
+                        <span><input type="checkbox">T</input></span>
+                        <span><input type="checkbox">W</input></span>
+                        <span><input type="checkbox">T</input></span>
+                        <span><input type="checkbox">F</input></span>
+                        <span><input type="checkbox">S</input></span>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+          </div>
+          <script type='text/javascript'>
+            //switch between date and datatime
+            $(function() {
+              $('#alldayCheckbox').change(function() {
+                if (this.checked) {
+                  var dateFrom = $('#dateFrom').val();
+                  var dateUntil = $('#dateUntil').val();
+                  $(".datepicker").datetimepicker('destroy');
+                  $(".datepicker").datepicker();
+                  $("#dateFrom").datepicker('setDate', dateFrom);
+                  $("#dateUntil").datepicker('setDate', dateUntil);
+                  return;
+                }
+                var dateFrom = $('#dateFrom').val();
+                var dateUntil = $('#dateUntil').val();
+                $(".datepicker").datepicker('destroy');
+                $(".datepicker").datetimepicker();
+                $("#dateFrom").datetimepicker('setDate', dateFrom);
+                $("#dateUntil").datetimepicker('setDate', dateUntil);
+              });
+            });
+            //toggle repeat detail div
+            $(function() {
+              $('#repeatCheckbox').change(function() {
+                if (this.checked) {
+                  $('#repeatDetail').slideDown();
+                  return;
+                }
+                $('#repeatDetail').slideUp();
+              });
+            });
+            //toggle repeat detail div
+            $(function() {
+              $('#repeatFrequency').change(function() {
+                var text = $(this).find(':selected').text();
+                if (text.substr(-2) === 'ly') {
+                  $('#repeatEvery').slideDown();
+                  $('#repeatEvery label').text(text);
+                } else {
+                  $('#repeatEvery').slideUp();
+                }
+              });
+            });
+          </script>
+
           <div class="control-group">
             <label class="control-label">Type:</label>       
             <input type="radio" name="routine" value="routine">Routine
@@ -64,8 +159,18 @@
           <div class="control-group"> 
             <label class="control-label">Priority:</label>           
             <div type="text" class="slider" name="priority" id="weight">
-	    </div>
-	    <br/>
+          </div>
+          <div class='control-group'>
+            <label class='control-label'>Position</label>
+            <input type='text' placeholder='Lat'></input>
+            <input type='text' placeholder='Lng'></input>
+            <input type='text' placeholder='Place Name'></input>
+          </div>
+          <div class='control-group'>
+              <label class='control-label'>Privacy</label>
+              <input name='privacyRadioGroup' type='radio'>Public</input>
+              <input name='privacyRadioGroup' type='radio' checked='checked'>Private</input>
+          </div>
 	  </div>
 	  <div class="control-group">  
             <label class="control-label">Note:</label>           
@@ -83,23 +188,40 @@
     <div id="search_panel" class="search_panel">
     <form id="search_loc" style="height:100%;">
 	<input type="button" id="geoloc_btn" value="&#8982;" class="geoloc_btn " style="width:20%;height:100%;font-size:100%;"/>
-  <select id="lock-location" class="toggleswitch">
-    <option>LockLocation</option>
-    <option>Off</option>
-  </select>
 	<input type="text" placeholder="Search and go" style="width:55%;height:100%;font-size:100%;" id="goto_place"/>
 	<input type="button" id="search_go" value="Go" class="btn-primary" style="width:20%;height:100%;font-size:100%;"/>
     </form>
     </div>
-    <div id="reg_panel"  title="Sign Up" class="hidden"></div>
-    <div id="login_panel"  title="Login" class="hidden"></div>
+    <div id="reg_panel"  title="Sign Up" class=""></div>
+    <div id="login_panel"  title="Login" class=""></div>
     <div id="setting_panel"  title="Settings" class="hidden">
-    <button id="toggle_map_style"/>Change Map Color</button>
+    <form class="dialog_form">
+        <p>Map Color: <button id="toggle_map_style"/>Toggle </button></p>
+        <p> UI:
+         <span id="screen" style="display:inline;">
+            <input type="radio" id="auto" name="screen"  checked="checked"/><label for="auto">Auto</label>
+            <input type="radio" id="desktop" name="screen" /><label for="desktop">Desktop</label>
+            <input type="radio" id="phone" name="screen" /><label for="phone">Phone</label>
+            <input type="radio" id="tablet" name="screen" /><label for="tablet">Tablet</label>
+         </span>
+        </p>
+        <p>LockLocation:
+              <select id="lock-location" class="toggleswitch">
+                <option>On</option>
+                <option>Off</option>
+              </select>
+        </p>
+</div>
+ 
+    </form>
     </div>
     <div id="avatar_div"></div>
+    <div id="timeline">
+    </div>
+    <script type="text/javascript" src="/javascripts/timeline.js"></script>
     <% include success_error_msg.ejs -%>
 
-    <div class="navbar navbar-fixed-bottom">
+    <div id="navbar" class="navbar navbar-fixed-bottom">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -111,7 +233,7 @@
             <ul class="nav">
               <li id="navi_home"><a href="#">Map</a></li>
               <li id="navi_tagcloud"><a href="#" id="calendar_btn">Calendar▽</a></li>
-                <li id="navi_login"><a href="#">Timeline</a></li>
+                <li id="navi_login"><a href="#" id="timeline_btn">Timeline</a></li>
                 <li id="navi_reg "><a href="#" id="setting_show_button">Setting</a></li>
               
             </ul>
@@ -120,7 +242,9 @@
       </div>
     </div>
     
-  </body>
+  </body> 
+    <script src="/javascripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-date-timepicker.js"></script>
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
     <script type="text/javascript" src="./javascripts/calendar.js"></script>
     <script type="text/javascript" src="./javascripts/login.js"></script>
@@ -135,6 +259,7 @@
         $('#close-flash-btn').click();
     },5000);//wait 5 secs
     $.getScript("/javascripts/validation.js")
+    $('#screen').buttonset();
     var locationLock = ($('#lock-location').val()=='Off');
     $('#lock-location').toggleSwitch({
         change : function(e){
