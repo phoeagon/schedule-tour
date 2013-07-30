@@ -1,4 +1,5 @@
-$.getJSON('/calendarentries' , function(data){
+function updateTimeline(){
+    $.getJSON('/calendarentries' , function(data){
             console.log( JSON.stringify(data) )
             for (var ele in data ){
                 var t1 = moment( data[ele].start );
@@ -20,3 +21,6 @@ $.getJSON('/calendarentries' , function(data){
             });
             }
         })
+}
+
+$(document).ready( updateTimeline )
