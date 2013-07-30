@@ -11,12 +11,12 @@ var Event = (function() {
         e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
-        e.weight = $("#weight").slider("value");
+        e.weight = $("#weight").sliders("value");
         e.finish = null;
         e.addTime = new Date();
 
         $(".datepicker").datetimepicker();
-        $(".slider").slider();
+        $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         return e;
     };
 
@@ -360,7 +360,7 @@ var ScheduleTour = (function() {
         $("#addEventButt").unbind('click');
         $("#side_collapse").unbind('click');
         $(".datepicker").datetimepicker();
-        $(".slider").slider();
+        $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         document.getElementById('title').value = '';
         document.getElementById('description').value = '';
         $('#weight').slider('value', 0);
