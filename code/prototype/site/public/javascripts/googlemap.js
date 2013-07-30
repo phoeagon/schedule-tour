@@ -281,6 +281,7 @@ var ScheduleTour = (function() {
             marker = localEvents[0].marker;
             marker.refCount++;
         }
+        marker.setZIndex(2);
         //attach marker to event
         e.marker = marker;
         return e;
@@ -452,8 +453,23 @@ var ScheduleTour = (function() {
                 destination :   to,
                 travelMode  :   google.maps.TravelMode.WALKING
             };
+            requestDirections(request, i);
+        }
+
+        function requestDirections(request, weight) {
             directionsService.route(request, function(response, status) {
-                var directionsDisplay = new google.maps.DirectionsRenderer({map:map});
+                console.log(weight);
+                var directionsDisplayOptions = {
+                    map             :   map,
+                    polylineOptions :   {
+                        strokeOpacity   :   0.7,
+                        strokeColor     :   'rgb(255,255,'+weight*100+')',
+                        strokeWeight    :   (weight+1)*10
+                    }
+                };
+                var directionsDisplay = new google.maps.DirectionsRenderer(
+                    directionsDisplayOptions
+                );
                 directionsDisplay.setDirections(response);
                 var markerArray = [];
                 var infoWindowArray = [];
@@ -468,6 +484,7 @@ var ScheduleTour = (function() {
                         icon: icon,
                         map: map
                     });
+                    marker.setZIndex(1);
                     var infoWindow = new google.maps.InfoWindow({
                         content :   myRoute.steps[j].instructions
                     });
@@ -481,12 +498,12 @@ var ScheduleTour = (function() {
                     directionsDisplay   :   directionsDisplay
                 });
             });
-        }
+        };
         function addInfoWindowToMarker(infoWindow, marker) {
             google.maps.event.addListener(marker, 'click', function() {
                 infoWindow.open(map, marker);
             });
-        }
+        };
     }
 
     var weatherLayer = null;
