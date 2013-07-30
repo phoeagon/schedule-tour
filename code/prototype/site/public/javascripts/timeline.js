@@ -1,6 +1,8 @@
 function updateTimeline(){
     $.getJSON('/calendarentries' , function(data){
             console.log( JSON.stringify(data) )
+            if ( data.length === 0 )
+                data = [{start:new Date() , title:"<b>Sample</b><br/>Add an event to see this"}];
             for (var ele in data ){
                 var t1 = moment( data[ele].start );
                 var t2 = moment( data[ele].end );
