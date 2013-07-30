@@ -160,6 +160,7 @@ var ScheduleTour = (function() {
                 });
 
                 map.setCenter(pos);
+                map.setZoom(15);
 
             }, function() {
                 handleNoGeolocation(true);
@@ -188,6 +189,7 @@ var ScheduleTour = (function() {
     }
     var panTo = function(){
         mygeolocate.panTo(map)
+        map.setZoom(15);
     }
 
     $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
