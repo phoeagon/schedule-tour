@@ -16,11 +16,11 @@ function updateTimeline(){
                 var options = {
                     zoomable : true ,
                     cluster :  true 
-                
+                }
                 timeline.draw(data, options);
-            });
+            };
             }
-        })
+        )
 }
 
 $(document).ready( updateTimeline )
