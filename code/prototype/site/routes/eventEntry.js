@@ -121,7 +121,38 @@ var updateEntry = function(req, res) {
         }));
       });
 }
-
+var listTimelineEntries = function( req , res ) {
+      EventEntry.find(
+      {
+        user: req.session.user._id
+      },
+      function(err, eventEntries) {
+        if (err) {
+          res.end(JSON.stringify(err));
+          return;
+        }
+        var data = {
+            timeline:           {
+                                    "headline":"My ScheduleTour Timeline",
+                                    "type":"default",
+                                    "text":"<p>Find your events here</p>",
+                                }
+        }
+        data.timeline.era = [];
+        data.timeline.date = [];
+        for (var ele in eventEntries){
+            var tmp = {
+                startDate : new Date(eventEntries[ele].time) ,
+                endDate :   new Date(eventEntries[ele].endTime) ,
+                headline:  eventEntries[ele].title ,
+                text:"<p>Body text goes here, some HTML is OK</p>",
+            }
+            data.timeline.era . push( tmp )
+            data.timeline.date. push( tmp )
+        }
+        res.end(JSON.stringify( data ));
+    });
+}
 var listCalendarEntries = function(req, res) {
     EventEntry.find(
       {
@@ -135,10 +166,11 @@ var listCalendarEntries = function(req, res) {
         var pool = eventEntries;
         for (var ele in pool){
             pool[ele]= {
-                start : pool[ele].time ,
-                end : pool[ele].endTime , 
+                start : new Date(pool[ele].time) ,
+                end : new Date(pool[ele].endTime) , 
                 allDay : false , //assume
-                title : pool[ele].title
+                title : pool[ele].title ,
+                content: pool[ele].description
             }
             console.log( pool[ele] )
         }
@@ -157,6 +189,8 @@ var setRouter = function(app) {
   app.post('/evententries', listEntries);
   
   app.get('/calendarentries', listCalendarEntries);
+  app.get('/timelineentries', checkLogin);
+  app.get('/timelineentries', listTimelineEntries);
 
   app.post('/removeevententry', checkLogin);
   app.post('/removeevententry', removeEntry);

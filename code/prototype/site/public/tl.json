@@ -1,14 +1,15 @@
 {
     "timeline":
     {
-        "headline":"The Main Timeline Headline Goes here",
+        "headline":"My ScheduleTour Timeline",
         "type":"default",
-        "text":"<p>Intro body text goes here, some HTML is ok</p>",
+        "text":"<p>Find your events here</p>",
         "asset": {
-            "media":"",
-            "credit":"Credit Name Goes Here",
-            "caption":"Caption text goes here"
-        },
+                    "media":"http://127.0.0.1:4000/img/avatar/a",
+                    "thumbnail":"http://127.0.0.1:4000/img/avatar/a",
+                    "credit":"Credit Name Goes Here",
+                    "caption":"Caption text goes here"
+                },
         "date": [
             {
                 "startDate":"2011,12,10",
