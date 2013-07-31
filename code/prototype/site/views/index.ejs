@@ -51,7 +51,7 @@
           <table>
             <tr>
               <th>Title:</th>
-              <td><input type="text" class="title" name="title" id="title"/></td>
+              <td><input type="text" class="title" name="title" id="title"></input></td>
             </tr>
             <tr>
               <th>Start Date:</th>
@@ -110,11 +110,11 @@
               <th>Ends:</th>
               <td id="endRadio">
                 <div>
-                  <div><input type="radio" name='endRadioGroup'>Never</input></div>
+                  <div><input type="radio" name='endRadioGroup' checked='checked'>Never</input></div>
                   <div><input type="radio" id='endRadioAfter' name='endRadioGroup'>After</input>
-                    <label for='endRadioAfter'>After <input type='number' value='1'></input> occurrences</label></div>
+                      <span><input type='number' value='1'></input> occurrences</span></div>
                   <div><input type='radio' id='endRadioOn' name='endRadioGroup'>On</input>
-                    <label for='endRadioOn'><input type='text'></label></div>
+                      <span><input type='text' id='repeatEndInput'></input></span></div>
                 </div>
               </td>
             </tr>
@@ -122,6 +122,7 @@
           <script type='text/javascript'>
             //switch between date and datatime
             $(function() {
+              $('#repeatEndInput').datepicker();
               $('#alldayCheckbox').change(function() {
                 if (this.checked) {
                   var dateFrom = $('#dateFrom').val();
