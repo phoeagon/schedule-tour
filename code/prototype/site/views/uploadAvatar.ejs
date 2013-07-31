@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/plugins/jquery.uploader.js"></script>
-<form action="/img/avatar_upload" method="POST" id="avatar_form">
-Classic upload here : <input id="files" type="file" multiple="false" />
+<form action="/img/avatar_upload" method="POST" id="avatar_form" enctype="multipart/form-data">
+Classic upload here : <input id="files" type="file" multiple="false" name="files"/>
 </form>
 <div id="dropZone" style="width: 800px; height: 100px; border: 1px solid red">
     Click or drop images here...
