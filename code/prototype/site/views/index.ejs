@@ -45,6 +45,7 @@
     <div id="calendar" class="hidden">
     </div>
     <div id="sidebar" class="hidden">
+        <div id='sidebarContent'>
         <!--<form id="eventInfo" class="form-horizontal"><fieldset>-->
       <form id="eventInfo" class=""><fieldset>
           <table>
@@ -176,8 +177,8 @@
             </tr>
             <tr>
               <td>
-                <span><input type='text' placeholder='Lat'></input></span>
-                <span><input type='text' placeholder='Lng'></input></span>
+                <span><input type='text' class='latLngInput' placeholder='Lat'></input></span>
+                <span><input type='text' class='latLngInput' placeholder='Lng'></input></span>
               </td>
             </tr>
             <tr>
@@ -195,9 +196,12 @@
             </tr>
           </table>
         </fieldset>
+        <!--<button id="addEventButt" class="btn-primary">Submit</button>-->
+        <input type="button" id="addEventButt" class="btn btn-primary" value="Submit"/>
+        <input type="button" id="side_collapse" class="btn" value="Cancel"/>
+        <div id='sidebarSpaceholder'></div>
       </form>
-      <button id="addEventButt" class="btn-primary">Submit</button>
-<input type="button" id="side_collapse" class="btn" value="Cancel"/>
+    </div>
     </div>
     <button id="sidebar_btn" class="buttons hidden">
       ▷
