@@ -31,9 +31,8 @@ import android.content.IntentFilter;
 public class SendMsgStatus extends Activity {
   private GCMReceiver mGCMReceiver;
   private IntentFilter mOnRegisteredFilter;
-
   TextView mStatus;
-  Button configBtn;
+  Button configBtn , logoutBtn;
   Context context;
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +70,12 @@ public class SendMsgStatus extends Activity {
         	
         }
     });
+    logoutBtn = (Button)findViewById(R.id.LogoutButton);
+    logoutBtn.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+        	deregisterFromServer(regId);
+        }
+    });
   }
 
   private void sendIdToServer(String regId) {
@@ -78,7 +83,9 @@ public class SendMsgStatus extends Activity {
     mStatus.setText(status);
     (new SendRegistrationIdTask(regId,this)).execute();
   }
-
+  private void deregisterFromServer(String regId){
+	    (new DeregistrationTask(regId,this)).execute();
+  }
   @Override
   public void onResume() {
     super.onResume();

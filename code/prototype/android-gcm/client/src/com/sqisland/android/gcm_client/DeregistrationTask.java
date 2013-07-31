@@ -15,24 +15,27 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
-final class SendRegistrationIdTask extends
+final class DeregistrationTask extends
 AsyncTask<String, Void, HttpResponse> {
 	private String mRegId;
 	private SendMsgStatus parent;
 	SharedPreferences prefs ;
-	
-	public SendRegistrationIdTask(String regId) {
+	int duration = Toast.LENGTH_LONG;
+
+	public DeregistrationTask(String regId) {
 		mRegId = regId;
 		prefs = parent.getSharedPreferences(
 				Constants.APP, Context.MODE_PRIVATE);
 	}
-	public SendRegistrationIdTask(String regId,SendMsgStatus parent) {
+	public DeregistrationTask(String regId,SendMsgStatus parent) {
 		mRegId = regId;
 		this.parent = parent;
 		prefs = PreferenceManager.getDefaultSharedPreferences(parent);
@@ -42,7 +45,7 @@ AsyncTask<String, Void, HttpResponse> {
 	}
 	@Override
 	protected HttpResponse doInBackground(String... regIds) {
-		String url = Constants.SERVER_URL + "/gcmRegistry";
+		String url = Constants.SERVER_URL + "/gcmDeReg";
 		HttpPost httppost = new HttpPost(url);
 		final String username = prefs.getString("username", "new");
 		Log.d("Prefs",username);
@@ -79,12 +82,13 @@ AsyncTask<String, Void, HttpResponse> {
 	
 	StatusLine httpStatus = response.getStatusLine();
 	if (httpStatus.getStatusCode() != 200) {
-	  Log.e(Constants.TAG, "Status: " + httpStatus.getStatusCode());
-	  parent.mStatus.setText(httpStatus.getReasonPhrase());
-	  return;
+		Toast toast = Toast.makeText(parent, "Failed", duration);
+		toast.show();
+	}else{
+		Toast toast = Toast.makeText(parent, "Deregistered succssfully", duration);
+		toast.show();
+        Intent i = new Intent(parent,ConfigPreference.class);
+        parent.startActivity(i);
 	}
-	
-	String status = parent.getString(R.string.server_registration, mRegId);
-	parent.mStatus.setText(status);
 	}
 }
