@@ -1,4 +1,11 @@
-var showResultList = function(dataList) {
+resultPad = {
+    opened : false ,
+    ele : null ,
+    showResultList : null ,
+    destroyResultList : null
+}
+
+resultPad.showResultList = function(dataList) {
     var theList = $('#result_list');
     theList.empty();
     var data = dataList['data'];
@@ -8,11 +15,17 @@ var showResultList = function(dataList) {
     }
     theList.accordion({active : 0});
     theList.addClass('shown');
+
+    this.opened = true
+    this.ele = theList
 };
 
-var destroyResultList= function() {
+resultPad.destroyResultList= function() {
     var theList = $('#result_list');
     theList.accordion('destroy');
     theList.empty();
     theList.removeClass('shown');
+    
+    this.opened = true
+    this.ele = null
 }

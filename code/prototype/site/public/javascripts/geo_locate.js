@@ -105,7 +105,7 @@ mygeolocate.remove_watchlocate = function(){
     var geolocation = navigator.geolocation;
     geolocation.clearWatch(mygeolocate.watchID)
 }
-$(document).ready(function(){
-    $.getScript('/javascripts/baiduPosConverter.js')
+//$(document).ready(function(){
+    //    $.getScript('/javascripts/baiduPosConverter.js')
     // original BMap.Converter is deprecated
-})
+//})
