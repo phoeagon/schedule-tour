@@ -1,6 +1,7 @@
 package com.sqisland.android.gcm_client;
 
 public abstract class Constants {
+  public static final String APP = "com.sqisland.android.gcm_client";
   // Change this to the project id from your API project created at
   // code.google.com, as shown in the url of your project.
   public static final String SENDER_ID = "972473348547";
