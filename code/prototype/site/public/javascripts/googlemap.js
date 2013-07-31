@@ -328,6 +328,12 @@ var ScheduleTour = (function() {
                 longPresser = null;
             }
         });
+        google.maps.event.addDomListener(map, 'mousemove', function(e) {
+            if (longPresser) {
+                clearTimeout(longPresser);
+                longPresser = null;
+            }
+        });
         //map.addListener('longpress', function(e) { addEvent(e.point); });
     }
     var enableRightClick = function() {
