@@ -1,0 +1,36 @@
+<script type="text/javascript" src="/plugins/jquery.uploader.js"></script>
+<form action="/img/avatar_upload" method="POST" id="avatar_form">
+Classic upload here : <input id="files" type="file" multiple="false" />
+</form>
+<div id="dropZone" style="width: 800px; height: 100px; border: 1px solid red">
+    Click or drop images here...
+</div>
+
+
+<div id="thumbnails">
+</div>
+
+<script>
+//https://github.com/jdeniau/jquery-image-uploader
+imgupldr = $('#dropZone').imageUploader({
+    fileField: ''//'#files',
+    url: '/img/avatar_upload',
+    maxFileSize: 0, // an error is thrown if the file is bigger than max. 0 means no validation
+    thumbnails: {
+        crop: 'fit',
+        width: 200,
+        height: 200
+    },
+    afterUpload: function (data) {
+        console.log(data);
+    },
+    beforeUpload: function() { console.log("uploading") },
+    afterUpload: function() { console.log("uploaded") }
+}).css('width','100px');
+</script>
+
+<style>
+    .fileUploadThumbnails > div { float: left; margin-right: 1em; position: relative; border: 1px solid black }
+    .fileUploadThumbnails .progress { position: absolute; bottom: 0; right: 0; left: 0; height: 10%; opacity: .5 }
+    .fileUploadThumbnails .progress > div { height: 100%; background: #c00 }
+</style>
