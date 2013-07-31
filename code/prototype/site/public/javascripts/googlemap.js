@@ -315,8 +315,20 @@ var ScheduleTour = (function() {
     }
 
     
+    var longPresser = null;
     var enableLongPress = function() {
-        map.addListener('longpress', function(e) { addEvent(e.point); });
+        google.maps.event.addDomListener(map, 'mousedown', function(e) {
+            longPresser = setTimeout(function() {
+                addEvent(e.latLng);
+            }, 500);
+        });
+        google.maps.event.addDomListener(map, 'mouseup', function(e) {
+            if (longPresser) {
+                clearTimeout(longPresser);
+                longPresser = null;
+            }
+        });
+        //map.addListener('longpress', function(e) { addEvent(e.point); });
     }
     var enableRightClick = function() {
         google.maps.event.addDomListener(map, 'rightclick', function(e) {
@@ -568,7 +580,7 @@ $(document).ready(function () {
     setTimeout(function(){ mygeolocate.watchlocate( ScheduleTour.getMap() ) } , 1000 )
     ScheduleTour.fetchEventsFromServer();
     
-    //ScheduleTour.enableLongPress();
+    ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
     setSlidingMap();
     ScheduleTour.enableWeatherLayer();
