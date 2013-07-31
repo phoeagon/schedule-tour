@@ -1,4 +1,6 @@
-placeManager = {}
+placeManager = {
+    places : []
+}
 
 placeManager.getMapPlace = function(map){
     return {
@@ -92,6 +94,21 @@ placeManager.configureButton = function( map ){
 	}else $(ele).html('<button class="btn" onclick="javascript:placeManager.remove('
 		+lng+','+lat+')">Unfav</button>')
     })
+}
+placeManager.showList = function(  ){
+    //this.getPlace();
+    var render = [];
+    for ( var ele in this.places ){
+	render.push( {
+	    title: this.places[ele].title ,
+	    content: this.places[ele].title
+	})
+    }
+    if ( resultPad ){
+	if (resultPad.ele)
+	    resultPad.destroy();
+	resultPad.show( render )
+     }
 }
 $(document).ready(function(){
     placeManager.getPlace();

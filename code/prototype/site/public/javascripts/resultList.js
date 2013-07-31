@@ -5,10 +5,10 @@ resultPad = {
     destroyResultList : null
 }
 
-resultPad.showResultList = function(dataList) {
+resultPad.show = function(dataList) {
     var theList = $('#result_list');
     theList.empty();
-    var data = dataList['data'];
+    var data = dataList;
     for (var i = 0; i < data.length; i++) {
 	theList.append('<h3>'+data[i]['title']+'</h3>');
 	theList.append('<div>'+data[i]['content']+'</h3>');
@@ -20,7 +20,7 @@ resultPad.showResultList = function(dataList) {
     this.ele = theList
 };
 
-resultPad.destroyResultList= function() {
+resultPad.destroy= function() {
     var theList = $('#result_list');
     theList.accordion('destroy');
     theList.empty();
