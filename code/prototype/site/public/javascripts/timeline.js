@@ -14,15 +14,18 @@ function updateTimeline(){
                     delete data[ele].end;
                 data[ele].content = content_tag ;
             
-                var timeline = new links.Timeline(document.getElementById("timeline"))
                 var options = {
                     zoomable : true ,
                     cluster :  true 
                 }
-                timeline.draw(data, options);
+                Timeline.lib_tl.draw(data, options);
             };
             }
         )
 }
-
+Timeline = {
+    update : updateTimeline ,
+    lib_tl : null
+}
+Timeline.lib_tl = new links.Timeline(document.getElementById("timeline"))
 $(document).ready( updateTimeline )
