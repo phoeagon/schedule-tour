@@ -332,6 +332,10 @@ var ScheduleTour = (function() {
     }
     var enableRightClick = function() {
         google.maps.event.addDomListener(map, 'rightclick', function(e) {
+            if (longPresser) {
+                clearTimeout(longPresser);
+                longPresser = null;
+            }
             addEvent(e.latLng);
             e.stop();
         });
