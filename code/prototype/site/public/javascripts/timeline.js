@@ -13,7 +13,8 @@ function updateTimeline(){
                 if ( data[ele].end.valueOf() - data[ele].start.valueOf() < 1000*3600 )
                     delete data[ele].end;
                 data[ele].content = content_tag ;
-            
+
+                Timeline.lib_tl = new links.Timeline(document.getElementById("timeline"))
                 var options = {
                     zoomable : true ,
                     cluster :  true 
@@ -27,5 +28,5 @@ Timeline = {
     update : updateTimeline ,
     lib_tl : null
 }
-Timeline.lib_tl = new links.Timeline(document.getElementById("timeline"))
+
 $(document).ready( updateTimeline )
