@@ -2,8 +2,7 @@ loginManager = {};
 loginManager.displayDialog = function(){
     console.log("display");
     $.get('/login',function(data){
-	$( "#login_panel" ).html( data );
-	$( "#login_panel" ).dialog({
+	$( "#login_panel" ).html( data ).dialog({
 	    autoOpen: true,
 	    //width: "90%",
 	    open: function() {
