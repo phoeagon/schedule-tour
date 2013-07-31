@@ -1,0 +1,24 @@
+#sidebar {
+    height:700px;
+    position:relative;
+    overflow:auto;
+    width:40%;
+}
+.nodisplay {
+    display : none;
+}
+#sidebar form {
+    width: 100%;
+}
+#sidebar table input[type='text'] {
+    width: 95%;
+}
+#sidebar textarea {
+    width: 95%;
+}
+#sidebar table th {
+    width: 25%;
+}
+#sidebar table span input {
+    width: 44% !important;
+}
