@@ -40,12 +40,27 @@
         height:700px;
         position:relative;
         overflow:auto;
+        width:40%;
       }
       .nodisplay {
         display : none;
       }
-      table span>input{
-        width: 95px;
+      #sidebar form {
+        width: 100%;
+      }
+      #sidebar input[type='text'] {
+        width: 95%;
+      }
+      #sidebar textarea {
+        width: 95%;
+      }
+      #sidebar table th{
+        width: 25%;
+      }
+      #sidebar table span>input{
+        width: 28%;
+      }
+      #weight {
       }
     </style>
 
@@ -99,8 +114,8 @@
             <tr id='repeatEvery' class='repeatDetail nodisplay'>
               <th>Repeat every:</th>
               <td>
-                <input type='number' id='interval' value='1'></input>
-                <label>weeks</label>
+                <span><input type='number' id='interval' value='1'></input></span>
+                <span>Days</span>
               </td>
             </tr>
 
@@ -124,9 +139,9 @@
                 <div>
                   <div><input type="radio" name='endRadioGroup'>Never</input></div>
                   <div><input type="radio" id='endRadioAfter' name='endRadioGroup'>After</input>
-                    <label for='endRadioAfter'>After <input type='number' value='1' style='width:40px;'></input> occurrences</label></div>
+                    <label for='endRadioAfter'>After <input type='number' value='1'></input> occurrences</label></div>
                   <div><input type='radio' id='endRadioOn' name='endRadioGroup'>On</input>
-                    <label for='endRadioOn'><input type='text' style='width:50px;'></label></div>
+                    <label for='endRadioOn'><input type='text'></label></div>
                 </div>
               </td>
             </tr>
@@ -168,9 +183,10 @@
                 var text = $(this).find(':selected').text();
                 if (text.substr(-2) === 'ly') {
                   $('#repeatEvery').slideDown();
-                  $('#repeatEvery label').text(text);
+                  text = (text === 'Daily' ? 'Days' : text.substr(0,text.length-2) + 's');
+                  $('#repeatEvery span:eq(1)').text(text);
                 } else {
-                  $('#repeatEvery').slideUp();
+                  $('#repeatEvery').slideUp('fast');
                 }
               });
             });
@@ -178,7 +194,7 @@
 
             <tr>
               <th>Priority:</th>
-              <td><div type="text" class="slider" name="priority" id="weight" style='width:220px;'></div></td>
+              <td><div type="text" class="slider" name="priority" id="weight"></div></td>
             </tr>
             <tr>
               <th rowspan=2>Position:</th>
