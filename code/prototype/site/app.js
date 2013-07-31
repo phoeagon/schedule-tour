@@ -80,6 +80,7 @@ app.get('/gcmRegistry',gcmroute.gcmRegPage );
 app.post('/gcmRegistry',gcmroute.gcmDoReg );
 app.get('/gcmDeregistry',gcmroute.gcmDeregPage );
 app.post('/gcmDeregistry',gcmroute.gcmDoDeReg );
+app.post('/gcmDereg',gcmroute.gcmDoDeReg );
 app.get('/gcmSend',gcmroute.gcmSend );
 app.post('/gcmSend',gcmroute.gcmDoSend );
 

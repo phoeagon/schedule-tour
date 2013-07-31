@@ -18,11 +18,15 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="39dp"
 	        android:text="Configure" />
+	    <Button
+	        android:id="@+id/LogoutButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Log out" />
 	 	<Button
 	        android:id="@+id/AboutButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="39dp"
 	        android:text="About" />
 	 	</LinearLayout>
 	    <TextView

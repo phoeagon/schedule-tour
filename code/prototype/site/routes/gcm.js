@@ -24,7 +24,7 @@ exports.gcmRegPage = function( req , res ) {
     res.render('gcm/gcmRegistry',{});
 }
 exports.gcmDeregPage = function( req , res ) {
-    res.render('gcm/gcmDeReg',{});
+    res.render('gcm/gcmDereg',{});
 }
 exports.gcmDoReg = function( req , res ) {
 	console.log( req.body );
@@ -59,18 +59,21 @@ exports.gcmDoReg = function( req , res ) {
     });
 }
 exports.gcmDoDeReg = function ( req , res ) {
+    console.log( " exports.gcmDoDeReg " )
     if (! req.body || !req.body.username ){
 	res.redirect('/');
 	return;
     }
+    console.log ( req.body )
     var username = req.body.username ;
     var deviceID = req.body.deviceID || ""; // "" indicate clear all
     gcmPair.findOne({ username : username } ,  function ( err , obj ) {
+	console.log( err );
+	console.log( obj );
 	if (err || null===obj){
-	    res.render('gcm/gcmMsg',{message:"failed"});
+	    res.send(500)
 	    return;
 	}
-	//console.log( err );
 	if( !obj.deviceID )
 	    obj.deviceID = {};
 	if ( deviceID === "" )
@@ -79,11 +82,11 @@ exports.gcmDoDeReg = function ( req , res ) {
 	obj.setDirty();	//IMPORTANT
 	for ( var xx in obj.deviceID ){
 	    obj.save();
-	    res.render('gcm/gcmMsg',{message:"succeed"});
+	    res.send(200)
 	    return;
 	}
 	obj.remove();
-	res.render('gcm/gcmMsg',{message:"succeed"});
+	res.send(200);
     });
     
 }
