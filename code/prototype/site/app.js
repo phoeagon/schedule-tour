@@ -100,6 +100,10 @@ app.post('/img/avatar_upload_jq',imageRouter.upload_raw)
 app.get('/img/avatar_upload',imageRouter.upload_code)
 //var eventEntry = require('./models/types/eventEntry');
 
+var proxy = require('./routes/proxy')
+app.get( '/proxy/*', proxy.all )
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
