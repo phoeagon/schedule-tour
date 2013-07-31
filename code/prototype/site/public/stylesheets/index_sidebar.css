@@ -1,0 +1,33 @@
+#sidebar {
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    width: 40%;
+}
+.nodisplay {
+    display : none;
+}
+#sidebar form {
+    width: 100%;
+}
+#sidebar table input[type='text'] {
+    width: 95%;
+}
+#sidebar table input[type='number'] {
+    width: 30%;
+}
+#sidebar textarea {
+    width: 95%;
+}
+#sidebar table th {
+    width: 25%;
+}
+#sidebar .latLngInput {
+    width: 44% !important;
+}
+#sidebar #sidebarSpaceholder {
+    height: 20px;
+}
+#sidebar #repeatEndInput {
+    width: 50% !important;
+}
