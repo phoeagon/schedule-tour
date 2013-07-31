@@ -10,8 +10,9 @@ var success , user , error ;
 
 exports.upload = function ( req  , res , next ){
     console.log("uploader listener");
-    var path = req.files.avatar.path;
-    var ext = req.files.avatar.name.split('.').pop().toLowerCase();
+    console.log ( req.body );
+    var path = req.files.files.path;
+    var ext = req.files.files.name.split('.').pop().toLowerCase();
     if (ext!=='jpg' && ext!=='jpeg'){
         res.redirect('/');
     }
@@ -50,4 +51,6 @@ exports.display = function ( req  , res , next ){
     });
 
 }
-
+exports.upload_code = function( req , res , next ){
+    res.render('uploadAvatar')
+}
