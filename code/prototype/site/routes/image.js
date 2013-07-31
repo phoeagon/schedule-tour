@@ -20,17 +20,22 @@ exports.upload = function ( req  , res , next ){
     console.log ( req.session.user  )
     fs.readFile(path, function (err, data) {
         if (!err){
-            var tmpHolder = new Avatar({
-                _id: req.session.user._id ,
-                data: data
-            });
-            tmpHolder.save();
-            fs.unlink( path ,function(err){
-                console.log( "unlink" );
-                console.log ( err );
-            } );
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({result:"OK"}));
+            Avatar.findOne({ _id: req.session.user._id } , function(err,tmpHolder){
+                if (tmpHolder == null)
+                    var tmpHolder = new Avatar({
+                        _id: req.session.user._id ,
+                        data: data
+                    });
+                else tmpHolder.data = data;
+                tmpHolder.setDirty();
+                tmpHolder.save();
+                fs.unlink( path ,function(err){
+                    console.log( "unlink" );
+                    console.log ( err );
+                } );
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify({result:"OK"}));
+            })
         }else{
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({result:"failed"}));
@@ -45,7 +50,7 @@ exports.display = function ( req  , res , next ){
         if ( err || !obj )
             res.redirect('/img/smiley.jpg');
         else {
-            //console.log( obj.value.buffer );
+            console.log( obj.data.buffer );
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
             res.end( obj.data.buffer );
         }
@@ -54,4 +59,27 @@ exports.display = function ( req  , res , next ){
 }
 exports.upload_code = function( req , res , next ){
     res.render('uploadAvatar')
+}
+exports.upload_raw = function ( req  , res , next ){
+    console.log("uploader listener");
+    var data = req.body.data.replace(/^data:image\/\w+;base64,/, "");;
+    var raw_img = new Buffer(data, 'base64')
+    Avatar.findOne({ _id: req.session.user._id } , function(err,tmpHolder){
+        if (tmpHolder == null )
+            tmpHolder = new Avatar({ _id: req.session.user._id ,
+                                     data :  raw_img
+            })
+        else tmpHolder.data =  raw_img 
+        tmpHolder.setDirty();
+        tmpHolder.save( function(err){
+            if (!err){
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify({result:"OK"}));
+            }else{
+                console.log( err )
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify({result:"failed"}));
+            }
+        })
+    })
 }

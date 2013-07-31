@@ -1,6 +1,7 @@
 <script type="text/javascript" src="/plugins/jquery.uploader.js"></script>
 <form action="/img/avatar_upload" method="POST" id="avatar_form" enctype="multipart/form-data">
 Classic upload here : <input id="files" type="file" multiple="false" name="files"/>
+<input type="submit" value="Upload" id="avatar-upload"/>
 </form>
 <div id="dropZone" style="width: 800px; height: 100px; border: 1px solid red">
     Click or drop images here...
@@ -13,7 +14,7 @@ Classic upload here : <input id="files" type="file" multiple="false" name="files
 <script>
 //https://github.com/jdeniau/jquery-image-uploader
 imgupldr = $('#dropZone').imageUploader({
-    fileField: ''//'#files',
+    fileField: '#files',
     url: '/img/avatar_upload',
     maxFileSize: 0, // an error is thrown if the file is bigger than max. 0 means no validation
     thumbnails: {
@@ -24,8 +25,10 @@ imgupldr = $('#dropZone').imageUploader({
     afterUpload: function (data) {
         console.log(data);
     },
-    beforeUpload: function() { console.log("uploading") },
-    afterUpload: function() { console.log("uploaded") }
+    beforeUpload: function() {
+        console.log("uploading");
+        $('#dropZone').addClass('hidden')
+     }
 }).css('width','100px');
 </script>
 

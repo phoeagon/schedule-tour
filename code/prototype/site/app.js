@@ -86,10 +86,16 @@ app.post('/gcmSend',gcmroute.gcmDoSend );
 var imageRouter = require('./routes/image')
 
 app.get('/img/avatar/:username',imageRouter.display)
+
 app.post('/img/upload',eventEntry.checkLogin)
 app.post('/img/upload',imageRouter.display)
+
 app.post('/img/avatar_upload',eventEntry.checkLogin)
 app.post('/img/avatar_upload',imageRouter.upload)
+
+app.post('/img/avatar_upload_jq',eventEntry.checkLogin)
+app.post('/img/avatar_upload_jq',imageRouter.upload_raw)
+
 app.get('/img/avatar_upload',imageRouter.upload_code)
 //var eventEntry = require('./models/types/eventEntry');
 
