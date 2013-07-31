@@ -32,7 +32,7 @@ public class SendMsgStatus extends Activity {
   private GCMReceiver mGCMReceiver;
   private IntentFilter mOnRegisteredFilter;
 
-  private TextView mStatus;
+  TextView mStatus;
   Button configBtn;
   Context context;
   @Override
@@ -76,7 +76,7 @@ public class SendMsgStatus extends Activity {
   private void sendIdToServer(String regId) {
     String status = getString(R.string.gcm_registration, regId);
     mStatus.setText(status);
-    (new SendRegistrationIdTask(regId)).execute();
+    (new SendRegistrationIdTask(regId,this)).execute();
   }
 
   @Override
@@ -99,50 +99,5 @@ public class SendMsgStatus extends Activity {
     }
   }
 
-  private final class SendRegistrationIdTask extends
-      AsyncTask<String, Void, HttpResponse> {
-    private String mRegId;
-
-    public SendRegistrationIdTask(String regId) {
-      mRegId = regId;
-    }
-
-    @Override
-    protected HttpResponse doInBackground(String... regIds) {
-      String url = Constants.SERVER_URL + "/gcmRegistry";
-      HttpPost httppost = new HttpPost(url);
-
-      try {
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        nameValuePairs.add(new BasicNameValuePair("deviceID", mRegId));
-        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-        HttpClient httpclient = new DefaultHttpClient();
-        return httpclient.execute(httppost);
-      } catch (ClientProtocolException e) {
-        Log.e(Constants.TAG, e.getMessage(), e);
-      } catch (IOException e) {
-        Log.e(Constants.TAG, e.getMessage(), e);
-      }
-
-      return null;
-    }
-
-    @Override
-    protected void onPostExecute(HttpResponse response) {
-      if (response == null) {
-        Log.e(Constants.TAG, "HttpResponse is null");
-        return;
-      }
-
-      StatusLine httpStatus = response.getStatusLine();
-      if (httpStatus.getStatusCode() != 200) {
-        Log.e(Constants.TAG, "Status: " + httpStatus.getStatusCode());
-        mStatus.setText(httpStatus.getReasonPhrase());
-        return;
-      }
-
-      String status = getString(R.string.server_registration, mRegId);
-      mStatus.setText(status);
-    }
-  }
+  
 }
