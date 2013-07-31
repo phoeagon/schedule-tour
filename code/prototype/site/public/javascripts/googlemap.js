@@ -404,6 +404,8 @@ var ScheduleTour = (function() {
                 drawRoute();
                 if (calendarRenderer)
                     calendarRenderer.refresh();
+                if (Timeline)
+                    Timeline.update()
             });
         });
     }
@@ -431,7 +433,9 @@ var ScheduleTour = (function() {
         events = tour(events);
         drawRoute();
         if (calendarRenderer)
-            calendarRenderer.refresh();
+            calendarRenderer.refresh()
+        if (Timeline)
+            Timeline.update()
     }
 
     var drawRoute = function() {
@@ -533,7 +537,8 @@ var ScheduleTour = (function() {
         cloudLayer.setMap(map);
     };
     var disableCloudLayer = function() {
-        if (cloudLayer) cloudLayer.setMap(null);
+        if (cloudLayer)
+            cloudLayer.setMap(null);
     };
 
 
