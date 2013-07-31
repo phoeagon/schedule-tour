@@ -10,17 +10,18 @@ var success , user , error ;
 
 exports.upload = function ( req  , res , next ){
     console.log("uploader listener");
-    console.log ( req.body );
+   // console.log ( req.body );
     var path = req.files.files.path;
     var ext = req.files.files.name.split('.').pop().toLowerCase();
     if (ext!=='jpg' && ext!=='jpeg'){
         res.redirect('/');
     }
     console.log ( path );
+    console.log ( req.session.user  )
     fs.readFile(path, function (err, data) {
         if (!err){
             var tmpHolder = new Avatar({
-                username: req.body.username ,
+                _id: req.session.user._id ,
                 data: data
             });
             tmpHolder.save();
@@ -28,10 +29,10 @@ exports.upload = function ( req  , res , next ){
                 console.log( "unlink" );
                 console.log ( err );
             } );
-            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+            res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({result:"OK"}));
         }else{
-            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+            res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({result:"failed"}));
         }
     });
@@ -40,7 +41,7 @@ exports.upload = function ( req  , res , next ){
 exports.display = function ( req  , res , next ){
     console.log("img display");
     var username = req.params.username;
-    Avatar.findOne( { name : username } , function( err , obj ){
+    Avatar.findOne( { _id : username } , function( err , obj ){
         if ( err || !obj )
             res.redirect('/img/smiley.jpg');
         else {

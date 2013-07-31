@@ -2,7 +2,7 @@ var mongoose = require('../mongoose');
 
 //schema of User
 var AvatarSchema = mongoose.Schema({
-    username    :   String , 
+    _id    :   String , 
     data       :   Object
 });
 
