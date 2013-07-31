@@ -19,5 +19,5 @@ var Avatar = mongoose.model(SCHEMA_NAME, AvatarSchema);
 module.exports = Avatar;
 
 Avatar.prototype.setDirty = function(){
-    this.markModified('setting');
+    this.markModified('data');
 }

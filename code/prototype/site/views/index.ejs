@@ -19,6 +19,7 @@
     <script type="text/javascript" src="/javascripts/moment.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.js"></script>
     <script type="text/javascript" src="/javascripts/tl.js/timeline-min.js"></script>
+    <script type="text/javascript" src="./javascripts/avatar.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/tl.js/timeline.css">
 
     
@@ -259,7 +260,6 @@
     <script type="text/javascript" src="./javascripts/geo_locate.js"></script>
     <script type="text/javascript" src="./javascripts/setting.js"></script>
     <script type="text/javascript" src="./javascripts/placeManager.js"></script>
-    <script type="text/javascript" src="./javascripts/avatar.js"></script>
   <script type="text/javascript" >
     $('#close-flash-btn').click(function(e){
         $("#flash-msg").remove()
@@ -277,11 +277,6 @@
             else locationLock = true;
         }
     });
-    console.log( $('<img>').attr('id','avatar_img')
-            .attr('src','/img/avatar/'+username)
-            .attr('width','100px')
-            .attr('height','100px').appendTo('#avatar_div') )
-
         
   </script>
 </html>
