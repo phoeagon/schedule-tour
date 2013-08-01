@@ -35,8 +35,9 @@ server {
 	server_name localhost;
 
 
-        location ~ ^/(images/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
-          root /home/dev/schedule-tour/code/prototype/site/public;
+     location ~ ^/(images/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
+          root /home/dev/schedule-tour/code/prototype/site/public.min;
+          # root /home/dev/schedule-tour/code/prototype/site/public;
           access_log off;
           expires max;
 	  proxy_cache one;

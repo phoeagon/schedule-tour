@@ -16,6 +16,7 @@
     "mongoose" : ">=3.6",
     "mongoose-double":"*" ,
     "memory-cache" : "*",
-    "uri-js" : "*"
+    "uri-js" : "*",
+    "node-minify" : "*"
   }
 }
