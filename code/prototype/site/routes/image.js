@@ -48,7 +48,7 @@ exports.display = function ( req  , res , next ){
     var username = req.params.username;
     Avatar.findOne( { _id : username } , function( err , obj ){
         if ( err || !obj )
-            res.redirect('/img/smiley.jpg');
+            res.redirect('/images/smiley.jpg');
         else {
             console.log( obj.data.buffer );
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
