@@ -134,4 +134,9 @@ td
     width:100px;
     height:100px;
 }
-
+#menu_div{
+    position:absolute;
+    right:100px;
+    top:20%;
+    width:100px;
+}
