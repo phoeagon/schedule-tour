@@ -35,7 +35,7 @@ server {
 	server_name localhost;
 
 
-	location ~ ^/(images/|img/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
+	location ~ ^/(images/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
           root /home/dev/schedule-tour/code/prototype/site/public;
           access_log off;
           expires max;
