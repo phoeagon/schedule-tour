@@ -129,6 +129,14 @@ placeManager.panToLoc = function( index ){
 	ScheduleTour.panTo( loc )
     }
 }
+placeManager.removeLoc = function( index ){
+    if ( index < 0 || index >= placeManager.places.length )
+	console.log( "out of bound error" )
+    else{
+	placeManager.removePlace( index );
+	placeManager.places.splice( index , 1 )
+    }
+}
 $(document).ready(function(){
     $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();

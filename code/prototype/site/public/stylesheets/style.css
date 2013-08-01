@@ -201,12 +201,6 @@ td
     overflow: auto;
 }
 #search_panel{
-    position: absolute;
-    top : 0%;
-    left:   5%;
-    min-width: 40%;
-    max-width:  60%;
-    height: 10%;
 }
 #flash-msg{
 }

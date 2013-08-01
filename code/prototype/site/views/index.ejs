@@ -47,9 +47,23 @@
     <div id="calendar" class="hidden">
     </div>
     <div id="sidebar" class="hidden" style="overflow:auto;">
-        
     <% include addeventpanel.ejs -%>
+    </div>
+    <button id="sidebar_btn" class="buttons hidden">
+      ▷
+    </button>
     
+    <div id="search_panel" class="search_panel">
+    <% include searchbar.ejs -%>
+    </div>
+    
+    <div id="reg_panel"  title="Sign Up" class=""></div>
+    <div id="login_panel"  title="Login" class=""></div>
+    <div id="avatar_panel"  title="Avartar" class=""></div>
+    <div id="setting_panel"  title="Settings" class="hidden">
+    <% include setting_form.ejs -%>
+    </div>
+ 
     </div>
     <div id="avatar_div"></div>
     <div id="timeline"></div>
