@@ -205,7 +205,13 @@ td
 #flash-msg{
 }
 #avatar_div{
-    background-color:red;
+    /*background-color:red;*/
+}
+.has_shadow{
+    box-shadow:2px 2px 2px 2px #000000;
+    -webkit-box-shadow:2px 2px 2px 2px #000000;
+    -moz-box-shadow:2px 2px 2px 2px #000000;
+    -o-box-shadow:2px 2px 2px 2px #000000;
 }
 .unselectable {
    -moz-user-select: -moz-none;
