@@ -259,7 +259,8 @@ var ScheduleTour = (function() {
                     "<button class='btn btn-default' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
             }
         }
-        infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+"'></span>"
+        infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+
+            "' position='"+e.place+"'></span>"
         infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 
         var infoWindow = new google.maps.InfoWindow({
