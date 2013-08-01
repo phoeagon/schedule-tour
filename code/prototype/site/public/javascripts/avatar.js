@@ -13,7 +13,7 @@ avatarManager.init = function(){
     $.get('/img/avatar_upload',function(data){
 	$('#avatar_panel').html( data )
     })
-    $('#avatar_div').click ( avatarManager.openForm )
+    $('#avatar_btn').click ( avatarManager.openForm )
 }
 avatarManager.openForm = function(){
     $('#avatar_panel').dialog({
