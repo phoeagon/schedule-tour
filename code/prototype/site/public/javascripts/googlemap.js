@@ -144,6 +144,7 @@ var ScheduleTour = (function() {
     var routeArray = [];
     var directionsService = null;
     var stepDisplay = null;
+    var geocoder = null;
 
     var geolocate = function(){
         //mygeolocate.locate(map)
@@ -210,6 +211,7 @@ var ScheduleTour = (function() {
         );
         //addContentMenu(addEvent);
         directionsService = new google.maps.DirectionsService();
+        geocoder = new google.maps.Geocoder();
     };
 
     var addContentMenu = function(addEventCallback) {
@@ -386,8 +388,29 @@ var ScheduleTour = (function() {
         $("#side_collapse").unbind('click');
         $(".datepicker").datetimepicker();
         $(".slider").slider({ step: 1 , min : 0 , max : 10 });
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
+
+        geocoder.geocode(
+            {
+                latLng: latLng
+            },
+            function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    $('#newPlace').val(results[1].formatted_address);
+                } else {
+                    $('#newPlace').val('');
+                }
+            } else {
+                $('#newPlace').val('');
+                console.log('Geocoder failed due to: ' + status);
+            }
+        });
+
+
+        $('#title').val('');
+        $('#description').val('');
+        $('#newLat').val(latLng.lat());
+        $('#newLng').val(latLng.lng());
         $('#weight').slider('value', 0);
         $('#dateFrom').datetimepicker('setDate', new Date());
         $('#dateUntil').datetimepicker('setDate', new Date());
