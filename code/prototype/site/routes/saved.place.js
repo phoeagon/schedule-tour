@@ -45,6 +45,8 @@ var newPlace = function(req, res) {
       point       : req.body.point ,
       zoom        : req.body.zoom
     });
+    console.log( "newPlace" )
+    console.log( place._id )
     place.save(function(err, place) {
       if (err) {
         res.end(JSON.stringify({

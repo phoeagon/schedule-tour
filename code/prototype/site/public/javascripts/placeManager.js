@@ -16,6 +16,7 @@ placeManager.getPlace = function(){
     })
 }
 placeManager.savePlace = function( obj ){
+    console.log( obj )
     $.post('/saved.places/new',obj,function(data){
 	try{
 	    data = JSON.parse( data )
@@ -49,7 +50,7 @@ placeManager.panTo = function( map , point ){
 placeManager.add = function( title , lng , lat , zoom ){
     var obj = {
 	title : title ,
-	point : new ScheduleTour.Point( lng , lat ) ,
+	point : { lng : lng , lat : lat } ,
 	zoom  : zoom
     }
     placeManager.savePlace( obj )

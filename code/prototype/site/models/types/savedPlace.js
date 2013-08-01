@@ -5,7 +5,7 @@ var SchemaTypes = mongoose.Schema.Types;
 
 //schema of EventEntry
 var savedPlaceSchema = mongoose.Schema({
-    user        :   {type: SchemaTypes.ObjectId, ref: 'users'},
+    user        :   {type: String, ref: 'users'},
     title       :   String ,
     point       :   Object ,
     zoom        :   Number
@@ -27,7 +27,7 @@ savedPlace.prototype.setDirty = function(){
 
 savedPlace.populate = function( user , title , map ){
     return savedPlace( {
-        user : user ,
+        user : user._id ,
         title  : title ,
         point  : map.getCenter() ,
         zoom    : map.getZoom()
