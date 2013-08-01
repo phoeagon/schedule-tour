@@ -578,7 +578,11 @@ var ScheduleTour = (function() {
         enableWeatherLayer      :   enableWeatherLayer,
         disableWeatherLayer     :   disableWeatherLayer,
         enableCloudLayer        :   enableCloudLayer,
-        disableCloudLayer       :   disableCloudLayer
+        disableCloudLayer       :   disableCloudLayer ,
+        Point                   :   google.maps.LatLng ,
+        panTo                   :   function(){
+                                        return map.panTo;
+                                    }
     };
 
 }());
