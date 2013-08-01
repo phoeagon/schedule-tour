@@ -487,13 +487,19 @@ var ScheduleTour = (function() {
     var drawRoute = function() {
         //remove old paths
         routeArray.map(function(route) {
-            route.markerArray.map(function(marker) {
-                marker.setMap(null);
-            });
-            route.infoWindowArray.map(function(infoWindow) {
-                infoWindow.setMap(null);
-            });
-            route.directionsDisplay.setMap(null);
+            if (route.markerArray) {
+                route.markerArray.map(function(marker) {
+                    marker.setMap(null);
+                });
+            }
+            if (route.infoWindowArray) {
+                route.infoWindowArray.map(function(infoWindow) {
+                    infoWindow.setMap(null);
+                });
+            }
+            if (route.directionsDisply) {
+                route.directionsDisplay.setMap(null);
+            }
         });
         routeArray = [];
 
@@ -509,21 +515,23 @@ var ScheduleTour = (function() {
             requestDirections(request, i);
         }
 
-        function requestDirections(request, weight) {
+        function requestDirections(request, index) {
             directionsService.route(request, function(response, status) {
                 console.log(weight);
                 var directionsDisplayOptions = {
                     map             :   map,
+                    panel: document.getElementById('flash-msg'),
                     polylineOptions :   {
                         strokeOpacity   :   0.7,
-                        strokeColor     :   'rgb(255,255,'+weight*100+')',
-                        strokeWeight    :   (weight+1)*10
+                        strokeColor     :   'rgb(255,255,'+index*100+')',
+                        strokeWeight    :   (index+1)*10
                     }
+
                 };
                 var directionsDisplay = new google.maps.DirectionsRenderer(
                     directionsDisplayOptions
                 );
-                directionsDisplay.setDirections(response);
+                //directionsDisplay.setDirections(response);
                 var markerArray = [];
                 var infoWindowArray = [];
                 var myRoute = response.routes[0].legs[0];
@@ -531,6 +539,29 @@ var ScheduleTour = (function() {
                     url: '/images/circle.png',
                     anchor: new google.maps.Point(10, 10)
                 };
+                //draw polyline
+                var path = [];
+                myRoute.steps.map(function(step) {
+                    path = path.concat(step.path);
+                });
+                var polyline = new google.maps.Polyline({
+                    clickable   :   true,
+                    map         :   map,
+                    path        :   path,
+                    strokeOpacity   :   0.7,
+                    strokeColor     :   'rgb(255,255,'+index*100+')',
+                    strokeWeight    :   (index+1)*10
+
+                });
+                //bind polyline click event
+                google.maps.event.addDomListener(polyline, 'click', function(e) {
+                    alert('sdf');
+                    var newRequest = request;
+                    newRequest.travelMode = google.maps.TravelMode.DRIVING;
+                    requestDirections(newRequest, index);
+
+                });
+
                 for (var j=0; j<myRoute.steps.length; ++j){
                     var marker = new google.maps.Marker({
                         position: myRoute.steps[j].start_point,
@@ -545,11 +576,11 @@ var ScheduleTour = (function() {
                     markerArray[j] = marker;
                     infoWindowArray[j] = infoWindow;
                 }
-                routeArray.push({
+                routeArray[index] = {
                     markerArray         :   markerArray,
                     infoWindowArray     :   infoWindowArray,
                     directionsDisplay   :   directionsDisplay
-                });
+                };
             });
         };
         function addInfoWindowToMarker(infoWindow, marker) {
