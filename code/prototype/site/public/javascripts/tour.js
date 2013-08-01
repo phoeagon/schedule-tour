@@ -1,15 +1,15 @@
 
 
 var tour = function(eventEntries,map) {
+    if (eventEntries.length <= 1) return eventEntries;
     var timeMap = [];
 	
-	for (var i=0;i<eventEntries.length;i++)
-	{
-		var times = [];
-		for (var i1=0;i1<eventEntries.length;i1++)
-			times.push(0);
-		timeMap.push(times);
+	for (var i=0;i<eventEntries.length;i++) {
+        timeMap[i] = [];
+		for (var j=0;j<eventEntries.length;j++)
+			timeMap[i][j] = 0;
 	}
+
     //sort the events by dating time
     eventEntries.sort(function(a,b) {
         return a.time - b.time;
@@ -88,9 +88,12 @@ var tour = function(eventEntries,map) {
     var route = [];
 	var nullroute = [];
     for (var i=0; i<eventEntries.length; ++i) {
-       if (eventEntries[i].time != null) {route.push(i);nullroute.push(false);}
-	  	//alert(eventEntries[i].time); 
-		if (eventEntries[i].time == null) nullroute.push(true);
+        if (eventEntries[i].time != null) {
+            route.push(i);
+            nullroute.push(false);
+        } else {
+            nullroute.push(true);
+        }
     }
 	//eventEntries[i].time
 	
@@ -106,68 +109,78 @@ var tour = function(eventEntries,map) {
 //		eventEntries[route[i]].duration = tmp1;
 //	}
 	
-	
+    /*
+    It's already in order, and needs no more sorting
 	for (var i=0;i<eventEntries.length;++i)
 	{
-		for (var i1=i+1;i1<eventEntries.length;++i1)
-			if ((!nullroute[route[i]])&&(!nullroute[route[i1]])&&(eventEntries[route[i]].time > eventEntries[route[i1]].time)) 
+		for (var j=i+1;j<eventEntries.length;++j)
+			if ( (!nullroute[route[i]]) && (!nullroute[route[j]])
+                && (eventEntries[route[i]].time > eventEntries[route[j]].time)) 
 				{
 					var tmp = route[i];
 					route[i] = route[i1];
 					route[i1] = tmp;
 				}
 	}
+    */
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
+        var ievent = eventEntries[route[i]];
+        var jevent = eventEntries[route[i+1]];
+        var travelTime = getPathTime(route[i], route[i+1]);
 
-        if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
+        if (ievent.time + ievent.duration + travelTime > jevent.time) {
 			
-            if (eventEntries[route[i]].weight == eventEntries[route[i+1]].weight) {
+            if (ievent.weight == jevent.weight) {
 			 	route.splice(i+1 ,1);
-             
             }
             //remove the event with less weight
             route.splice(
-                i + (eventEntries[route[i]].weight < eventEntries[route[i+1]].weight ? 0 : 1),
+                i + (ievent.weight < jevent.weight ? 0 : 1),
                 1);
 				//alert("#"+i+"spliced");
             --i;
+            continue;
         }
-		
-		if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],route[i+1]) < eventEntries[route[i+1]].time){
 			
-			for (var i1 = 0 ;i1 < eventEntries.length;i1++)
-				if (nullroute[i1])
-				//Check whether it can add some addtitional events
-					{if (eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1) + eventEntries[i1].duration + getPathTime(i1,route[i+1]) < eventEntries[route[i+1]].time)
-						{
-							eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1);
-							var tmp1 = route[i+1];
-							route[i+1] = i1; 
-							nullroute[i1] = false;
-							for (var i2 = i + 2;i2<route.length;i2++)
-							{
-								var tmp2 = route[i2];
-								route[i2] = tmp1;
-								tmp1 = tmp2;
-								
-							}
-							route.push(tmp1);
-						}
+        for (var j=0; j<eventEntries.length;j++) {
+            if (nullroute[j]) {
+                //Check whether it can add some addtitional events
+                if (ievent.time + ievent.duration + getPathTime(route[i],j)
+                    + eventEntries[j].duration + getPathTime(j,route[i+1])
+                    < eventEntries[route[i+1]].time) {
+                        eventEntries[j].time = eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],j);
+                        var tmp1 = route[i+1];
+                        route[i+1] = j; 
+                        nullroute[j] = false;
+                        for (var i2 = i + 2;i2<route.length;i2++)
+                        {
+                            var tmp2 = route[i2];
+                            route[i2] = tmp1;
+                            tmp1 = tmp2;
+
+                        }
+                        route.push(tmp1);
                     }
-			
+                }
 		}		
     }
 	
 	var maximpo = -1;
-	var aims = 0;
+	var aims = -1;
 	//To push the most important thing back
-	for (var i1 = 0;i1 < eventEntries.length;i1++)
-	
-		if ((nullroute[i1])&&(eventEntries[i1].weight>maximpo)) {aims = i1;maximpo = eventEntries[i1];}
-		
-    eventEntries[aims].time = eventEntries[route[route.length - 1]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],aims);
+	for (var i = 0;i < eventEntries.length;i++) {
+		if ((nullroute[i]) && (eventEntries[i].weight>maximpo)) {
+            aims = i;
+            maximpo = eventEntries[i];
+        }
+		if (aims != -1) {
+        eventEntries[aims].time = eventEntries[route[route.length - 1]].time
+                                + eventEntries[route[route.length-1]].duration
+                                + getPathTime(route[route.length-1],aims);
 		route.push(aims);
+        }
+    }
 
 	
 //	if (eventEntries[route[route.length-1]])

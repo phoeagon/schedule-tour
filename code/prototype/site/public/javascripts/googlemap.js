@@ -484,22 +484,29 @@ var ScheduleTour = (function() {
             Timeline.update()
     }
 
+    var clearRouteFromMap = function (route) {
+        if (route.markerArray) {
+            route.markerArray.map(function(marker) {
+                marker.setMap(null);
+            });
+        }
+        if (route.infoWindowArray) {
+            route.infoWindowArray.map(function(infoWindow) {
+                infoWindow.setMap(null);
+            });
+        }
+        if (route.directionsDisply) {
+            route.directionsDisplay.setMap(null);
+        }
+        if (route.polyline) {
+            route.polyline.setMap(null);
+        }
+    }
+
     var drawRoute = function() {
         //remove old paths
         routeArray.map(function(route) {
-            if (route.markerArray) {
-                route.markerArray.map(function(marker) {
-                    marker.setMap(null);
-                });
-            }
-            if (route.infoWindowArray) {
-                route.infoWindowArray.map(function(infoWindow) {
-                    infoWindow.setMap(null);
-                });
-            }
-            if (route.directionsDisply) {
-                route.directionsDisplay.setMap(null);
-            }
+            clearRouteFromMap(route);
         });
         routeArray = [];
 
@@ -517,7 +524,10 @@ var ScheduleTour = (function() {
 
         function requestDirections(request, index) {
             directionsService.route(request, function(response, status) {
-                console.log(weight);
+                //remove old path
+                if (routeArray && routeArray[index]) {
+                    clearRouteFromMap(routeArray[index]);
+                }
                 var directionsDisplayOptions = {
                     map             :   map,
                     panel: document.getElementById('flash-msg'),
@@ -555,11 +565,10 @@ var ScheduleTour = (function() {
                 });
                 //bind polyline click event
                 google.maps.event.addDomListener(polyline, 'click', function(e) {
-                    alert('sdf');
+                    console.log('polyline clicked');
                     var newRequest = request;
                     newRequest.travelMode = google.maps.TravelMode.DRIVING;
                     requestDirections(newRequest, index);
-
                 });
 
                 for (var j=0; j<myRoute.steps.length; ++j){
@@ -579,7 +588,8 @@ var ScheduleTour = (function() {
                 routeArray[index] = {
                     markerArray         :   markerArray,
                     infoWindowArray     :   infoWindowArray,
-                    directionsDisplay   :   directionsDisplay
+                    directionsDisplay   :   directionsDisplay,
+                    polyline            :   polyline
                 };
             });
         };
