@@ -44,12 +44,12 @@ placeManager.removePlace = function( obj ){
     })
 }
 placeManager.panTo = function( map , point ){
-    map.panTo( new BMap.Point( point.lng , point.lat ) )
+    map.panTo( new ScheduleTour.Point( point.lng , point.lat ) )
 }
 placeManager.add = function( title , lng , lat , zoom ){
     var obj = {
 	title : title ,
-	point : new BMap.Point( lng , lat ) ,
+	point : new ScheduleTour.Point( lng , lat ) ,
 	zoom  : zoom
     }
     placeManager.savePlace( obj )
