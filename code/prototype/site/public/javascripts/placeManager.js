@@ -51,7 +51,7 @@ placeManager.panTo = function( map , point ){
 }
 placeManager.add = function( title , lng , lat , zoom ){
     var obj = {
-	title : title ,
+	title : unescape( title ) ,
 	point : { lng : lng , lat : lat } ,
 	zoom  : zoom
     }
@@ -87,7 +87,7 @@ placeManager.configureButton = function( map ){
     $('.favbtn').each( function(ind , ele ){
 	var lng = $(ele).attr("lng")
 	var lat = $(ele).attr("lat")
-	var position = $(ele).attr("position")
+	var position = $(ele).attr("position") 
 	console.log ( [ lng , lat ] )
 	if ( placeManager.find( lng , lat )===null ){
 	    $(ele).html('<button class="btn-primary" onclick="javascript:placeManager.add(\''
@@ -104,8 +104,13 @@ placeManager.showList = function(  ){
     for ( var ele in this.places ){
 	render.push( {
 	    title: this.places[ele].title ,
-	    content: $("<div>").append(
-		    $("<a>").attr("href","javascript:placeManager.panToLoc("+ele+");").html("Goto")
+	    content:
+	    $("<div>").append(
+		    $("<p>").html(this.places[ele].title)
+		).append(
+		    $("<a>").addClass("btn btn-primary").attr("href","javascript:placeManager.panToLoc("+ele+");").html("Goto")
+		).append(
+		    $("<a>").addClass("btn btn-default").attr("href","javascript:placeManager.removeLoc("+ele+");").html("Del")
 		).html()
 	})
     }
@@ -135,8 +140,9 @@ placeManager.removeLoc = function( index ){
     if ( index < 0 || index >= placeManager.places.length )
 	console.log( "out of bound error" )
     else{
-	placeManager.removePlace( index );
+	placeManager.removePlace( placeManager.places[index] );
 	placeManager.places.splice( index , 1 )
+	$( '.result_item_'+index ).remove()
     }
 }
 $(document).ready(function(){

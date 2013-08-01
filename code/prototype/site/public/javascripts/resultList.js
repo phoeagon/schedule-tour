@@ -10,8 +10,8 @@ resultPad.show = function(dataList) {
     theList.empty();
     var data = dataList;
     for (var i = 0; i < data.length; i++) {
-	theList.append('<h3>'+data[i]['title']+'</h3>');
-	theList.append('<div>'+data[i]['content']+'</h3>');
+	theList.append('<h3 class="result_item_'+i+'">'+data[i]['title']+'</h3>');
+	theList.append('<div class="result_item_'+i+'">'+data[i]['content']+'</h3>');
     }
     theList.accordion({active : 0});
     theList.addClass('shown');
