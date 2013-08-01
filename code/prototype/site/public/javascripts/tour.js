@@ -119,12 +119,12 @@ var tour = function(eventEntries,map) {
 	}
     //check the time spent between adjoining events
     for (var i=0; i<route.length-1; ++i) {
+
         if (eventEntries[route[i]].time+ eventEntries[route[i]].duration + getPathTime(route[i], route[i+1]) > eventEntries[route[i+1]].time) {
+			
             if (eventEntries[route[i]].weight == eventEntries[route[i+1]].weight) {
-                //throw the warning
-             //   throw Exception("You needs to change your schedule", route[i], route[i+1]);
 			 	route.splice(i+1 ,1);
-                return;
+             
             }
             //remove the event with less weight
             route.splice(
@@ -144,11 +144,13 @@ var tour = function(eventEntries,map) {
 							eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[i]].duration + getPathTime(route[i],i1);
 							var tmp1 = route[i+1];
 							route[i+1] = i1; 
+							nullroute[i1] = false;
 							for (var i2 = i + 2;i2<route.length;i2++)
 							{
 								var tmp2 = route[i2];
 								route[i2] = tmp1;
 								tmp1 = tmp2;
+								
 							}
 							route.push(tmp1);
 						}
@@ -157,13 +159,16 @@ var tour = function(eventEntries,map) {
 		}		
     }
 	
+	var maximpo = -1;
+	var aims = 0;
+	//To push the most important thing back
 	for (var i1 = 0;i1 < eventEntries.length;i1++)
-		if ((nullroute[i1])&&(eventEntries[i1].time == null)) 
-        {
-            eventEntries[i1].time = eventEntries[route[i]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],i1);
-            route.push(i1);
-            break;
-        }
+	
+		if ((nullroute[i1])&&(eventEntries[i1].weight>maximpo)) {aims = i1;maximpo = eventEntries[i1];}
+		
+    eventEntries[aims].time = eventEntries[route[route.length - 1]].time + eventEntries[route[route.length-1]].duration + getPathTime(route[route.length-1],aims);
+		route.push(aims);
+
 	
 //	if (eventEntries[route[route.length-1]])
 	
