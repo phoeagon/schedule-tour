@@ -580,8 +580,8 @@ var ScheduleTour = (function() {
         enableCloudLayer        :   enableCloudLayer,
         disableCloudLayer       :   disableCloudLayer ,
         Point                   :   google.maps.LatLng ,
-        panTo                   :   function(){
-                                        return map.panTo;
+        panTo                   :   function( t ){
+                                        return ScheduleTour.getMap().panTo(t);
                                     }
     };
 

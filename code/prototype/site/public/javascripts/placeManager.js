@@ -102,7 +102,9 @@ placeManager.showList = function(  ){
     for ( var ele in this.places ){
 	render.push( {
 	    title: this.places[ele].title ,
-	    content: this.places[ele].title
+	    content: $("<div>").append(
+		    $("<a>").attr("href","javascript:placeManager.panToLoc("+ele+");").html("Goto")
+		).html()
 	})
     }
     if ( resultPad ){
@@ -111,6 +113,23 @@ placeManager.showList = function(  ){
 	resultPad.show( render )
      }
 }
+placeManager.toggleResultPad = function(){
+    if ( resultPad ){
+	if (resultPad.ele)
+	    resultPad.destroy();
+	else placeManager.showList();
+    }
+}
+placeManager.panToLoc = function( index ){
+    if ( index < 0 || index >= placeManager.places.length )
+	console.log( "out of bound error" )
+    else{
+	var pl = placeManager.places[ index ]
+	var loc = new ScheduleTour.Point( pl.point.lng , pl.point.lat )
+	ScheduleTour.panTo( loc )
+    }
+}
 $(document).ready(function(){
+    $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();
 })
