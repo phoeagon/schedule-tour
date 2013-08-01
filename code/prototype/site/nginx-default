@@ -1,6 +1,6 @@
 proxy_cache_path  /var/cache/nginx levels=1:2 keys_zone=one:8m max_size=3000m inactive=600m;
 proxy_temp_path /var/tmp;
-    
+
 upstream backend {
 	server localhost:5000;
 	server localhost:5001;
@@ -35,14 +35,14 @@ server {
 	server_name localhost;
 
 
-	location ~ ^/(images/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
+        location ~ ^/(images/|javascripts/|plugins/|svg/|fullcalendar/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|robots.txt|humans.txt|favicon.ico) {
           root /home/dev/schedule-tour/code/prototype/site/public;
           access_log off;
           expires max;
-          proxy_cache one;
-          proxy_cache_key sfs$request_uri$scheme;
+	  proxy_cache one;
+	  proxy_cache_key sfs$request_uri$scheme;
         }
-   location /proxy/ {
+	location /proxy/ {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		proxy_pass http://backend;
@@ -50,9 +50,11 @@ server {
           expires max;
           proxy_cache one;
           proxy_cache_key sfs$request_uri$scheme;
+	proxy_buffering on;
+	proxy_cache_valid any 1h;
 		# Uncomment to enable naxsi on this location
 		# include /etc/nginx/naxsi.rules
-	}
+	}	
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
