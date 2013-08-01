@@ -426,7 +426,7 @@ var ScheduleTour = (function() {
             var newEvent = {
                 title       :   $('#title').val(),
                 description :   $('#description').val(),
-                place       :   '',
+                place       :   $('#newPlace').val(),
                 weight      :   $('#weight').slider('value'),
                 time        :   new Date($('#dateFrom').datetimepicker('getDate')),
                 endTime     :   new Date($('#dateUntil').datetimepicker('getDate')),
