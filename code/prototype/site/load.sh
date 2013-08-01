@@ -5,5 +5,5 @@ let port=$1
 for ((i=0; i < $2; i++))
     do
         let j=$i+$port;
-        ( export PORT=$j; node app.js & )
+        ( export PORT=$j; node `pwd`/app.js  &)
     done;
