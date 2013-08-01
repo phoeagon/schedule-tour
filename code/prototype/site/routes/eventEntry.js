@@ -188,6 +188,7 @@ var setRouter = function(app) {
   app.post('/evententries', checkLogin);
   app.post('/evententries', listEntries);
   
+  app.get('/calendarentries', checkLogin);
   app.get('/calendarentries', listCalendarEntries);
   app.get('/timelineentries', checkLogin);
   app.get('/timelineentries', listTimelineEntries);
