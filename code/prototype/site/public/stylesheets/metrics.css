@@ -134,6 +134,12 @@ td
     width:100px;
     height:100px;
 }
+#avatar_div.portrait{
+    right:0px;
+    top:10%;
+    width:100px;
+    height:100px;
+}
 #menu_div{
     position:absolute;
     right:100px;
