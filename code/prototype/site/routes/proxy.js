@@ -18,8 +18,9 @@ exports.all = function( req , res , next ){
 var testURL = function( url ){
     return url.indexOf("js")!=-1 || url.indexOf("mapslt")!=-1 || url.indexOf("vt")!=-1
 }
-var replaces = ["http://\\w+.googleapis.com/",
-   "http://maps.gstatic.com/", //"http://maps.gstatic.com/cat_js/intl/en_us/mapfiles/api-3/13/10/%7Bmain,places,weather%7D.js",
+var replaces = [//"http://\\w+.googleapis.com/",
+   //"http://maps.gstatic.com/",
+   "http://maps.gstatic.com/cat_js/intl/en_us/mapfiles/api-3/13/10/%7Bmain,places,weather%7D.js",
    "http://maps.googleapis.com/maps/api/js?key=AIzaSyBxGLmTa_KJutZZEttdAw6PGuuM3030I2I&sensor=true&libraries=places,weather"
     ];
 var repl_reg = [];
