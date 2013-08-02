@@ -38,8 +38,8 @@ var tour = function(eventEntries,map) {
         walking.search(eventEntries[i].position, eventEntries[j].position);
         */
 
-        from = eventEntries[i].position;
-        to = eventEntries[i+1].position;
+        var from = eventEntries[i].position;
+        var to = eventEntries[i+1].position;
         var directionsService = new google.maps.DirectionsService(map);
         var request = {
             origin      :   new google.maps.LatLng(from[0], from[1]),

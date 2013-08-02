@@ -67,8 +67,8 @@ function setSlidingMap() {
 	    $("#timeline").toggleClass('shown');});
 
     function showCal() {
-        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
-	$('#map').css({'top' : calHeight});
+        $("#map").css({'transition':'top '+layoutMetrics.calAnimationTime, '-webkit-transition':'top'+layoutMetrics.calAnimationTime});
+	$('#map').css({'top' : layoutMetrics.calHeight});
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         btn.text('Calendar△');
@@ -79,12 +79,12 @@ function setSlidingMap() {
         $('.fc-button-agendaDay').click();
         $('.fc-button-today').click();
 	setTimeout(function() {
-		$('#calendar').css({'z-index':'1'});}, parseInt(calAnimationTime));
+		$('#calendar').css({'z-index':'1'});}, parseInt(layoutMetrics.calAnimationTime));
         $("#search_panel").addClass('hidden');
     }
     function hideCal() {
 	$('#calendar').css({'z-index':'-5'});
-        $("#map").css({'transition':'top '+calAnimationTime, '-webkit-transition':'top'+calAnimationTime});
+        $("#map").css({'transition':'top '+layoutMetrics.calAnimationTime, '-webkit-transition':'top'+layoutMetrics.calAnimationTime});
 	$('#map').css({'top':'0'});
 	$('#map_pad').removeClass('inUse');
         var btn = $("#calendar_btn");
@@ -95,13 +95,13 @@ function setSlidingMap() {
         btn.bind('click', showCal);
         $("#sidebar_btn").bind('click', showSide);
         setTimeout(function() {
-		$("#calendar").addClass('hidden');}, parseInt(calAnimationTime));
+		$("#calendar").addClass('hidden');}, parseInt(layoutMetrics.calAnimationTime));
         $("#search_panel").removeClass('hidden');
     }
 
     function showSide() {
-        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});        
-	$("#map").css({'left' : sideWid});
+        $("#map").css({'transition':'left '+layoutMetrics.sideAnimationTime, '-webkit-transition':'left '+layoutMetrics.sideAnimationTime});        
+	$("#map").css({'left' : layoutMetrics.sideWid});
 	$('#map_pad').addClass('inUse');
 	$('#map').addClass('disabledColor');
         var btn = $("#sidebar_btn");
@@ -113,7 +113,7 @@ function setSlidingMap() {
         $("#calendar_btn").unbind('click');
     }
     function hideSide() {
-        $("#map").css({'transition':'left '+sideAnimationTime, '-webkit-transition':'left '+sideAnimationTime});
+        $("#map").css({'transition':'left '+layoutMetrics.sideAnimationTime, '-webkit-transition':'left '+layoutMetrics.sideAnimationTime});
 	$("#map").css({'left' : '0'});
 	$('#map').removeClass('disabledColor');
 	$('#map_pad').removeClass('inUse');
@@ -305,27 +305,42 @@ var ScheduleTour = (function() {
 	    globalEventCache = res.eventEntries		//global
 	    //console.log( globalEventCache )
         var eventsBuff = res.eventEntries;
-        for(var i = 0; i < eventsBuff.length; i++) {
+        //for(var i = 0; i < eventsBuff.length; i++) {
+        var render_event = function(i){
+            if ( i == eventsBuff.length ){
+                afterPushedTours();
+                return;
+            }
             var newEvent = newMarkerToEvent(map, eventsBuff[i]);
             addInfoWindowToEvent(map, newEvent);
             newEvent.time = new Date(newEvent.time);
             newEvent.endTime = new Date(newEvent.endTime);
             newEvent.duration = new Date(newEvent.duration);
             events.push(newEvent);
+            
+            setTimeout( function(){
+                render_event( i + 1 );
+            } , 10 );
         }
-        events = tour(events);
-        drawRoute(map, events, polylines);
+        if ( eventsBuff.length ){
+            render_event( 0 );
+        }
+        //}
+        var afterPushedTours = function(){
+            events = tour(events);
+            drawRoute(map, events, polylines);
+        }
         //TODO: enable the button of adding event
         });
     }
 
     
-    var longPresser = null;
     var enableLongPress = function() {
+        var longPresser = null;
         google.maps.event.addDomListener(map, 'mousedown', function(e) {
             longPresser = setTimeout(function() {
                 addEvent(e.latLng);
-            }, 500);
+            }, 1500);
         });
         google.maps.event.addDomListener(map, 'mouseup', function(e) {
             if (longPresser) {

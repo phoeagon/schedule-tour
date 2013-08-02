@@ -1,4 +1,5 @@
-var calHeight = '90%';
-var calAnimationTime = '300ms';
-var sideWid = '90%';
-var sideAnimationTime = '300ms';
+var layoutMetrics ={ };
+layoutMetrics.calHeight = '90%';
+layoutMetrics.calAnimationTime = '300ms';
+layoutMetrics.sideWid = '90%';
+layoutMetrics.sideAnimationTime = '300ms';
