@@ -243,7 +243,7 @@ var ScheduleTour = (function() {
         var localEvents = findEventByPos(e.position);
         var marker = null;
         if (localEvents.length == 0) {
-            marker = new google.maps.Marker({
+            marker = new ScheduleTourMap.Marker({
                 position    :   p,
                 map         :   map
             });
@@ -340,7 +340,7 @@ var ScheduleTour = (function() {
         var localEvents = findEventByPos([latLng.lat(), latLng.lng()]);
         var marker = null;
         if (localEvents.length == 0) {
-            marker = new google.maps.Marker({
+            marker = new ScheduleTourMap.Marker({
                 position    :   latLng,
                 map         :   map
             });
@@ -506,7 +506,7 @@ var ScheduleTour = (function() {
 
             var icon = {
                 url: '/images/circle.png',
-                anchor: new google.maps.Point(10, 10)
+                anchor: new ScheduleTourMap.Point(10, 10)
             };
             //draw polyline
             var path = [];
@@ -531,7 +531,7 @@ var ScheduleTour = (function() {
                     map: map
                 });
                 marker.setZIndex(1);
-                var infoWindow = new google.maps.InfoWindow({
+                var infoWindow = new ScheduleTourMap.InfoWindow({
                     content :   myRoute.steps[j].instructions
                 });
                 addInfoWindowToMarker(infoWindow, marker);
