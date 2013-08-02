@@ -301,25 +301,21 @@ var ScheduleTour = (function() {
     }
 
     
+    var longPresser = null;
     var enableLongPress = function() {
-        var longPresser = null;
         google.maps.event.addDomListener(map, 'mousedown', function(e) {
             longPresser = setTimeout(function() {
                 addEvent(e.latLng);
             }, 1500);
         });
-        google.maps.event.addDomListener(map, 'mouseup', function(e) {
+        var clearSpecTimeout = function(e) {
             if (longPresser) {
                 clearTimeout(longPresser);
                 longPresser = null;
             }
-        });
-        google.maps.event.addDomListener(map, 'mousemove', function(e) {
-            if (longPresser) {
-                clearTimeout(longPresser);
-                longPresser = null;
-            }
-        });
+        };
+        google.maps.event.addDomListener(map, 'mouseup', clearSpecTimeout );
+        google.maps.event.addDomListener(map, 'mousemove', clearSpecTimeout );
         //map.addListener('longpress', function(e) { addEvent(e.point); });
     }
     var enableRightClick = function() {

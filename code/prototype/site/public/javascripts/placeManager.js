@@ -92,10 +92,10 @@ placeManager.configureButton = function( map ){
 	if ( placeManager.find( lng , lat )===null ){
 	    $(ele).html('<button class="btn-primary" onclick="javascript:placeManager.add(\''
 	    +position+'\','
-		+lng+','+lat+','+map.getZoom()+')">Fav</button>')
+		+lng+','+lat+','+map.getZoom()+')"><i class="icon-xlarge icon-star"></i></button>')
 	    console.log( "not in fav" )
 	}else $(ele).html('<button class="btn" onclick="javascript:placeManager.remove('
-		+lng+','+lat+')">Unfav</button>')
+		+lng+','+lat+')"><i class="icon-xlarge icon-star-empty"></i></button>')
     })
 }
 placeManager.showList = function(  ){
