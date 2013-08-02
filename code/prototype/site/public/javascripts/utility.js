@@ -13,11 +13,15 @@ function checkMobile (){
 	    console.log( [ height , width ] )
 	    if(width>height) {
 	      // Landscape
+		$('#sidebar').removeClass('portrait')
+		$('#result_list').removeClass('portrait')
 		$('#avatar_div').removeClass('portrait')
 		$('#timeline').removeClass('vertical')
 		//$("#main_div").removeClass('portrait_div');
 	    } else {
-	      // Portrait		
+	      // Portrait	      
+		$('#sidebar').addClass('portrait')
+		$('#result_list').addClass('portrait')
 		$('#avatar_div').addClass('portrait')
 		$('#timeline').addClass('vertical')
 		//$("#main_div").addClass('portrait_div');

@@ -4,6 +4,9 @@
     overflow: auto;
     width: 40%;
 }
+#sidebar.portrait{
+    width: 85%;
+}
 .nodisplay {
     display : none;
 }
