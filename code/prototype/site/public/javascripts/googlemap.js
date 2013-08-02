@@ -645,5 +645,5 @@ $(document).ready(function () {
     ScheduleTour.enableCloudLayer();
 
 //    $.getScript("/javascripts/map_search.js")
-    //recommend_douban(map);
+    recommend_douban( ScheduleTour.getMap() );
 });

@@ -27,8 +27,10 @@ var recommend_douban = function(map) {
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
                 var infoWindow = new ScheduleTour.InfoWindow(sContent, opts);  // 创建信息窗口对象
-                map.addOverlay(marker);
-                marker.addEventListener("click", function(){          
+                marker.setMap(map);
+                //DEPRECATED:map.addOverlay(marker);
+                //DEPRECATED: marker.addEventListener("click", function(){
+                marker.addListener("click", function(){       
                     this.openInfoWindow(infoWindow);
                     //图片加载完毕重绘infowindow
                     document.getElementById('imgDemo').onload = function (){
@@ -42,7 +44,7 @@ var recommend_douban = function(map) {
 
 }
 
-recommend_douban = function(map, lng, lat, dist, num) {
+recommend_douban_db = function(map, lng, lat, dist, num) {
     // get location code from douban
     $.post('/event/recommend',
         {
@@ -70,8 +72,10 @@ recommend_douban = function(map, lng, lat, dist, num) {
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
                 var infoWindow = new ScheduleTour.InfoWindow(sContent, opts);  // 创建信息窗口对象
-                map.addOverlay(marker);
-                marker.addEventListener("click", function(){          
+                marker.setMap(map);
+                //DEPRECATED map.addOverlay(marker);
+                //DEPRECATED: marker.addEventListener("click", function(){
+                marker.addListener("click", function(){
                     this.openInfoWindow(infoWindow);
                     //图片加载完毕重绘infowindow
                     document.getElementById('imgDemo').onload = function (){
