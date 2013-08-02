@@ -52,6 +52,7 @@ mygeolocate.locate = function( map ) {
             console.log('Your Position:'+pt.lng+','+pt.lat);
             // store location
             mygeolocate.myLocationMarker =  mk ;
+
         },function(err){console.log(err)},{enableHighAccuracy: true})
     }
 /*mygeolocate.watchlocate = function( map ){
@@ -81,7 +82,7 @@ mygeolocate.locate = function( map ) {
     } ,handleNoGeolocation , {enableHighAccuracy: true})
 }*/
 
-mygeolocate.watchlocate = function( map ){
+mygeolocate.watchlocate = function( map , callback ){
     var geolocation = navigator.geolocation;
     if (!geolocation){
         handleNoGeolocation(false);
@@ -96,7 +97,7 @@ mygeolocate.watchlocate = function( map ){
             //y += 0.1
             //map.removeOverlay( mygeolocate.myLocationMarker )
             var latLng = new google.maps.LatLng( x , y )
-            console.log( latLng )
+            console.log( 'watch locate : ' + latLng )
             if (!mygeolocate.myLocationMarker){
                 mygeolocate.myLocationMarker = new ScheduleTour.Marker({
                     map: map,
@@ -109,8 +110,11 @@ mygeolocate.watchlocate = function( map ){
             mygeolocate.myLocationPoint = latLng;
             if (locationLock)
                 map.panTo( latLng );
+            callback( latLng );
 
-        }catch(err){ console.log(err);}
+        } catch (err) {
+            console.log(err);
+        }
     } ,handleNoGeolocation , {enableHighAccuracy: true})
 }
 mygeolocate.remove_watchlocate = function(){

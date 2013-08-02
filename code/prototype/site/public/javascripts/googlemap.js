@@ -478,110 +478,97 @@ var ScheduleTour = (function() {
                 destination :   to,
                 travelMode  :   google.maps.TravelMode.WALKING
             };
-            requestDirections(request, i);
+            routeArray[i] = {};
+            requestDirections(request, routeArray[i], 'rgb(255,'+Math.min(i*50,255)+',255)');
         }
+    }
 
-        function requestDirections(request, index) {
-            directionsService.route(request, function(response, status) {
-                //remove old path
-                if (routeArray && routeArray[index]) {
-                    clearRouteFromMap(routeArray[index]);
-                }
-                var directionsDisplayOptions = {
-                    map             :   map,
-                    panel: document.getElementById('flash-msg'),
-                    polylineOptions :   {
-                        strokeOpacity   :   0.7,
-                        strokeColor     :   'rgb(255,255,'+index*100+')',
-                        strokeWeight    :   (index+1)*10
-                    }
-
-                };
-                var directionsDisplay = new google.maps.DirectionsRenderer(
-                    directionsDisplayOptions
-                );
-                //directionsDisplay.setDirections(response);
-                var markerArray = [];
-                var infoWindowArray = [];
-
-                try{
-                    var myRoute = response.routes[0].legs[0];
-                }catch(err){
-                    var myRoute = Infinity;
-                }
-                
-                var icon = {
-                    url: '/images/circle.png',
-                    anchor: new google.maps.Point(10, 10)
-                };
-                //draw polyline
-                var path = [];
-                myRoute.steps && myRoute.steps.map(function(step) {
-                    path = path.concat(step.path);
-                });
-                var polyline = new google.maps.Polyline({
-                    clickable   :   true,
-                    map         :   map,
-                    path        :   path,
-                    strokeOpacity   :   0.9,
-                    strokeColor     :   'rgb(255,'+Math.min(index*50, 255)+',255)',
-                    strokeWeight    :   (1)*10
-
-                });
-                //bind polyline click event
-                google.maps.event.addDomListener(polyline, 'click', function(e) {
-                    var travelModes = [
-                        //google.maps.TravelMode.BICYCLING,
-                        google.maps.TravelMode.DRIVING,
-                        google.maps.TravelMode.TRANSIT,
-                        google.maps.TravelMode.WALKING
-                    ];
-                    console.log('polyline clicked');
-                    var newRequest = request;
-                    var travelIndex = travelModes.indexOf(request.travelMode);
-                    travelIndex = (travelIndex + 1) % travelModes.length;
-                    console.log(travelIndex);
-                    newRequest.travelMode = travelModes[travelIndex];
-                    console.log(newRequest);
-                    requestDirections(newRequest, index);
-                    humane.clickToClose = true;
-                    humane.timeout = 1000;
-                    humane.left = e.Ra.clientX - 50 + 'px';
-                    humane.top = e.Ra.clientY - 50 + 'px';
-
-                    humane.log(travelModes[travelIndex]);
-                });
-            if (myRoute.steps){
-                for (var j=0; j< myRoute.steps.length ; ++j) {
-                    var marker = new google.maps.Marker({
-                        position: myRoute.steps[j].start_point,
-                        icon: icon,
-                        map: map
-                    });
-                    marker.setZIndex(1);
-                    var infoWindow = new google.maps.InfoWindow({
-                        content :   myRoute.steps[j].instructions
-                    });
-                    addInfoWindowToMarker(infoWindow, marker);
-                    markerArray[j] = marker;
-                    infoWindowArray[j] = infoWindow;
-                }
+    var requestDirections = function(request, route, color) {
+        directionsService.route(request, function(response, status) {
+            //remove old path
+            if (route) {
+                clearRouteFromMap(route);
             }
-                routeArray[index] = {
-                    markerArray         :   markerArray,
-                    infoWindowArray     :   infoWindowArray,
-                    directionsDisplay   :   directionsDisplay,
-                    polyline            :   polyline
-                };
+            var markerArray = [];
+            var infoWindowArray = [];
+
+            if (!(response && response.routes && response.routes[0]
+            && response.routes[0].legs && response.routes[0].legs[0])) return;
+
+            var myRoute = response.routes[0].legs[0];
+
+            var icon = {
+                url: '/images/circle.png',
+                anchor: new google.maps.Point(10, 10)
+            };
+            //draw polyline
+            var path = [];
+            myRoute.steps.map(function(step) {
+                path = path.concat(step.path);
             });
-        };
+            var polyline = new google.maps.Polyline({
+                clickable   :   true,
+                map         :   map,
+                path        :   path,
+                strokeOpacity   :   0.9,
+                strokeColor     :   color,
+                strokeWeight    :   (1)*10
+            });
+            //bind polyline click event
+            google.maps.event.addDomListener(polyline, 'click', switchTravelMode);
+
+            for (var j=0; j<myRoute.steps.length; ++j) {
+                var marker = new google.maps.Marker({
+                    position: myRoute.steps[j].start_point,
+                    icon: icon,
+                    map: map
+                });
+                marker.setZIndex(1);
+                var infoWindow = new google.maps.InfoWindow({
+                    content :   myRoute.steps[j].instructions
+                });
+                addInfoWindowToMarker(infoWindow, marker);
+                markerArray[j] = marker;
+                infoWindowArray[j] = infoWindow;
+            }
+            route = {
+                markerArray         :   markerArray,
+                infoWindowArray     :   infoWindowArray,
+                directionsDisplay   :   null,
+                polyline            :   polyline
+            };
+
+            function switchTravelMode(e) {
+                var travelModes = [
+                    //google.maps.TravelMode.BICYCLING,
+                    google.maps.TravelMode.DRIVING,
+                    google.maps.TravelMode.TRANSIT,
+                    google.maps.TravelMode.WALKING
+                ];
+                console.log('polyline clicked');
+                var newRequest = request;
+                var travelIndex = travelModes.indexOf(request.travelMode);
+                travelIndex = (travelIndex + 1) % travelModes.length;
+                console.log(travelIndex);
+                newRequest.travelMode = travelModes[travelIndex];
+                console.log(newRequest);
+                requestDirections(newRequest, route, color);
+
+                humane.clickToClose = true;
+                humane.timeout = 1000;
+                humane.left = e.Ra.clientX - 50 + 'px';
+                humane.top = e.Ra.clientY - 50 + 'px';
+
+                humane.log(travelModes[travelIndex]);
+            }
+
+        });
         function addInfoWindowToMarker(infoWindow, marker) {
             google.maps.event.addListener(marker, 'click', function() {
                 infoWindow.open(map, marker);
             });
         };
-    }
-
+    };
     var weatherLayer = null;
     var enableWeatherLayer = function() {
         if (weatherLayer) {
@@ -610,6 +597,23 @@ var ScheduleTour = (function() {
             cloudLayer.setMap(null);
     };
 
+    var firstRoute = null;
+    var watchlocateCallback = function( latLng ) {
+        if ( firstRoute ) {
+            clearRouteFromMap(firstRoute);
+        }
+
+        if ( !( events && events[0] ) ) return;
+
+        var to = new google.maps.LatLng(events[0].position[0], events[0].position[1]);
+        var request = {
+            origin      :   latLng,
+            destination :   to,
+            travelMode  :   google.maps.TravelMode.WALKING
+        };
+        firstRoute = {};
+        requestDirections(request, firstRoute, 'rgb(0,0,255)');
+    };
 
     return {
         initMap                 :   initMap,
@@ -629,6 +633,7 @@ var ScheduleTour = (function() {
         Point                   :   google.maps.LatLng ,
         Marker                  :   google.maps.Marker ,
         InfoWindow              :   google.maps.InfoWindow ,
+        watchlocateCallback     :   watchlocateCallback,
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
                                     }
@@ -639,8 +644,13 @@ var ScheduleTour = (function() {
 $(document).ready(function () {
 
     ScheduleTour.initMap($('#map')[0]);
-    ScheduleTour.geolocate();
-    setTimeout(function(){ mygeolocate.watchlocate( ScheduleTour.getMap() ) } , 1000 )
+    ScheduleTour.geolocate(ScheduleTour.getMap(), ScheduleTour.watchlocateCallback);
+    setTimeout(function(){
+        mygeolocate.watchlocate(
+            ScheduleTour.getMap(),
+            ScheduleTour.watchlocateCallback
+            )
+        } , 1000 )
     ScheduleTour.fetchEventsFromServer();
     
     ScheduleTour.enableLongPress();
