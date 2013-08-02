@@ -237,3 +237,23 @@ td
     margin: 0 auto; 
     display: inline;
 }
+#popup_dialog{
+    position:absolute;
+    top:2%;
+    left:2%;
+    width:96%;
+    height:96%;
+    background-color:rgba(255,255,255,0.8);
+}
+#popup_ok_btn{
+    width:80%;
+    left:10%;
+    height:10%;
+    top:85%;
+    position:absolute;
+}
+#popup_content{
+    margin-left: 5%;
+    margin-top: 5%;
+    overflow: auto;
+}

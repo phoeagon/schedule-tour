@@ -1,4 +1,5 @@
 function updateTimeline(){
+    
     $.getJSON('/calendarentries' , function(data){
             //console.log( JSON.stringify(data) )
             if ( data.length === 0 )
@@ -20,6 +21,7 @@ function updateTimeline(){
                     cluster :  true 
                 }
                 Timeline.lib_tl.draw(data, options);
+                $('#timeline').css('overflow','auto')
             };
             }
         )

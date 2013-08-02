@@ -47,7 +47,7 @@ placeManager.removePlace = function( obj ){
     })
 }
 placeManager.panTo = function( map , point ){
-    map.panTo( new ScheduleTour.Point( point.lng , point.lat ) )
+    map.panTo( new ScheduleTourMap.Point( point.lng , point.lat ) )
 }
 placeManager.add = function( title , lng , lat , zoom ){
     var obj = {
@@ -132,7 +132,7 @@ placeManager.panToLoc = function( index ){
 	console.log( "out of bound error" )
     else{
 	var pl = placeManager.places[ index ]
-	var loc = new ScheduleTour.Point( pl.point.lng , pl.point.lat )
+	var loc = new ScheduleTourMap.Point( pl.point.lng , pl.point.lat )
 	ScheduleTour.panTo( loc )
     }
 }

@@ -99,7 +99,7 @@ mygeolocate.watchlocate = function( map , callback ){
             var latLng = new google.maps.LatLng( x , y )
             console.log( 'watch locate : ' + latLng )
             if (!mygeolocate.myLocationMarker){
-                mygeolocate.myLocationMarker = new ScheduleTour.Marker({
+                mygeolocate.myLocationMarker = new ScheduleTourMap.Marker({
                     map: map,
                     position:latLng,
                     content: 'Location found using HTML5.',

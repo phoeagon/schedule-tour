@@ -1,4 +1,6 @@
 settingAdapter = {};
+settingAdapter.isOn = false;
+
 settingAdapter.setForm = function(){
     $('#toggle_map_style').click(function(){
 		$('#map').toggleClass('styledHue');
@@ -8,10 +10,16 @@ settingAdapter.setForm = function(){
 }
 settingAdapter.setFormTrigger = function(){
     $('#setting_show_button').click(function(){
+	if (settingAdapter.isOn){
+	    settingAdapter.isOn = false;
+	    $( "#setting_panel" ).dialog("close")
+	    return
+	}
 	    $( "#setting_panel" ).removeClass("hidden")
+	    settingAdapter.isOn = true;
 	    $( "#setting_panel" ).dialog({
 		autoOpen: true,
-		width: "600px",
+		width: "400px",
 		buttons: [
 		    {
 			text: "Ok",

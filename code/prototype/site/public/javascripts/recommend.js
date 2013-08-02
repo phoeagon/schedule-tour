@@ -15,9 +15,9 @@ var recommend_douban = function(map) {
             var events = res.events;
             events.map(function(e) {
                 var point = e.geo.split(' ');
-                var point = new ScheduleTour.Point(point[0], point[1]);
+                var point = new ScheduleTourMap.Point(point[0], point[1]);
                 if (point.lng() === point.lat() && point.lng() === 0) return;
-                var marker = new ScheduleTour.Marker({
+                var marker = new ScheduleTourMap.Marker({
                     map         :   map,
                     position    :   point,
                     title   :   e.title ,
@@ -36,9 +36,10 @@ var recommend_douban = function(map) {
                     "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
-                var infoWindow = new ScheduleTour.InfoWindow({
+                var infoWindow = new ScheduleTourMap.InfoWindow({
                     content:    sContent
                 });
+                //console.log( infoWindow )
                 //marker.setMap(map);
                 //DEPRECATED:map.addOverlay(marker);
                 //DEPRECATED: marker.addEventListener("click", function(){
@@ -69,9 +70,9 @@ recommend_douban_db = function(map, lng, lat, dist, num) {
             var events = res.events;
             events.map(function(e) {
                 var point = e.geo.split(' ');
-                var point = new ScheduleTour.Point(point[0], point[1]);
+                var point = new ScheduleTourMap.Point(point[0], point[1]);
                 if (point.lng() === point.lat() && point.lng() === 0) return;
-                var marker = new ScheduleTour.Marker({
+                var marker = new ScheduleTourMap.Marker({
                     map         :   map,
                     position    :   point,
                     title   :   e.title,
@@ -90,7 +91,7 @@ recommend_douban_db = function(map, lng, lat, dist, num) {
                     "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
-                var infoWindow = new ScheduleTour.InfoWindow({
+                var infoWindow = new ScheduleTourMap.InfoWindow({
                     content:sContent
                     });  // 创建信息窗口对象
                 //marker.setMap(map);

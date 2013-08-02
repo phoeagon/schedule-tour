@@ -1,4 +1,11 @@
-
+var ScheduleTourMap = {
+        Point                   :   google.maps.LatLng ,
+        Marker                  :   google.maps.Marker ,
+        InfoWindow              :   google.maps.InfoWindow ,
+        panTo                   :   function( t ){
+                                        return ScheduleTour.getMap().panTo(t);
+    }
+}
 var Event = (function() {
     var createEvent = function(p) {
         var e = {};
@@ -222,7 +229,7 @@ var ScheduleTour = (function() {
             "' position='"+escape(e.place)+"'></span>"
         infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>Add new Event here</button>";
 
-        var infoWindow = new google.maps.InfoWindow({
+        var infoWindow = new ScheduleTourMap.InfoWindow({
             content :   infoContent
         });
         google.maps.event.clearListeners(e.marker, 'click');
@@ -630,9 +637,6 @@ var ScheduleTour = (function() {
         disableWeatherLayer     :   disableWeatherLayer,
         enableCloudLayer        :   enableCloudLayer,
         disableCloudLayer       :   disableCloudLayer ,
-        Point                   :   google.maps.LatLng ,
-        Marker                  :   google.maps.Marker ,
-        InfoWindow              :   google.maps.InfoWindow ,
         watchlocateCallback     :   watchlocateCallback,
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
