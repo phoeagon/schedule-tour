@@ -565,13 +565,29 @@ var ScheduleTour = (function() {
                 });
                 //bind polyline click event
                 google.maps.event.addDomListener(polyline, 'click', function(e) {
+                    var travelModes = [
+                        //google.maps.TravelMode.BICYCLING,
+                        google.maps.TravelMode.DRIVING,
+                        google.maps.TravelMode.TRANSIT,
+                        google.maps.TravelMode.WALKING
+                    ];
                     console.log('polyline clicked');
                     var newRequest = request;
-                    newRequest.travelMode = google.maps.TravelMode.DRIVING;
+                    var travelIndex = travelModes.indexOf(request.travelMode);
+                    travelIndex = (travelIndex + 1) % travelModes.length;
+                    console.log(travelIndex);
+                    newRequest.travelMode = travelModes[travelIndex];
+                    console.log(newRequest);
                     requestDirections(newRequest, index);
+                    humane.clickToClose = true;
+                    humane.timeout = 1000;
+                    humane.left = e.Ra.clientX - 50 + 'px';
+                    humane.top = e.Ra.clientY - 50 + 'px';
+
+                    humane.log(travelModes[travelIndex]);
                 });
 
-                for (var j=0; j<myRoute.steps.length; ++j){
+                for (var j=0; j<myRoute.steps.length; ++j) {
                     var marker = new google.maps.Marker({
                         position: myRoute.steps[j].start_point,
                         icon: icon,
