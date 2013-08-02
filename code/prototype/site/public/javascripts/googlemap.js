@@ -504,7 +504,11 @@ var ScheduleTour = (function() {
                 var markerArray = [];
                 var infoWindowArray = [];
 
-                var myRoute = response.routes[0].legs[0];
+                try{
+                    var myRoute = response.routes[0].legs[0];
+                }catch(err){
+                    var myRoute = Infinity;
+                }
                 
                 var icon = {
                     url: '/images/circle.png',
@@ -512,7 +516,7 @@ var ScheduleTour = (function() {
                 };
                 //draw polyline
                 var path = [];
-                myRoute.steps.map(function(step) {
+                myRoute.steps && myRoute.steps.map(function(step) {
                     path = path.concat(step.path);
                 });
                 var polyline = new google.maps.Polyline({
@@ -547,8 +551,8 @@ var ScheduleTour = (function() {
 
                     humane.log(travelModes[travelIndex]);
                 });
-
-                for (var j=0; j<myRoute.steps.length; ++j) {
+            if (myRoute.steps){
+                for (var j=0; j< myRoute.steps.length ; ++j) {
                     var marker = new google.maps.Marker({
                         position: myRoute.steps[j].start_point,
                         icon: icon,
@@ -562,6 +566,7 @@ var ScheduleTour = (function() {
                     markerArray[j] = marker;
                     infoWindowArray[j] = infoWindow;
                 }
+            }
                 routeArray[index] = {
                     markerArray         :   markerArray,
                     infoWindowArray     :   infoWindowArray,
