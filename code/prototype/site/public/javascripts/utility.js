@@ -14,10 +14,12 @@ function checkMobile (){
 	    if(width>height) {
 	      // Landscape
 		$('#avatar_div').removeClass('portrait')
+		$('#timeline').removeClass('vertical')
 		//$("#main_div").removeClass('portrait_div');
 	    } else {
 	      // Portrait		
 		$('#avatar_div').addClass('portrait')
+		$('#timeline').addClass('vertical')
 		//$("#main_div").addClass('portrait_div');
 	    }
 	}
