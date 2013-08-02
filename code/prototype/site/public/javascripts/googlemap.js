@@ -523,9 +523,9 @@ var ScheduleTour = (function() {
                     clickable   :   true,
                     map         :   map,
                     path        :   path,
-                    strokeOpacity   :   0.7,
-                    strokeColor     :   'rgb(255,255,'+index*100+')',
-                    strokeWeight    :   (index+1)*10
+                    strokeOpacity   :   0.9,
+                    strokeColor     :   'rgb(255,'+Math.min(index*50, 255)+',255)',
+                    strokeWeight    :   (1)*10
 
                 });
                 //bind polyline click event
