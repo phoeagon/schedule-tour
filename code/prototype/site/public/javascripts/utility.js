@@ -5,16 +5,25 @@ function checkMobile (){
 	return false;
     }
     function addResizeListener(){
-	$(window).resize( function(){
+	$(window).resize( resize_listener );
+    }
+    function resize_listener(){
 	    var height = $(window).height();
 	    var width = $(window).width();
-
+	    console.log( [ height , width ] )
 	    if(width>height) {
-		//$("#main_div").removeClass('portrait_div');
 	      // Landscape
+		$('#avatar_div').removeClass('portrait')
+		$('#timeline').removeClass('vertical')
+		//$("#main_div").removeClass('portrait_div');
 	    } else {
-	      // Portrait
+	      // Portrait		
+		$('#avatar_div').addClass('portrait')
+		$('#timeline').addClass('vertical')
 		//$("#main_div").addClass('portrait_div');
 	    }
-	});
-    }
+	}
+    $(document).ready(function(){
+	    resize_listener();
+	    addResizeListener();
+    })

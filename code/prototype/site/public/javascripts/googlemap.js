@@ -146,48 +146,7 @@ var ScheduleTour = (function() {
     var stepDisplay = null;
     var geocoder = null;
 
-    var geolocate = function(){
-        //mygeolocate.locate(map)
-        // Try HTML5 geolocation
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = new google.maps.LatLng(position.coords.latitude,
-                position.coords.longitude);
-
-                var infowindow = new google.maps.InfoWindow({
-                    map: map,
-                    position: pos,
-                    content: 'Location found using HTML5.'
-                });
-
-                map.setCenter(pos);
-                map.setZoom(15);
-
-            }, function() {
-                handleNoGeolocation(true);
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleNoGeolocation(false);
-        }
-
-        function handleNoGeolocation(errorFlag) {
-            if (errorFlag) {
-                var content = 'Error: The Geolocation service failed.';
-            } else {
-                var content = 'Error: Your browser doesn\'t support geolocation.';
-            }
-
-            var options = {
-                map: map,
-                position: new google.maps.LatLng(60, 105),
-                content: content
-            };
-
-            var infowindow = new google.maps.InfoWindow(options);
-            map.setCenter(options.position);
-        }
-    }
+    var geolocate = mygeolocate.watchlocate
     var panTo = function(){
         mygeolocate.panTo(map)
         map.setZoom(15);
@@ -544,7 +503,9 @@ var ScheduleTour = (function() {
                 //directionsDisplay.setDirections(response);
                 var markerArray = [];
                 var infoWindowArray = [];
+
                 var myRoute = response.routes[0].legs[0];
+                
                 var icon = {
                     url: '/images/circle.png',
                     anchor: new google.maps.Point(10, 10)
@@ -565,13 +526,29 @@ var ScheduleTour = (function() {
                 });
                 //bind polyline click event
                 google.maps.event.addDomListener(polyline, 'click', function(e) {
+                    var travelModes = [
+                        //google.maps.TravelMode.BICYCLING,
+                        google.maps.TravelMode.DRIVING,
+                        google.maps.TravelMode.TRANSIT,
+                        google.maps.TravelMode.WALKING
+                    ];
                     console.log('polyline clicked');
                     var newRequest = request;
-                    newRequest.travelMode = google.maps.TravelMode.DRIVING;
+                    var travelIndex = travelModes.indexOf(request.travelMode);
+                    travelIndex = (travelIndex + 1) % travelModes.length;
+                    console.log(travelIndex);
+                    newRequest.travelMode = travelModes[travelIndex];
+                    console.log(newRequest);
                     requestDirections(newRequest, index);
+                    humane.clickToClose = true;
+                    humane.timeout = 1000;
+                    humane.left = e.Ra.clientX - 50 + 'px';
+                    humane.top = e.Ra.clientY - 50 + 'px';
+
+                    humane.log(travelModes[travelIndex]);
                 });
 
-                for (var j=0; j<myRoute.steps.length; ++j){
+                for (var j=0; j<myRoute.steps.length; ++j) {
                     var marker = new google.maps.Marker({
                         position: myRoute.steps[j].start_point,
                         icon: icon,
@@ -645,6 +622,8 @@ var ScheduleTour = (function() {
         enableCloudLayer        :   enableCloudLayer,
         disableCloudLayer       :   disableCloudLayer ,
         Point                   :   google.maps.LatLng ,
+        Marker                  :   google.maps.Marker ,
+        InfoWindow              :   google.maps.InfoWindow ,
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
                                     }
@@ -666,5 +645,5 @@ $(document).ready(function () {
     ScheduleTour.enableCloudLayer();
 
 //    $.getScript("/javascripts/map_search.js")
-    //recommend_douban(map);
+    recommend_douban( ScheduleTour.getMap() );
 });

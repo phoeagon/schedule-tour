@@ -17,7 +17,8 @@
     <script src="/proxy/http://maps.googleapis.com/maps/api/js?key=AIzaSyBxGLmTa_KJutZZEttdAw6PGuuM3030I2I&sensor=true&libraries=places,weather"></script>
     <!--script type="text/javascript" src="/javascripts/map.js"></script-->
     <script type="text/javascript" src="/javascripts/layout-metrics.js"></script>
-    <script type="text/javascript" src="/javascripts/resultList.js"></script>    
+    <script type="text/javascript" src="/javascripts/resultList.js"></script>  
+    <script type="text/javascript" src="./javascripts/geo_locate.js"></script>  
     <script type="text/javascript" src="/javascripts/googlemap.js"></script>
     <script type="text/javascript" src="/javascripts/map_search.js"></script>
     <script type="text/javascript" src="/javascripts/recommend.js"></script>
@@ -29,6 +30,10 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/tl.js/timeline.css">
 
     
+    <!-- notification plugin -->
+    <link rel="stylesheet" href="/stylesheets/libnotify.css" />
+    <script type="text/javascript" src="/plugins/humane.js"></script>
+
     <script type="text/javascript" src="/plugins/toggleSwitch.js"></script>
     <link rel="stylesheet" href="/plugins/toggleSwitch.css" />
     
@@ -88,7 +93,7 @@
           </a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li id="navi_home"><a href="#">Map</a></li>
+              <!--<li id="navi_home"><a href="#">Map</a></li>-->
               <li id="navi_tagcloud"><a href="#" id="calendar_btn">Calendar▽</a></li>
                 <li id="navi_login"><a href="#" id="timeline_btn">Timeline</a></li>
                 <li id="navi_reg "><a href="#" id="setting_show_button">Setting</a></li>
@@ -106,11 +111,11 @@
     <script type="text/javascript" src="./javascripts/configClient.js"></script>
     <script type="text/javascript" src="./javascripts/calendar.js"></script>
     <script type="text/javascript" src="./javascripts/login.js"></script>
-    <script type="text/javascript" src="./javascripts/geo_locate.js"></script>
     <script type="text/javascript" src="./javascripts/setting.js"></script>
     <script type="text/javascript" src="./javascripts/placeManager.js"></script>
     <script type="text/javascript" src="./javascripts/validation.js"></script>
     <script type="text/javascript" src="./javascripts/menu.js"></script>
+    <script type="text/javascript" src="./javascripts/utility.js"></script>
   <script type="text/javascript" >
     $('#close-flash-btn').click(function(e){
         $("#flash-msg").remove()
@@ -127,6 +132,5 @@
             else locationLock = true;
         }
     });
-    $('#menu').menu();
   </script>
 </html>

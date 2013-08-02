@@ -10,7 +10,7 @@ var icon = new BMap.Icon('/images/point.png',new BMap.Size(40, 40),{
     infoWindowAnchor: new BMap.Size(40, 40)
 })
 */
-mygeolocate.locate = function( map ) {
+/*mygeolocate.locate = function( map ) {
         console.log("mygeolocate.locate")
         var geolocation = navigator.geolocation;
         geolocation.getCurrentPosition(function(res) {
@@ -26,12 +26,17 @@ mygeolocate.locate = function( map ) {
                 // store location
                 mygeolocate.myLocationMarker =  mk ;
             })
-        },function(err){console.log(err)},{enableHighAccuracy: true})
-    }
+        },handleNoGeolocation,{enableHighAccuracy: true})
+    }*/
 
 mygeolocate.locate = function( map ) {
         console.log("mygeolocate.locate")
         var geolocation = navigator.geolocation;
+        var map = ScheduleTour.getMap();
+        if (!geolocation){
+            handleNoGeolocation(false);
+            return;
+        }
         geolocation.getCurrentPosition(function(res) {
             console.log("geolocation.getCurrentPosition callback")
             var latLng = new google.maps.LatLng( res.coords.longitude , res.coords.latitude )
@@ -39,16 +44,17 @@ mygeolocate.locate = function( map ) {
             var mk = new google.maps.Marker({
                 map:map,
                 position: latLng,
+                content: 'Location found using HTML5.',
                 icon: '/images/point.png'
             });
             map.panTo(latLng);
-            //map.setZoom(14);
+            map.setZoom(14);
             console.log('Your Position:'+pt.lng+','+pt.lat);
             // store location
             mygeolocate.myLocationMarker =  mk ;
         },function(err){console.log(err)},{enableHighAccuracy: true})
     }
-mygeolocate.watchlocate = function( map ){
+/*mygeolocate.watchlocate = function( map ){
     var geolocation = navigator.geolocation;
     mygeolocate.watchID = geolocation.watchPosition( function relocate( res ){
         try{
@@ -72,13 +78,18 @@ mygeolocate.watchlocate = function( map ){
                 }
             })
         }catch(err){ console.log(err) }
-    } ,function(err){} , {enableHighAccuracy: true})
-}
+    } ,handleNoGeolocation , {enableHighAccuracy: true})
+}*/
 
 mygeolocate.watchlocate = function( map ){
     var geolocation = navigator.geolocation;
+    if (!geolocation){
+        handleNoGeolocation(false);
+        return;
+    }
     mygeolocate.watchID = geolocation.watchPosition( function relocate( res ){
         try{
+            var map = ScheduleTour.getMap();
             var x = res.coords.latitude
             var y = res.coords.longitude
             //x += 0.1
@@ -87,9 +98,10 @@ mygeolocate.watchlocate = function( map ){
             var latLng = new google.maps.LatLng( x , y )
             console.log( latLng )
             if (!mygeolocate.myLocationMarker){
-                mygeolocate.myLocationMarker = new google.maps.Marker({
+                mygeolocate.myLocationMarker = new ScheduleTour.Marker({
                     map: map,
                     position:latLng,
+                    content: 'Location found using HTML5.',
                     icon: '/images/point.png'
                     })
             }
@@ -98,8 +110,8 @@ mygeolocate.watchlocate = function( map ){
             if (locationLock)
                 map.panTo( latLng );
 
-        }catch(err){ console.log(err) }
-    } ,function(err){} , {enableHighAccuracy: true})
+        }catch(err){ console.log(err);}
+    } ,handleNoGeolocation , {enableHighAccuracy: true})
 }
 mygeolocate.remove_watchlocate = function(){
     var geolocation = navigator.geolocation;
@@ -109,3 +121,19 @@ mygeolocate.remove_watchlocate = function(){
     //    $.getScript('/javascripts/baiduPosConverter.js')
     // original BMap.Converter is deprecated
 //})
+    function handleNoGeolocation(errorFlag) {
+        if (errorFlag) {
+            var content = 'Error: The Geolocation service failed.';
+        } else {
+            var content = 'Error: Your browser doesn\'t support geolocation.';
+        }
+
+        var options = {
+            map: map,
+            position: new google.maps.LatLng(60, 105),
+            content: content
+        };
+
+        var infowindow = new google.maps.InfoWindow(options);
+        map.setCenter(options.position);
+    }
