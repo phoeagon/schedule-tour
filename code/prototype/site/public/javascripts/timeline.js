@@ -18,7 +18,8 @@ function updateTimeline(){
                 Timeline.lib_tl = new links.Timeline(document.getElementById("timeline"))
                 var options = {
                     zoomable : true ,
-                    cluster :  true 
+                    cluster :  true ,
+                    showCurrentTime : false
                 }
                 Timeline.lib_tl.draw(data, options);
                 $('#timeline').css('overflow','auto')

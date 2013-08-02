@@ -40,6 +40,11 @@ app.configure(function(){
         }) ,
         cookie: { maxAge: 60000000 } 
     }));
+    app.use( function(req,res,next){
+        if (!res.getHeader('Cache-Control'))
+            res.setHeader('Cache-Control', 'public, max-age=3600000');
+        next();
+    } )
     //app.use(express.cookieParser('keyboard cat'));
 }); 
 
