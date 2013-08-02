@@ -15,9 +15,9 @@ var recommend_douban = function(map) {
             var events = res.events;
             events.map(function(e) {
                 var point = e.geo.split(' ');
-                var point = new BMap.Point(point[1], point[0]);
+                var point = new ScheduleTour.Point(point[1], point[0]);
                 if (point.lng === point.lat && point.lng === 0) return;
-                var marker = new BMap.Marker(point);
+                var marker = new ScheduleTour.Marker(point);
 
                 var opts = {
                     title : '<b>'+e.title+'</b>'
@@ -26,7 +26,7 @@ var recommend_douban = function(map) {
                     "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
-                var infoWindow = new BMap.InfoWindow(sContent, opts);  // 创建信息窗口对象
+                var infoWindow = new ScheduleTour.InfoWindow(sContent, opts);  // 创建信息窗口对象
                 map.addOverlay(marker);
                 marker.addEventListener("click", function(){          
                     this.openInfoWindow(infoWindow);
@@ -58,9 +58,9 @@ recommend_douban = function(map, lng, lat, dist, num) {
             var events = res.events;
             events.map(function(e) {
                 var point = e.geo.split(' ');
-                var point = new BMap.Point(point[1], point[0]);
+                var point = new ScheduleTour.Point(point[1], point[0]);
                 if (point.lng === point.lat && point.lng === 0) return;
-                var marker = new BMap.Marker(point);
+                var marker = new ScheduleTour.Marker(point);
 
                 var opts = {
                     title : '<b>'+e.title+'</b>'
@@ -69,7 +69,7 @@ recommend_douban = function(map, lng, lat, dist, num) {
                     "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
-                var infoWindow = new BMap.InfoWindow(sContent, opts);  // 创建信息窗口对象
+                var infoWindow = new ScheduleTour.InfoWindow(sContent, opts);  // 创建信息窗口对象
                 map.addOverlay(marker);
                 marker.addEventListener("click", function(){          
                     this.openInfoWindow(infoWindow);

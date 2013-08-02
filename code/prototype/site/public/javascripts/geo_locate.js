@@ -32,6 +32,7 @@ var icon = new BMap.Icon('/images/point.png',new BMap.Size(40, 40),{
 mygeolocate.locate = function( map ) {
         console.log("mygeolocate.locate")
         var geolocation = navigator.geolocation;
+        var map = ScheduleTour.getMap();
         if (!geolocation){
             handleNoGeolocation(false);
             return;
@@ -88,6 +89,7 @@ mygeolocate.watchlocate = function( map ){
     }
     mygeolocate.watchID = geolocation.watchPosition( function relocate( res ){
         try{
+            var map = ScheduleTour.getMap();
             var x = res.coords.latitude
             var y = res.coords.longitude
             //x += 0.1
@@ -96,7 +98,7 @@ mygeolocate.watchlocate = function( map ){
             var latLng = new google.maps.LatLng( x , y )
             console.log( latLng )
             if (!mygeolocate.myLocationMarker){
-                mygeolocate.myLocationMarker = new google.maps.Marker({
+                mygeolocate.myLocationMarker = new ScheduleTour.Marker({
                     map: map,
                     position:latLng,
                     content: 'Location found using HTML5.',
@@ -108,7 +110,7 @@ mygeolocate.watchlocate = function( map ){
             if (locationLock)
                 map.panTo( latLng );
 
-        }catch(err){ console.log(err) }
+        }catch(err){ console.log(err);}
     } ,handleNoGeolocation , {enableHighAccuracy: true})
 }
 mygeolocate.remove_watchlocate = function(){

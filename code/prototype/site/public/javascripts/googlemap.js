@@ -622,6 +622,8 @@ var ScheduleTour = (function() {
         enableCloudLayer        :   enableCloudLayer,
         disableCloudLayer       :   disableCloudLayer ,
         Point                   :   google.maps.LatLng ,
+        Marker                  :   google.maps.Marker ,
+        InfoWindow              :   google.maps.InfoWindow ,
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
                                     }
