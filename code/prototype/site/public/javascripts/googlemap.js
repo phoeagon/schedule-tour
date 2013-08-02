@@ -13,8 +13,10 @@ var Event = (function() {
         e.title = '';
         e.place = '';
         e.position = [p.lat(), p.lng()];
-        e.time = $("#dateFrom").datetimepicker("getDate");
-        e.endTime = $("#dateUntil").datetimepicker("getDate");
+        e.time = 0
+        e.endTime = 0
+        //e.time = $("#dateFrom").datetimepicker("getDate");
+        //e.endTime = $("#dateUntil").datetimepicker("getDate");
         e.description = document.getElementById('description').value;
         e.alarams = null;
         e.privacy = null;
@@ -22,7 +24,7 @@ var Event = (function() {
         e.finish = null;
         e.addTime = new Date();
 
-        $(".datepicker").datetimepicker();
+        //$(".datepicker").datetimepicker();
         $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         return e;
     };
