@@ -20,7 +20,13 @@ var recommend_douban = function(map) {
                 var marker = new ScheduleTour.Marker({
                     map         :   map,
                     position    :   point,
-                    title   :   e.title
+                    title   :   e.title ,
+                    icon    : {
+                        path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW ,
+                        strokeOpacity : 0.8,
+                        strokeColor   : 'pink',
+                        strokeWeight  : 14
+                    }
                 });
 
                 var opts = {
@@ -68,7 +74,13 @@ recommend_douban_db = function(map, lng, lat, dist, num) {
                 var marker = new ScheduleTour.Marker({
                     map         :   map,
                     position    :   point,
-                    title   :   e.title
+                    title   :   e.title,
+                    icon    :{
+                        path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW ,
+                        strokeOpacity : 0.8,
+                        strokeColor   : 'pink',
+                        strokeWeight  : 14
+                    }
                 });
 
                 var opts = {
