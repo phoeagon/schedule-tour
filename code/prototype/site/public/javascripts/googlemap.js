@@ -71,7 +71,7 @@ function setSlidingMap() {
 	$('#map').css({'top' : layoutMetrics.calHeight});
         var btn = $("#calendar_btn");
         btn.addClass('extended');
-        btn.text('Calendar△');
+        //btn.text('Calendar△');
         $("#calendar").removeClass('hidden');
         btn.unbind('click');
         btn.bind('click', hideCal);
@@ -90,7 +90,7 @@ function setSlidingMap() {
         var btn = $("#calendar_btn");
         btn.removeClass('extended');
         $('#map').removeClass('top_collapse');
-        btn.text('Calendar▽');
+        //btn.text('Calendar▽');
         btn.unbind('click');
         btn.bind('click', showCal);
         $("#sidebar_btn").bind('click', showSide);
