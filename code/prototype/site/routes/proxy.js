@@ -16,10 +16,11 @@ exports.all = function( req , res , next ){
 	res.redirect(url)
 }
 var testURL = function( url ){
-    return url.indexOf("js")!=-1 || url.indexOf("mapslt")!=-1 || url.indexOf("vt")!=-1
+    return url.indexOf("js")!=-1 || url.indexOf("mapslt")!=-1 ||
+     url.indexOf("vt")!=-1 || url.indexOf('airline+status')!=-1;
 }
-var replaces = [//"http://\\w+.googleapis.com/",
-   //"http://maps.gstatic.com/",
+var replaces = ["http://\\w+.googleapis.com/",
+   "http://maps.gstatic.com/",
    "http://maps.gstatic.com/cat_js/intl/en_us/mapfiles/api-3/13/10/%7Bmain,places,weather%7D.js",
    "http://maps.googleapis.com/maps/api/js?key=AIzaSyBxGLmTa_KJutZZEttdAw6PGuuM3030I2I&sensor=true&libraries=places,weather"
     ];
@@ -55,7 +56,8 @@ var pullrequest = function( req , res , next ){
     options.headers={
 	'Accept':'text/html,application/xhtml+xml,application/xml,image/webp,*/*;q=0.9,*/*;q=0.8',
 	'Cache-Control':'no-cache',
-	'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36'
+	'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36',
+	'Cookie':'PREF=ID=4283a9fde3f4e7db:FF=0:LD=en:NW=1:CR=2:TM=1375758640:LM=1375761304:S=a3w1H4jLXiAtVrkw; '
     }
     //console.log( options )
     callback = function(response) {
