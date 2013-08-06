@@ -25,6 +25,10 @@ var Event = (function() {
         e.addTime = new Date();
 
         //$(".datepicker").datetimepicker();
+        $('.datepicker').each( function(ind,ele){
+            var p=$(ele).data('datetimepicker')
+            p && p.setLocalDate(new Date())
+        })
         $(".slider").slider({ step: 1 , min : 0 , max : 10 });
         return e;
     };
@@ -367,6 +371,10 @@ var ScheduleTour = (function() {
         $("#addEventButt").unbind('click');
         $("#side_collapse").unbind('click');
         $(".datepicker").datetimepicker();
+        $('.datepicker').each( function(ind,ele){
+            var p = $(ele).data('datetimepicker')
+            p && p.setLocalDate(new Date())
+        })
         $(".slider").slider({ step: 1 , min : 0 , max : 10 });
 
         geocoder.geocode(
@@ -392,8 +400,8 @@ var ScheduleTour = (function() {
         $('#newLat').val(latLng.lat());
         $('#newLng').val(latLng.lng());
         $('#weight').slider('value', 0);
-        $('#dateFrom').datetimepicker('setDate', new Date());
-        $('#dateUntil').datetimepicker('setDate', new Date());
+        $('#dateFrom').datetimepicker();
+        $('#dateUntil').datetimepicker();
         $('#side_collapse').bind('click', function() {
             marker.setMap(null); 
             $("#sidebar_btn").click();
@@ -408,9 +416,9 @@ var ScheduleTour = (function() {
                 description :   $('#description').val(),
                 place       :   $('#newPlace').val(),
                 weight      :   $('#weight').slider('value'),
-                time        :   new Date($('#dateFrom').datetimepicker('getDate')),
-                endTime     :   new Date($('#dateUntil').datetimepicker('getDate')),
-                duration    :   new Date($('#dateUntil').datetimepicker('getDate')) - new Date($('#dateFrom').datetimepicker('getDate')),
+                time        :   new Date($('#dateFrom').val()),
+                endTime     :   new Date($('#dateUntil').val()),
+                duration    :   new Date($('#dateUntil').val()) - new Date($('#dateFrom').val()),
                 position    :   [latLng.lat(), latLng.lng()],
                 privacy     :   false,
                 addTime     :   new Date(),
