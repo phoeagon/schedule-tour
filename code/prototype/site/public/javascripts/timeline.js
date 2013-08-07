@@ -17,7 +17,7 @@ function updateTimeline(){
                 +$('<div>').append( $('<button>').attr('onclick','\
                     ScheduleTour.getMap().panTo( new ScheduleTourMap.Point('
                     +data[ele].position[0]+' ,'
-                    +data[ele].position[1]+' ) )' ).html('Go')
+                    +data[ele].position[1]+' ) );$("#timeline").toggleClass(\'shown\');' ).html('Go')
                         ).html();
 
                 Timeline.lib_tl = new links.Timeline(document.getElementById("timeline"))
