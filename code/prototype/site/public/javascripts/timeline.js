@@ -4,7 +4,7 @@ function updateTimeline(){
             //console.log( JSON.stringify(data) )
             if ( data.length === 0 )
                 data = [{start:new Date() , title:"<b>Sample</b><br/>Add an event to see this"}];
-            for (var ele in data ){
+            for (var ele in data ) if (data[ele].start && data[ele].end){
                 var t1 = moment( data[ele].start );
                 var t2 = moment( data[ele].end );
                 var content_tag =
@@ -31,5 +31,4 @@ Timeline = {
     update : updateTimeline ,
     lib_tl : null
 }
-
 $(document).ready( updateTimeline )
