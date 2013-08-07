@@ -2,7 +2,13 @@ mygeolocate = {}
 
 mygeolocate.myLocationMarker = null;
 mygeolocate.panTo = function(map){
-    map.panTo(mygeolocate.myLocationPoint);
+    function cb(){
+        if ( mygeolocate.myLocationPoint )
+            map.panTo(mygeolocate.myLocationPoint);
+        else setTimeout( cb , 100 );
+    }
+    setTimeout( cb , 100 )
+            
 }
 /*
 var icon = new BMap.Icon('/images/point.png',new BMap.Size(40, 40),{
@@ -39,7 +45,7 @@ mygeolocate.locate = function( map ) {
         }
         geolocation.getCurrentPosition(function(res) {
             console.log("geolocation.getCurrentPosition callback")
-            var latLng = new google.maps.LatLng( res.coords.longitude , res.coords.latitude )
+            var latLng = new google.maps.LatLng( res.coords.latitude , res.coords.longitude )
             mygeolocate.myLocationPoint = latLng;
             var mk = new google.maps.Marker({
                 map:map,

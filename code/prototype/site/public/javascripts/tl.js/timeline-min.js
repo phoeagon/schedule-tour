@@ -2728,13 +2728,10 @@ links.Timeline.prototype.onMouseMove = function (event) {
 
     var diffX = mouseX - params.mouseX;
     var diffY = mouseY - params.mouseY;
-    console.log( [ mouseX , params.mouseX ] )
     // if mouse movement is big enough, register it as a "moved" event
     if (Math.abs(diffX) >= 1) {
         params.moved = true;
     }
-    console.log( event )
-    console.log( diffX )
     if (params.customTime) {
         var x = this.timeToScreen(params.customTime);
         var xnew = x + diffX;
@@ -6340,7 +6337,6 @@ links.Timeline.getPageY = function (event) {
  * @return {Number} pageX
  */
 links.Timeline.getPageX = function (event) {
-    console.log( event )
     if ('pageY' in event) {
         return event.pageX;
     }

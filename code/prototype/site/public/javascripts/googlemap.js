@@ -177,6 +177,8 @@ var ScheduleTour = (function() {
             mapDOM,
             mapOptions
         );
+        // AUTO pan To current position
+        panTo();
         //addContentMenu(addEvent);
         directionsService = new google.maps.DirectionsService();
         geocoder = new google.maps.Geocoder();
