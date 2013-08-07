@@ -1,7 +1,7 @@
 /*
  * Event Entry.
  */
-
+var extend = require("xtend")
 var crypto = require('crypto');
 var EventEntry = require('../models/types/eventEntry');
 var utility = require('../models/utility');
@@ -170,7 +170,9 @@ var listCalendarEntries = function(req, res) {
                 end : new Date(pool[ele].endTime) , 
                 allDay : false , //assume
                 title : pool[ele].title ,
-                content: pool[ele].description
+                content: pool[ele].description ,
+                position : pool[ele].position ,
+                place : pool[ele].place
             }
             console.log( pool[ele] )
         }

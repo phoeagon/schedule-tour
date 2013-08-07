@@ -10,7 +10,7 @@ function checkMobile (){
     function resize_listener(){
 	    var height = $(window).height();
 	    var width = $(window).width();
-	    console.log( [ height , width ] )
+	    //console.log( [ height , width ] )
 	    if(width>height) {
 	      // Landscape
 		$('.nav_text_opt').removeClass('displaynone');

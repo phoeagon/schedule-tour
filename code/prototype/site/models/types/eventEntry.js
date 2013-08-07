@@ -36,3 +36,5 @@ var testEventEntry = function() {
 
 //export module
 module.exports = EventEntry;
+
+EventEntry.prototype.schema=EventEntrySchema;
