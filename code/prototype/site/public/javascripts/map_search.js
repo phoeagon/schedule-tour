@@ -1,5 +1,9 @@
 mapSearch = {};
 mapSearch.search = function( map , searchFor ){
+    if ( flight_info )
+        if ( flight_info.test(searchFor) )
+            flight_info.lookup( 'airline+status+check+'+searchFor );
+    try{
     var placeService = new google.maps.places.PlacesService(map);
     var searchRequest = {
         location    :   map.getCenter(),
@@ -8,6 +12,9 @@ mapSearch.search = function( map , searchFor ){
     };
     placeService.nearbySearch(searchRequest, callback);
     var infoWindow = new google.maps.InfoWindow();
+    }   catch(err){
+        alert( "Service temporarily unavailable!" )
+    }
 
     function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -23,7 +30,7 @@ mapSearch.search = function( map , searchFor ){
             position: place.geometry.location
         });
 
-        var infoWindow = new google.maps.InfoWindow();
+        var infoWindow = new ScheduleTourMap.InfoWindow();
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(place.name);
             infoWindow.open(map, this);
