@@ -164,4 +164,5 @@ td
     width: 400px;
     height: 200px;
     background-color:rgba(255,255,255,0.5);
+    overflow:hidden;
 }
