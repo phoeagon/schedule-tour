@@ -47,7 +47,11 @@ var tour = function(eventEntries,map) {
             travelMode  :   google.maps.TravelMode.WALKING
         };
         directionsService.route(request, function(response, status) {
-            timeMap[i][j] = timeMap[j][i] = response.routes[0].legs[0].duration;
+            try {
+                timeMap[i][j] = timeMap[j][i] = response.routes[0].legs[0].duration;
+            } catch (e) {
+                timeMap[i][j] = timeMap[j][i] = 9999;
+            }
             getPathTime(i,j+1,n);
         });
     }

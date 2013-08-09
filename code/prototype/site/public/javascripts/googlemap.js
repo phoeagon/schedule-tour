@@ -578,10 +578,19 @@ var ScheduleTour = (function() {
 
                 humane.clickToClose = true;
                 humane.timeout = 1000;
-                humane.left = e.Ra.clientX - 50 + 'px';
-                humane.top = e.Ra.clientY - 50 + 'px';
+                var mouseEvent = null;
+                for (ele in e) {
+                    if (e[ele] instanceof MouseEvent) {
+                        mouseEvent = e[ele];
+                        break;
+                    }
+                }
+                if (mouseEvent) {
+                    humane.left = mouseEvent.clientX - 50 + 'px';
+                    humane.top = mouseEvent.clientY - 50 + 'px';
+                    humane.log(travelModes[travelIndex]);
+                }
 
-                humane.log(travelModes[travelIndex]);
             }
 
         });
