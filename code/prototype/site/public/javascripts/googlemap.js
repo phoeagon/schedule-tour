@@ -184,30 +184,6 @@ var ScheduleTour = (function() {
         geocoder = new google.maps.Geocoder();
     };
 
-    var addContentMenu = function(addEventCallback) {
-        var contextMenu = new BMap.ContextMenu();
-        var txtMenuItem = [
-        {
-            text:'放大',
-            callback:function(){map.zoomIn()}
-        },
-        {
-            text:'缩小',
-            callback:function(){map.zoomOut()}
-        },
-        {
-            text:'在此添加标注',
-            callback: addEventCallback
-        }];
-
-        for(var i=0; i < txtMenuItem.length; i++){
-            contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
-            if (i==1) contextMenu.addSeparator();
-        }
-        map.addContextMenu(contextMenu);
-    }
-
-
     var addInfoWindowToEvent = function(map, e) {
         var eid = e._id;
         var pos = e.position;
