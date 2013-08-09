@@ -75,7 +75,7 @@ function setSlidingMap() {
 
     function showCal() {
         $("#map").css({'transition':'top '+layoutMetrics.calAnimationTime, '-webkit-transition':'top'+layoutMetrics.calAnimationTime});
-	$('#map').css({'top' : layoutMetrics.calHeight});
+        $('#map').css({'top' : layoutMetrics.calHeight});
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //btn.text('Calendar△');
@@ -156,10 +156,10 @@ var ScheduleTour = (function() {
     var geocoder = null;
 
     var geolocate = mygeolocate.watchlocate
-    var panTo = function(){
+    var panTo = function() {
         mygeolocate.panTo(map)
         map.setZoom(15);
-    }
+    };
 
     $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
     
@@ -605,7 +605,9 @@ var ScheduleTour = (function() {
     };
 
     var firstRoute = null;
+    var currentPosition = null;
     var watchlocateCallback = function( latLng ) {
+        currentPosition = latLng;
         if ( firstRoute ) {
             clearRouteFromMap(firstRoute);
         }
@@ -632,12 +634,13 @@ var ScheduleTour = (function() {
         enableRightClick        :   enableRightClick,
         addRecommendation       :   addRecommendation,
         addEvent                :   addEvent,
-        getMap                  :   function(){return map},
+        getMap                  :   function(){return map;},
         enableWeatherLayer      :   enableWeatherLayer,
         disableWeatherLayer     :   disableWeatherLayer,
         enableCloudLayer        :   enableCloudLayer,
-        disableCloudLayer       :   disableCloudLayer ,
+        disableCloudLayer       :   disableCloudLayer,
         watchlocateCallback     :   watchlocateCallback,
+        getCurrentPosition      :   function(){return currentPosition;},
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
                                     }
@@ -659,7 +662,7 @@ $(document).ready(function () {
     
     ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
-    setSlidingMap();
+    //setSlidingMap();
     ScheduleTour.enableWeatherLayer();
     ScheduleTour.enableCloudLayer();
 

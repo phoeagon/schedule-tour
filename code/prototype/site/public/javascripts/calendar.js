@@ -19,7 +19,8 @@ calendarRenderer.refreshCalendar = function( feed ){
 	events : feed , 
 	eventClick: function(event) {
 		// opens events in a popup window
-		window.open(event.url, 'gcalevent', 'width=700,height=600');
+		//window.open(event.url, 'gcalevent', 'width=700,height=600');
+        ScheduleTour.addEvent(ScheduleTour.getCurrentPosition());
 		return false;
 	},
 	
