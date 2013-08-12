@@ -256,3 +256,6 @@ td
     font-size : 20px;
     font-weight: bold;
 }
+.navibar.activated{
+    background-color:rgb(255,200,200);
+}
