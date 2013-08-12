@@ -46,5 +46,18 @@ function codeLatLng(lat, lng , callback ) {
     });
   }
 $(document).ready( function(){
+    setInterval( function(){
+        CardManager.weather( map.getCenter() );
+    } , 1000*60*60 /*an hour*/ );
     $('#loc_card').draggable();
+    var map = ScheduleTour.getMap();
+    google.maps.event.addListener(map, 'idle', function(){
+        console.log(" idle CB");
+        if ( map.getZoom() >= 14 ){
+            $('#loc_card').removeClass('displaynone');
+            CardManager.weather( map.getCenter() )
+        }else{
+            $('#loc_card').addClass('displaynone');
+        }
+    });
     } );
