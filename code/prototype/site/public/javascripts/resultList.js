@@ -1,12 +1,20 @@
-resultPad = {
-    opened : false ,
-    ele : null ,
-    showResultList : null ,
-    destroyResultList : null
+ResultPad = function( divSelector ){
+    if (!divSelector)
+        divSelector = '#result_list';
+    var proto = {
+        divSelector : divSelector ,
+        opened : false ,
+        ele : null ,
+        showResultList : null ,
+        destroyResultList : null
+    };
+    for (var ele in proto)
+        this[ele] = proto[ele];
+    return this;
 }
 
-resultPad.show = function(dataList) {
-    var theList = $('#result_list');
+ResultPad.prototype.show = function(dataList) {
+    var theList = $( this.divSelector );
     theList.empty();
     var data = dataList;
     for (var i = 0; i < data.length; i++) {
@@ -20,8 +28,8 @@ resultPad.show = function(dataList) {
     this.ele = theList
 };
 
-resultPad.destroy= function() {
-    var theList = $('#result_list');
+ResultPad.prototype.destroy= function() {
+    var theList = $( this.divSelector );
     theList.accordion('destroy');
     theList.empty();
     theList.removeClass('shown');
@@ -29,3 +37,4 @@ resultPad.destroy= function() {
     this.opened = true
     this.ele = null
 }
+resultPad = new ResultPad();//create new instance
