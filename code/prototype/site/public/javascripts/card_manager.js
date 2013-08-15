@@ -1,14 +1,23 @@
 // example: CardManager.weather( ScheduleTour.getMap().getCenter() )
 
-CardManager = {};
-CardManager.weather = function( loc ){
+CardManager = function ( divId ){
+    if ( divId && divId[0]!=='#' )
+        divId = '#'+divId;
+    if ( divId )
+        this.divId = divId;
+    else this.divId = '#loc_card';
+    return this;
+}
+CardManager.prototype.weather = function( loc ){
+    var _divId = this.divId;
     codeLatLng( loc.lat() , loc.lng() , function( c_name ){
         //$('#loc_card').empty().append(
         //    $('<h1>').html( c_name ) );
         console.log( c_name + " weather" )
+        console.log( _divId )
         if ( flight_info )
             flight_info.getinfo( 'weather+'+c_name , function(html){
-                $('#loc_card').html( html )
+                $( _divId ).html( html )
             } )
     } )
 }
@@ -46,18 +55,20 @@ function codeLatLng(lat, lng , callback ) {
     });
   }
 $(document).ready( function(){
+    var divId = '#loc_card';
+    cardManager = new CardManager( divId );
     setInterval( function(){
-        CardManager.weather( map.getCenter() );
+        cardManager.weather( map.getCenter() );
     } , 1000*60*60 /*an hour*/ );
-    $('#loc_card').draggable();
+    $( divId ).draggable();
     var map = ScheduleTour.getMap();
     google.maps.event.addListener(map, 'idle', function(){
         console.log(" idle CB");
         if ( map.getZoom() >= 14 ){
-            $('#loc_card').removeClass('displaynone');
-            CardManager.weather( map.getCenter() )
+            $( divId ).removeClass('displaynone');
+            cardManager.weather( map.getCenter() )
         }else{
-            $('#loc_card').addClass('displaynone');
+            $( divId ).addClass('displaynone');
         }
     });
     } );
