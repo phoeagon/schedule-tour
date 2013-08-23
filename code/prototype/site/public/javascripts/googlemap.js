@@ -302,7 +302,8 @@ var ScheduleTour = (function() {
                 clearTimeout(longPresser);
                 longPresser = null;
             }
-            addEvent(e.latLng);
+            //addEvent(e.latLng);
+            Sidebar.showSidebar('addEvent', e.latLng);
             e.stop();
         });
     }
@@ -324,6 +325,25 @@ var ScheduleTour = (function() {
         }
         return e;
     }
+
+    var geocode = function(latlng, callback) {
+        if (!geocoder) geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+            {
+                latLng: latLng
+            },
+            function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    callback(results[1].formatted_address, 'OK');
+                } else {
+                    callback('', 'Not Found');
+                }
+            } else {
+                callback('', 'Geocoder failed due to: ' + status);
+            }
+        });
+    };
 
     //add event listener
     var addEvent = function (latLng) {
@@ -624,6 +644,15 @@ var ScheduleTour = (function() {
         requestDirections(request, firstRoute, 'rgb(0,0,255)');
     };
 
+    var pickPlace = function(callbackState, callback) {
+
+        google.maps.event.addDomListenerOnce(map, 'click', function(e) {
+            geocode(e.latLng, function(result, status) {
+                callback(callbackState, result, e.latLng);
+            });
+        });
+    };
+
     return {
         initMap                 :   initMap,
         geolocate               :   geolocate,
@@ -643,14 +672,17 @@ var ScheduleTour = (function() {
         getCurrentPosition      :   function(){return currentPosition;},
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
-                                    }
+                                    },
+        pickPlace               :   pickPlace
     };
 
 }());
 
 $(document).ready(function () {
 
-    ScheduleTour.initMap($('#map')[0]);
+    ScheduleTour.initMap($('#map').get(0));
+    $('#calendar_btn').click(function() { CalendarBar.toggleCalendarBar(); });
+
     ScheduleTour.geolocate(ScheduleTour.getMap(), ScheduleTour.watchlocateCallback);
     setTimeout(function(){
         mygeolocate.watchlocate(
