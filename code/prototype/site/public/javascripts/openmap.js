@@ -216,13 +216,37 @@ var OpenMap = (function() {
         newLonLat   :   newLonLat,
         zoomTo      :   zoomTo,
         newMap      :   newMap,
-        newMarker   :   newMarker
+        newMarker   :   newMarker,
+        map         :   map
     }
     
 }());
 
 var DirectionService = (function() {
+    var directionsService = null;
+    var geocoder = null;
+    
+    var geocode = function(lonLat, callback) {
+        if (!geocoder) geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+            {
+                latLng: new google.maps.LatLng(lonLat.lat, lonLat.lon)
+            },
+            function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    callback(results[1].formatted_address, 'OK');
+                } else {
+                    callback('', 'Not Found');
+                }
+            } else {
+                callback('', 'Geocoder failed due to: ' + status);
+            }
+        });
+    };
+
     var route = function(request, callback) {
+        if (!directionsService) directionsService = new google.maps.DirectionsService();
         directionsService.route(request, function(response, status) {
             var ret = [];
             try {
@@ -235,13 +259,14 @@ var DirectionService = (function() {
     };
 
     return {
-        route   :   route
+        route   :   route,
+        geocode :   geocode
     };
 
 }());
 
 var Map = OpenMap;
-var Service = DirectionService;
+var Services = DirectionService;
 
 var ScheduleTour = (function() {
     globalEventCache = {};
@@ -274,8 +299,6 @@ var ScheduleTour = (function() {
         // AUTO pan To current position
         panTo();
         //addContentMenu(addEvent);
-        directionsService = new google.maps.DirectionsService();
-        geocoder = new google.maps.Geocoder();
     };
 
     var addContentMenu = function(addEventCallback) {
@@ -419,10 +442,13 @@ var ScheduleTour = (function() {
     
     var longPresser = null;
     var enableLongPress = function() {
-        google.maps.event.addDomListener(map, 'mousedown', function(e) {
+
+        Map.map.events.remove('mousedown');
+        Map.map.events.register('mousedown', null, function(e) {
             longPresser = setTimeout(function() {
                 addEvent(e.latLng);
             }, 1500);
+
         });
         var clearSpecTimeout = function(e) {
             if (longPresser) {
@@ -430,8 +456,10 @@ var ScheduleTour = (function() {
                 longPresser = null;
             }
         };
-        google.maps.event.addDomListener(map, 'mouseup', clearSpecTimeout );
-        google.maps.event.addDomListener(map, 'mousemove', clearSpecTimeout );
+        Map.map.events.register('mouseup', null, clearSpecTimeout);
+        Map.map.events.register('mousemove', null, clearSpecTimeout);
+        //google.maps.event.addDomListener(map, 'mouseup', clearSpecTimeout );
+        //google.maps.event.addDomListener(map, 'mousemove', clearSpecTimeout );
         //map.addListener('longpress', function(e) { addEvent(e.point); });
     }
     var enableRightClick = function() {
@@ -463,25 +491,6 @@ var ScheduleTour = (function() {
         }
         return e;
     }
-
-    var geocode = function(latlng, callback) {
-        if (!geocoder) geocoder = new google.maps.Geocoder();
-        geocoder.geocode(
-            {
-                latLng: latLng
-            },
-            function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    callback(results[1].formatted_address, 'OK');
-                } else {
-                    callback('', 'Not Found');
-                }
-            } else {
-                callback('', 'Geocoder failed due to: ' + status);
-            }
-        });
-    };
 
     //add event listener
     var addEvent = function (lonLat) {
@@ -645,6 +654,9 @@ var ScheduleTour = (function() {
     }
 
     var requestDirections = function(request, route, color) {
+        Services.route(request, function() {
+        });
+        return;
         directionsService.route(request, function(response, status) {
             //remove old path
             if (route) {
