@@ -700,4 +700,7 @@ $(document).ready(function () {
 
 //    $.getScript("/javascripts/map_search.js")
     recommend_douban( ScheduleTour.getMap() );
+
+    $('#fav_list_button').click( placeManager.toggleResultPad );
+    placeManager.getPlace();
 });
