@@ -17,6 +17,7 @@
     "mongoose-double":"*" ,
     "memory-cache" : "*",
     "uri-js" : "*",
-    "node-minify" : "*"
+    "node-minify" : "*",
+    "websocket-server" : "*"
   }
 }
