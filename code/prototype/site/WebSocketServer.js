@@ -15,7 +15,7 @@
  *  limitations under the License.
  ***********************************************************************/
 
-var WebSocketServer = require('../lib/WebSocketServer');
+var WebSocketServer = require('websocket/lib/WebSocketServer');
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
