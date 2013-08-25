@@ -40,6 +40,11 @@
     
     <script src='/fullcalendar/fullcalendar.min.js'></script>
     <script src='/fullcalendar/gcal.js'></script>
+
+
+    <!-- websocket -->
+    <script type="text/javascript" src="/javascripts/websocket.js"></script>
+
     <script type="text/javascript">
     <%if(user && user._id){%>username = '<%=user._id%>';<%}else{%>username=null;<%}%>
     <%if (action){%> currentAction = '<%= action%>';<%}else{%>
