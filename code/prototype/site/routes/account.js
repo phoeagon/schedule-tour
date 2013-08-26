@@ -107,12 +107,12 @@ var setRouter = function(app) {
   app.post('/changePassword', checkLogin);
   app.post('/changePassword', doChangePassword);
 
-  app.post('/friend/add', checkLogin);
-  app.post('/friend/add', friends.addFriend);
-  app.post('/friend/del', checkLogin);
-  app.post('/friend/del', friends.delFriend);
-  app.post('/friend/list', checkLogin);
-  app.post('/friend/list', friends.listFriends);
+  app.post('/friends/add', checkLogin);
+  app.post('/friends/add', friends.addFriend);
+  app.post('/friends/del', checkLogin);
+  app.post('/friends/del', friends.delFriend);
+  app.post('/friends/list', checkLogin);
+  app.post('/friends/list', friends.listFriends);
 };
 
 function checkLogin(req, res, next) {
