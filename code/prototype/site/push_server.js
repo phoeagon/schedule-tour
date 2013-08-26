@@ -1,11 +1,15 @@
+//server should be adequately deployed to test this
+
 var myGCM = require('./models/gcm')
 var EventEntry = require('./models/types/eventEntry');
 var gcmPair = require('./models/types/gcmpair');
 
+var INTERVAL = 1000 * 60; //every 60 secs
+
 pushGCM = function(){
-    var obj1 = new Date('Wed Aug 07 2013 20:01:05 GMT+0800 (CST)');
-    //var obj1 = new Date();
-    var obj2 = new Date(obj1.valueOf()+60*1000);
+    //var obj1 = new Date('Wed Aug 07 2013 20:01:05 GMT+0800 (CST)');//test event time
+    var obj1 = new Date();
+    var obj2 = new Date(obj1.valueOf()+INTERVAL);
     console.log( [ obj1 , obj2 ] );
     EventEntry.find().where('time').gt(obj1.valueOf()).lt(obj2.valueOf())
     .exec( function(err , obj ){
@@ -32,6 +36,6 @@ pushGCM = function(){
         }
     })
 }
-setInterval( pushGCM , 60*1000 );
+setInterval( pushGCM , INTERVAL );
 pushGCM();
 
