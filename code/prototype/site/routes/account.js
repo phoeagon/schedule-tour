@@ -113,6 +113,14 @@ var setRouter = function(app) {
   app.post('/friends/del', friends.delFriend);
   app.post('/friends/list', checkLogin);
   app.post('/friends/list', friends.listFriends);
+
+  //most of them are added for debugging
+  app.get('/friends/add', checkLogin);
+  app.get('/friends/add', friends.addFriend);
+  app.get('/friends/del', checkLogin);
+  app.get('/friends/del', friends.delFriend);
+  app.get('/friends/list', checkLogin);
+  app.get('/friends/list', friends.listFriends);
 };
 
 function checkLogin(req, res, next) {

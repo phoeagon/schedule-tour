@@ -2,15 +2,32 @@
 
 var friendManager = (function() {
     var friends = [];
+    var friend = {
+        name    :   null,
+        online  :   null,
+        position:   null
+    };
+
+    var safeCb = function(cb) {
+        if (!cb || (typeof cb != 'function')) return function(){};
+        return cb;
+    };
 
     var remoteFriends = (function() { 
 
-        var getFriends = function() {
-            friendManager.friends = [];
+        var getFriends = function(callback) {
+            friends = [];
             $.getJSON('/friends/list',function(data) {
-                for ( var x in data.places )
-                    friendManager.places.push( data.places[x] )
-                friendManager.configureButton( ScheduleTour.getMap() )
+                if (data.code != 'OK') alert('get friends failed');
+                data.msg.friendsTo.map(function(x) {
+                    friends.push({
+                        name    :   x,
+                        online  :   null,
+                        position:   null
+                    });
+                });
+                //friendManager.configureButton( ScheduleTour.getMap() )
+                safeCb(callback)();
             });
         };
 
@@ -55,13 +72,11 @@ var friendManager = (function() {
         };
     }());
 
-    var friend = {
-        name    :   null,
-        online  :   null,
-        position:   null
-    };
     var showList = function() {
+        remoteFriends.get(renderList);
+    };
 
+    var renderList = function() {
         var render = [];
         render.push({
             title   :   'Toolbox',
@@ -72,28 +87,32 @@ var friendManager = (function() {
                     $('<button>')
                 ).html()
         });
-        for (var i in friends) {
+        friends.map(function(x) {
             render.push({
-                title: firends[i].name,
+                title: x.name,
                 content:
                 $("<div>").append(
-                    $("<p>").html(this.places[ele].title)
+                    $("<p>").html(x.name)
                 ).append(
-                    $("<a>").addClass("btn btn-primary").attr("href","javascript:friendManager.panToLoc("+ele+");").html("Locate")
+                    $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
                 ).append(
-                    $("<a>").addClass("btn btn-default").attr("href","javascript:friendManager.removeLoc("+ele+");").html("Call")
+                    $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call")
                 ).append(
                     $("<div>").addClass('message-div') 
                 ).append(
                     $("<div>").addClass('call-div') 
                 ).html()
             });
-        };
+        });
         if ( resultPad ){
             if (resultPad.ele)
                 resultPad.destroy();
             resultPad.show( render )
         }
+    };
+
+    return {
+        showList    :   showList
     };
 
 }());
@@ -155,28 +174,6 @@ friendManager.configureButton = function( map ){
 	}else $(ele).html('<button class="btn" onclick="javascript:friendManager.remove('
 		+lng+','+lat+')"><i class="icon-xlarge icon-star-empty"></i></button>')
     })
-}
-friendManager.showList = function(  ){
-    //this.getPlace();
-    var render = [];
-    for ( var ele in this.places ){
-	render.push( {
-	    title: this.places[ele].title ,
-	    content:
-	    $("<div>").append(
-		    $("<p>").html(this.places[ele].title)
-		).append(
-		    $("<a>").addClass("btn btn-primary").attr("href","javascript:friendManager.panToLoc("+ele+");").html("Goto")
-		).append(
-		    $("<a>").addClass("btn btn-default").attr("href","javascript:friendManager.removeLoc("+ele+");").html("Del")
-		).html()
-	})
-    }
-    if ( resultPad ){
-	if (resultPad.ele)
-	    resultPad.destroy();
-	resultPad.show( render )
-     }
 }
 friendManager.toggleResultPad = function(){
     if ( resultPad ){
