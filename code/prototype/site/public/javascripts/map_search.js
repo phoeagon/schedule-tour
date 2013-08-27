@@ -59,6 +59,6 @@ mapSearch.setSearchBarCallback = function(){
       }
     });
 }
-$(document).ready(function(){
+$(window).load(function(){
     mapSearch.setSearchBarCallback();
 })

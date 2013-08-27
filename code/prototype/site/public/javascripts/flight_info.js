@@ -14,8 +14,9 @@ flight_info.getinfo = function( flight , callback ){
 	if (!flight)
 		flight = 'airline+status+check+FM9299';
 	var url = '/proxy/http://www.google.com/search?q='+flight;
-	$('#tmpdiv').load( url , function(){
-		var html = $('.g.tpo.knavi.obcontainer').html();
+	$.get( url , function( data ){
+		//console.log( data )
+		var html = $(data).find('.g.tpo.knavi.obcontainer').html();
 		if ( html && html != '' ){
 			callback( html )
 		}

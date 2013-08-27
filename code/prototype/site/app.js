@@ -107,6 +107,20 @@ app.get('/img/avatar_upload',imageRouter.upload_code)
 
 var proxy = require('./routes/proxy')
 app.get( '/proxy/*', proxy.all )
+/*
+ * function replaceURL ( prefix ){
+    function to_call( req , res , next ){
+        console.log( req.url )
+        var url = req.url
+        url=url.replace( prefix ,'/proxy/http://www.google.com'+prefix )
+        req.url = url;
+        console.log( req.url )
+        proxy.all( req , res , next );
+    }
+    return to_call;
+}
+app.get( '/xjs/_/*' , replaceURL('/xjs/_/')  )
+*/
 
 
 http.createServer(app).listen(app.get('port'), function(){

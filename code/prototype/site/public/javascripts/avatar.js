@@ -52,7 +52,7 @@ avatarManager.openForm = function(){
 }
 
 
-$(document).ready( function(){
+$(window).load( function(){
     avatarManager.init()
     $('#avatar_div').draggable({containment: "body", scroll: false});
     $('#menu').menu();

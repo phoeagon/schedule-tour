@@ -89,5 +89,5 @@ loginManager.testLogin = function(){
     else if ( username === null )
 	loginManager.displayDialog();
 }
-$(document).ready(   loginManager.testLogin    )
+$(window).load(   loginManager.testLogin    )
 

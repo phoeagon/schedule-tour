@@ -9,6 +9,7 @@ var STAY_TIME = 60 * 1000 * 60 *24 ;// 60s * 60 *24
 
 exports.all = function( req , res , next ){
     var url = req.url
+    console.log( url )
     url=url.replace('/proxy/','')
     if ( testURL(url) )
 	retrievePage( req , res , next )

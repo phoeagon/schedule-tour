@@ -42,4 +42,4 @@ calendarRenderer.updateEvent = function( event ){
 }
 calendarRenderer.deleteEvent = function( event ){
 }
-$(document).ready(   calendarRenderer.render    )
+$(window).load(   calendarRenderer.render    )
