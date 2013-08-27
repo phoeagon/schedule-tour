@@ -38,7 +38,6 @@ settingAdapter.applySetting = function(){
 	});
 }
 settingAdapter.applyAll = function(){
-    console.log( "settingAdapter.applyAll" );
     settingAdapter.setForm();
     settingAdapter.setFormTrigger();
     settingAdapter.applySetting();
