@@ -107,6 +107,10 @@ app.get('/img/avatar_upload',imageRouter.upload_code)
 
 var proxy = require('./routes/proxy')
 app.get( '/proxy/*', proxy.all )
+app.get( '/_volatile_proxy/*', function(req,res,next){
+        req.url = req.url.replace('/_volatile_proxy/','/proxy/');
+        proxy.all( req , res , next );
+    } )
 /*
  * function replaceURL ( prefix ){
     function to_call( req , res , next ){

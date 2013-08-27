@@ -44,15 +44,24 @@ server {
 	  proxy_cache_key sfs$request_uri$scheme;
         }
 	location /proxy/ {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
 		proxy_pass http://backend;
           access_log off;
           expires max;
           proxy_cache one;
           proxy_cache_key sfs$request_uri$scheme;
-	proxy_buffering on;
-	proxy_cache_valid any 1h;
+		proxy_buffering on;
+		proxy_cache_valid any 1d;
+		# Uncomment to enable naxsi on this location
+		# include /etc/nginx/naxsi.rules
+	}
+	location /_volatile_proxy/ {
+		proxy_pass http://backend;
+          access_log off;
+          expires max;
+          proxy_cache one;
+          proxy_cache_key sfs$request_uri$scheme;
+		proxy_buffering on;
+		proxy_cache_valid any 1h;
 		# Uncomment to enable naxsi on this location
 		# include /etc/nginx/naxsi.rules
 	}	
