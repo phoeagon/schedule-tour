@@ -75,7 +75,7 @@ function setSlidingMap() {
 
     function showCal() {
         $("#map").css({'transition':'top '+layoutMetrics.calAnimationTime, '-webkit-transition':'top'+layoutMetrics.calAnimationTime});
-	$('#map').css({'top' : layoutMetrics.calHeight});
+        $('#map').css({'top' : layoutMetrics.calHeight});
         var btn = $("#calendar_btn");
         btn.addClass('extended');
         //btn.text('Calendar△');
@@ -156,10 +156,10 @@ var ScheduleTour = (function() {
     var geocoder = null;
 
     var geolocate = mygeolocate.watchlocate
-    var panTo = function(){
+    var panTo = function() {
         mygeolocate.panTo(map)
         map.setZoom(15);
-    }
+    };
 
     $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
     
@@ -183,30 +183,6 @@ var ScheduleTour = (function() {
         directionsService = new google.maps.DirectionsService();
         geocoder = new google.maps.Geocoder();
     };
-
-    var addContentMenu = function(addEventCallback) {
-        var contextMenu = new BMap.ContextMenu();
-        var txtMenuItem = [
-        {
-            text:'放大',
-            callback:function(){map.zoomIn()}
-        },
-        {
-            text:'缩小',
-            callback:function(){map.zoomOut()}
-        },
-        {
-            text:'在此添加标注',
-            callback: addEventCallback
-        }];
-
-        for(var i=0; i < txtMenuItem.length; i++){
-            contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
-            if (i==1) contextMenu.addSeparator();
-        }
-        map.addContextMenu(contextMenu);
-    }
-
 
     var addInfoWindowToEvent = function(map, e) {
         var eid = e._id;
@@ -326,7 +302,8 @@ var ScheduleTour = (function() {
                 clearTimeout(longPresser);
                 longPresser = null;
             }
-            addEvent(e.latLng);
+            //addEvent(e.latLng);
+            Sidebar.showSidebar('addEvent', e.latLng);
             e.stop();
         });
     }
@@ -348,6 +325,25 @@ var ScheduleTour = (function() {
         }
         return e;
     }
+
+    var geocode = function(latlng, callback) {
+        if (!geocoder) geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+            {
+                latLng: latLng
+            },
+            function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    callback(results[1].formatted_address, 'OK');
+                } else {
+                    callback('', 'Not Found');
+                }
+            } else {
+                callback('', 'Geocoder failed due to: ' + status);
+            }
+        });
+    };
 
     //add event listener
     var addEvent = function (latLng) {
@@ -629,7 +625,9 @@ var ScheduleTour = (function() {
     };
 
     var firstRoute = null;
+    var currentPosition = null;
     var watchlocateCallback = function( latLng ) {
+        currentPosition = latLng;
         if ( firstRoute ) {
             clearRouteFromMap(firstRoute);
         }
@@ -646,6 +644,15 @@ var ScheduleTour = (function() {
         requestDirections(request, firstRoute, 'rgb(0,0,255)');
     };
 
+    var pickPlace = function(callbackState, callback) {
+
+        google.maps.event.addDomListenerOnce(map, 'click', function(e) {
+            geocode(e.latLng, function(result, status) {
+                callback(callbackState, result, e.latLng);
+            });
+        });
+    };
+
     return {
         initMap                 :   initMap,
         geolocate               :   geolocate,
@@ -656,22 +663,26 @@ var ScheduleTour = (function() {
         enableRightClick        :   enableRightClick,
         addRecommendation       :   addRecommendation,
         addEvent                :   addEvent,
-        getMap                  :   function(){return map},
+        getMap                  :   function(){return map;},
         enableWeatherLayer      :   enableWeatherLayer,
         disableWeatherLayer     :   disableWeatherLayer,
         enableCloudLayer        :   enableCloudLayer,
-        disableCloudLayer       :   disableCloudLayer ,
+        disableCloudLayer       :   disableCloudLayer,
         watchlocateCallback     :   watchlocateCallback,
+        getCurrentPosition      :   function(){return currentPosition;},
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
-                                    }
+                                    },
+        pickPlace               :   pickPlace
     };
 
 }());
 
 $(document).ready(function () {
 
-    ScheduleTour.initMap($('#map')[0]);
+    ScheduleTour.initMap($('#map').get(0));
+    $('#calendar_btn').click(function() { CalendarBar.toggleCalendarBar(); });
+
     ScheduleTour.geolocate(ScheduleTour.getMap(), ScheduleTour.watchlocateCallback);
     setTimeout(function(){
         mygeolocate.watchlocate(
@@ -683,10 +694,13 @@ $(document).ready(function () {
     
     ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
-    setSlidingMap();
+    //setSlidingMap();
     ScheduleTour.enableWeatherLayer();
     ScheduleTour.enableCloudLayer();
 
 //    $.getScript("/javascripts/map_search.js")
     recommend_douban( ScheduleTour.getMap() );
+
+    $('#fav_list_button').click( placeManager.toggleResultPad );
+    placeManager.getPlace();
 });

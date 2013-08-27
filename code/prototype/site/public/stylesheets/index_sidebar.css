@@ -34,3 +34,9 @@
 #sidebar #repeatEndInput {
     width: 50% !important;
 }
+#sidebar #newPlace {
+    width: 80% !important;
+}
+#sidebar #pickPlace {
+    width: 10% !important;
+}
