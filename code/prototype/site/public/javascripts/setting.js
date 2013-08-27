@@ -43,4 +43,4 @@ settingAdapter.applyAll = function(){
     settingAdapter.setFormTrigger();
     settingAdapter.applySetting();
 }
-  $(document).ready( settingAdapter.applyAll );
+$(window).load( settingAdapter.applyAll );

@@ -19,5 +19,5 @@ validationManager.checkEndTimeAfterStartTime = function(){
 	var end = new Date($('#dateUntil').val());
 	return ( start.valueOf() <= end.valueOf() );
 }
-$(document).ready(   validationManager.applyValidation )
+$(window).load(   validationManager.applyValidation )
 

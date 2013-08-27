@@ -161,7 +161,7 @@ var ScheduleTour = (function() {
         map.setZoom(15);
     };
 
-    $(document).ready(function(){ $('#geoloc_btn').click( panTo ); });
+    $(window).load(function(){ $('#geoloc_btn').click( panTo ); });
     
     var initMap = function(mapDOM) {
         google.maps.visualRefresh = true;
@@ -678,7 +678,7 @@ var ScheduleTour = (function() {
 
 }());
 
-$(document).ready(function () {
+$(window).load(function () {
 
     ScheduleTour.initMap($('#map').get(0));
     $('#calendar_btn').click(function() { CalendarBar.toggleCalendarBar(); });

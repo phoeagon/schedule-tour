@@ -145,3 +145,7 @@ placeManager.removeLoc = function( index ){
 	$( '.result_item_'+index ).remove()
     }
 }
+$(window).load(function(){
+    $('#fav_list_button').click( placeManager.toggleResultPad );
+    placeManager.getPlace();
+})

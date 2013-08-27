@@ -36,4 +36,4 @@ Timeline = {
     update : updateTimeline ,
     lib_tl : null
 }
-$(document).ready( updateTimeline )
+$(window).load( updateTimeline )

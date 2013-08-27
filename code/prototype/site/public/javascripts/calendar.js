@@ -39,8 +39,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     events : feed , 
 	eventClick: function(event) {
 		// opens events in a popup window
-		//window.open(event.url, 'gcalevent', 'width=700,height=600');
-        //ScheduleTour.addEvent(ScheduleTour.getCurrentPosition());
+		window.open(event.url, 'gcalevent', 'width=700,height=600');
 		return false;
 	},
 	
@@ -63,6 +62,4 @@ calendarRenderer.updateEvent = function( event ){
 }
 calendarRenderer.deleteEvent = function( event ){
 }
-$(document).ready(   calendarRenderer.render    )
-
-
+$(window).load(   calendarRenderer.render    )

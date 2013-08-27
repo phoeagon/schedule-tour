@@ -54,13 +54,13 @@ function codeLatLng(lat, lng , callback ) {
       }
     });
   }
-$(document).ready( function(){
+$(window).load( function(){
     var divId = '#loc_card';
     cardManager = new CardManager( divId );
     setInterval( function(){
         cardManager.weather( map.getCenter() );
     } , 1000*60*60 /*an hour*/ );
-    $( divId ).draggable();
+    $( divId ).draggable({containment: "body", scroll: false});
     var map = ScheduleTour.getMap();
     google.maps.event.addListener(map, 'idle', function(){
         console.log(" idle CB");

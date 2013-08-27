@@ -1,4 +1,4 @@
-$(document).ready( function(){
+$(window).load( function(){
     $('#avatar_div').click ( function(e){
         console.log ( e )
         $('#menu_div').css('position','absolute')
