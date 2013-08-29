@@ -59,16 +59,50 @@ wsServer = new WebSocketServer({
     disableNagleAlgorithm: false
 });
 
+var onlineList = {};
+debug = 1;
+
 wsServer.on('connect', function(connection) {
     if (debug) console.log((new Date()) + " Connection accepted" +
                             " - Protocol Version " + connection.webSocketVersion);
     function sendCallback(err) {
         if (err) console.error("send() error: " + err);
     }
+    function safeCb(cb) {
+        if (cb && (typeof cb == 'function')) return cb;
+        return function(){};
+    }
+    function sendToAll(msg, cb) {
+        if (!msg) return;
+        for (var i in onlineList) {
+            onlineList[i].connection.sendUTF(msg, sendCallback);
+        }
+        safeCb(cb)();
+    }
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             if (debug) console.log("Received utf-8 message of " + message.utf8Data.length + " characters.");
-            connection.sendUTF(message.utf8Data, sendCallback);
+            var json = message.utf8Data;
+            var data = JSON.parse(json);
+            switch (data.type) {
+                case 'init':
+                    sendToAll(JSON.stringify({
+                        type    :   'login',
+                        username:   data.username
+                    }), null);
+                    onlineList[data.username] = {connection: connection};
+                    connection.sendUTF('Welcome back!', sendCallback);
+                    break;
+                case 'finit':
+                    delete onlineList[data.username];
+                    sendToAll(JSON.stringify({
+                        type    :   'logout',
+                        username:   data.username
+                    }), null);
+                    connection.sendUTF('Byte!', sendCallback);
+                    break;
+            };
+            //connection.sendUTF(message.utf8Data, sendCallback);
         }
         else if (message.type === 'binary') {
             if (debug) console.log("Received Binary Message of " + message.binaryData.length + " bytes");

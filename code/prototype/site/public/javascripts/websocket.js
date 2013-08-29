@@ -1,10 +1,17 @@
 $(function() {
+    //do this script after login
+    if (!username) return;
+
     var hostname = 'localhost';
     var port = 8000;
     url = "ws://"+hostname+":"+port+"/echo";
     w = new WebSocket(url);
     w.onopen = function() {
-        w.send("thank you for the request");
+        //w.send("thank you for the request");
+        w.send(JSON.stringify({
+            type    :   'init',
+            username:   username
+        }));
     }
     w.onmessage = function(e) {
         var msg = e.data;
@@ -15,6 +22,10 @@ $(function() {
         }
     };
     w.onclose = function(e) {
+        w.send(JSON.stringify({
+            type    :   'finit',
+            username:   username
+        }));
         if (humane && humane.log) humane.log("closed")
         else alert('closed');
     }
