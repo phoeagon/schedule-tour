@@ -38,3 +38,5 @@ ResultPad.prototype.destroy= function() {
     this.ele = null
 }
 resultPad = new ResultPad();//create new instance
+messagePad = new ResultPad();//create new instance
+callPad = new ResultPad();//create new instance

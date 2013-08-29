@@ -84,7 +84,7 @@ var friendManager = (function() {
                 $('<div>').append(
                     $('<input>')
                 ).append(
-                    $('<button>')
+                    $('<button>').text('search')
                 ).html()
         });
         friends.map(function(x) {
@@ -96,11 +96,13 @@ var friendManager = (function() {
                 ).append(
                     $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
                 ).append(
-                    $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call")
+                    $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Message").click(function() {
+                        MessageManager.showList(x.name);
+                    })
                 ).append(
-                    $("<div>").addClass('message-div') 
-                ).append(
-                    $("<div>").addClass('call-div') 
+                    $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call").click(function() {
+                        CallManager.show(x.name);
+                    })
                 ).html()
             });
         });
@@ -111,8 +113,18 @@ var friendManager = (function() {
         }
     };
 
+    var toggleResultPad = function() {
+        if (resultPad) {
+            if (resultPad.ele) {
+                resultPad.destroy();
+            } else {
+                showList();
+            }
+        }
+    };
     return {
-        showList    :   showList
+        showList        :   showList,
+        toggleResultPad :   toggleResultPad
     };
 
 }());
@@ -174,13 +186,6 @@ friendManager.configureButton = function( map ){
 	}else $(ele).html('<button class="btn" onclick="javascript:friendManager.remove('
 		+lng+','+lat+')"><i class="icon-xlarge icon-star-empty"></i></button>')
     })
-}
-friendManager.toggleResultPad = function(){
-    if ( resultPad ){
-	if (resultPad.ele)
-	    resultPad.destroy();
-	else friendManager.showList();
-    }
 }
 friendManager.panToLoc = function( index ){
     if ( index < 0 || index >= friendManager.places.length )

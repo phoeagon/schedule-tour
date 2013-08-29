@@ -702,5 +702,6 @@ $(window).load(function () {
     recommend_douban( ScheduleTour.getMap() );
 
     $('#fav_list_button').click( placeManager.toggleResultPad );
+    $('#friend_list_button').click( friendManager.toggleResultPad );
     placeManager.getPlace();
 });
