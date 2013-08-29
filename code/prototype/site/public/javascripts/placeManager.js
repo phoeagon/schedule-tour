@@ -111,7 +111,7 @@ placeManager.showList = function(  ){
 		    $("<a>").addClass("btn btn-primary").attr("href","javascript:placeManager.panToLoc("+ele+");").html("Goto")
 		).append(
 		    $("<a>").addClass("btn btn-default").attr("href","javascript:placeManager.removeLoc("+ele+");").html("Del")
-		).html()
+		)
 	})
     }
     if ( resultPad ){
@@ -145,7 +145,9 @@ placeManager.removeLoc = function( index ){
 	$( '.result_item_'+index ).remove()
     }
 }
+/*
 $(window).load(function(){
     $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();
 })
+*/
