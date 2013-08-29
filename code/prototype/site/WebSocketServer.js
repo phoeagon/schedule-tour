@@ -72,6 +72,12 @@ wsServer.on('connect', function(connection) {
         if (cb && (typeof cb == 'function')) return cb;
         return function(){};
     }
+    function sendTo(username, msg, cb) {
+        if (!msg) return;
+        if (!onlineList[username]) return;
+        onlineList[username].connection.sendUTF(msg, sendCallback);
+        safeCb(cb)();
+    }
     function sendToAll(msg, cb) {
         if (!msg) return;
         for (var i in onlineList) {
@@ -86,20 +92,41 @@ wsServer.on('connect', function(connection) {
             var data = JSON.parse(json);
             switch (data.type) {
                 case 'init':
+                    //send login to all others
                     sendToAll(JSON.stringify({
                         type    :   'login',
                         username:   data.username
                     }), null);
                     onlineList[data.username] = {connection: connection};
-                    connection.sendUTF('Welcome back!', sendCallback);
+                    //send welcome message
+                    sendTo(data.username, 'Welcome back!', null);
+                    //send online user list
+                    sendTo(data.username, JSON.stringify({
+                        type    :   'onlinelist',
+                        data    :   JSON.stringify(Object.keys(onlineList))
+                    }), null);
                     break;
                 case 'finit':
+                    //delete from online list
                     delete onlineList[data.username];
+                    //send logout to all others
                     sendToAll(JSON.stringify({
                         type    :   'logout',
                         username:   data.username
                     }), null);
+                    //send byte message
                     connection.sendUTF('Byte!', sendCallback);
+                    break;
+                case 'locate':
+                    if (!onlineList[data.username]) break;
+                    //record the position
+                    onlineList[data.username].position = data.position;
+                    //send position to users
+                    sendToAll(JSON.stringify({
+                        type    :   'locate',
+                        username:   data.username
+                        position:   data.position
+                    }), null);
                     break;
             };
             //connection.sendUTF(message.utf8Data, sendCallback);
