@@ -85,7 +85,7 @@ var friendManager = (function() {
                     $('<input>')
                 ).append(
                     $('<button>').text('search')
-                ).html()
+                )
         });
         friends.map(function(x) {
             render.push({
@@ -103,7 +103,7 @@ var friendManager = (function() {
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call").click(function() {
                         CallManager.show(x.name);
                     })
-                ).html()
+                )
             });
         });
         if ( resultPad ){
