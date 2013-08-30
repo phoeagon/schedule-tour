@@ -68,16 +68,19 @@ wsServer.on('connect', function(connection) {
     function sendCallback(err) {
         if (err) console.error("send() error: " + err);
     }
+
     function safeCb(cb) {
         if (cb && (typeof cb == 'function')) return cb;
         return function(){};
     }
+
     function sendTo(username, msg, cb) {
         if (!msg) return;
         if (!onlineList[username]) return;
         onlineList[username].connection.sendUTF(msg, sendCallback);
         safeCb(cb)();
     }
+
     function sendToAll(msg, cb) {
         if (!msg) return;
         for (var i in onlineList) {
@@ -85,6 +88,17 @@ wsServer.on('connect', function(connection) {
         }
         safeCb(cb)();
     }
+
+    function filter(online) {
+        var ret = {};
+        for (var i in online) {
+            ret[i] = {};
+            ret[i].position = online[i].position;
+        }
+        console.log(ret);
+        return ret;
+    }
+
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             if (debug) console.log("Received utf-8 message of " + message.utf8Data.length + " characters.");
@@ -99,11 +113,14 @@ wsServer.on('connect', function(connection) {
                     }), null);
                     onlineList[data.username] = {connection: connection};
                     //send welcome message
-                    sendTo(data.username, 'Welcome back!', null);
+                    sendTo(data.username, JSON.stringify({
+                        type    :   'text',
+                        data    :   'Welcome back!'
+                    }), null);
                     //send online user list
                     sendTo(data.username, JSON.stringify({
                         type    :   'onlinelist',
-                        data    :   JSON.stringify(Object.keys(onlineList))
+                        data    :   filter(onlineList)
                     }), null);
                     break;
                 case 'finit':
@@ -115,7 +132,10 @@ wsServer.on('connect', function(connection) {
                         username:   data.username
                     }), null);
                     //send byte message
-                    connection.sendUTF('Byte!', sendCallback);
+                    sendTo(data.username, JSON.stringify({
+                        type    :   'text',
+                        data    :   'Bye!'
+                    }), null);
                     break;
                 case 'locate':
                     if (!onlineList[data.username]) break;
@@ -124,7 +144,7 @@ wsServer.on('connect', function(connection) {
                     //send position to users
                     sendToAll(JSON.stringify({
                         type    :   'locate',
-                        username:   data.username
+                        username:   data.username,
                         position:   data.position
                     }), null);
                     break;
