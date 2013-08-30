@@ -195,39 +195,6 @@ friendManager.getMapPlace = function(map){
 friendManager.panTo = function( map , point ){
     map.panTo( new ScheduleTourMap.Point( point.lng , point.lat ) )
 }
-friendManager.add = function( title , lng , lat , zoom ){
-    var obj = {
-	title : unescape( title ) ,
-	point : { lng : lng , lat : lat } ,
-	zoom  : zoom
-    }
-    friendManager.savePlace( obj )
-}
-friendManager.remove = function( lng , lat ){
-    console.log( "friendManager.remove" )
-    console.log( [ lng , lat ] )
-    for ( var x in friendManager.places ){
-	var ele = friendManager.places[x];
-//	console.log( [ ele.point.lng , ele.point.lat ] )
-	if ( ele.point.lng == lng && ele.point.lat == lat ){
-	    console.log ( ele )
-	    friendManager.removePlace( ele )
-	    break
-	}
-    }
-}
-friendManager.find = function ( lng , lat ){
-    console.log ( "friendManager.find" )
-    for ( var x in friendManager.places ){
-	var ele = friendManager.places[x];
-	if ( ele.point.lng == lng && ele.point.lat == lat ){
-	    console.log ( ele )
-	    return x;
-	}
-    }
-    //alert(" Not found!" )
-    return null;
-}
 friendManager.configureButton = function( map ){
     console.log( "friendManager.configureButton" )
     $('.favbtn').each( function(ind , ele ){
@@ -254,12 +221,3 @@ friendManager.panToLoc = function( index ){
     }
 }
 
-friendManager.removeLoc = function( index ){
-    if ( index < 0 || index >= friendManager.places.length )
-	console.log( "out of bound error" )
-    else{
-	friendManager.removePlace( friendManager.places[index] );
-	friendManager.places.splice( index , 1 )
-	$( '.result_item_'+index ).remove()
-    }
-}
