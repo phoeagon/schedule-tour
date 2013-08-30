@@ -31,7 +31,7 @@ var friendManager = (function() {
             });
         };
 
-        var removeFriend = function(target) {
+        var removeFriend = function(target, callback) {
             $.post('/friends/del',
                 {target : target},
                 function(data) {
@@ -40,6 +40,7 @@ var friendManager = (function() {
                         alert("successful")
                         friendManager.getFriends()
                         //friendManager.configureButton( ScheduleTour.getMap() )
+                        safeCb(callback)();
                         return true;
                     }
                     alert("remove friend failed");
@@ -113,6 +114,12 @@ var friendManager = (function() {
                 ).append(
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call").click(function() {
                         CallManager.show(x.name);
+                    })
+                ).append(
+                    $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("x").click(function() {
+                        remoteFriends.del(x.username, function() {
+                            showList();
+                        });
                     })
                 )
             });
