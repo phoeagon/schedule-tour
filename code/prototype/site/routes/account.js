@@ -113,6 +113,8 @@ var setRouter = function(app) {
   app.post('/friends/del', friends.delFriend);
   app.post('/friends/list', checkLogin);
   app.post('/friends/list', friends.listFriends);
+  app.post('/friends/search', checkLogin);
+  app.post('/friends/search', friends.searchFriends);
 
   //most of them are added for debugging
   app.get('/friends/add', checkLogin);
@@ -121,6 +123,8 @@ var setRouter = function(app) {
   app.get('/friends/del', friends.delFriend);
   app.get('/friends/list', checkLogin);
   app.get('/friends/list', friends.listFriends);
+  app.get('/friends/search', checkLogin);
+  app.get('/friends/search', friends.searchFriends);
 };
 
 function checkLogin(req, res, next) {
@@ -326,10 +330,21 @@ var friends = (function() {
         );
     }
 
+    var search_friends = function(req, res) {
+        var target = req.body.target;
+        User.find({_id: new RegExp(target, 'i')}, function(err, users) {
+            var namelist = users.map(function(x) {
+                return x._id;
+            });
+            resEndJSON(res, 'OK', namelist);
+        });
+    }
+
     return {
         addFriend   :   add_friend,
         delFriend   :   del_friend,
-        listFriends :   list_friends
+        listFriends :   list_friends,
+        searchFriends:  search_friends
     };
 })();
 
