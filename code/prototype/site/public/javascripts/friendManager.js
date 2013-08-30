@@ -38,9 +38,7 @@ var friendManager = (function() {
                     data = JSON.parse(data);
                     console.log( data )
                     if (data.code=='OK'){
-                        alert("successful")
-                        friendManager.getFriends()
-                        //friendManager.configureButton( ScheduleTour.getMap() )
+                        console.log("successful")
                         safeCb(callback)();
                         return true;
                     }
@@ -50,16 +48,15 @@ var friendManager = (function() {
             );
         };
 
-        var addFriend = function(target) {
+        var addFriend = function(target, callback) {
             $.post('/friends/add',
                 {target : target},
                 function(data) {
                     data = JSON.parse(data);
                     console.log( data )
                     if (data.code=='OK'){
-                        alert("successful")
-                        friendManager.getFriends()
-                        //friendManager.configureButton( ScheduleTour.getMap() )
+                        console.log("successful")
+                        safeCb(callback)();
                         return true;
                     }
                     alert("add friend failed");
@@ -126,7 +123,9 @@ var friendManager = (function() {
                                         $('<span>').text(x)
                                     ).append(
                                         $('<button>').text('add').click(function() {
-                                            remoteFriends.add(x);
+                                            remoteFriends.add(x, function() {
+                                                showList();
+                                            });
                                             return false;
                                         })
                                     )
