@@ -1,5 +1,5 @@
 //require jQuery
-
+//require WebSocketClient
 var friendManager = (function() {
     var friends = [];
     var friend = {
@@ -21,7 +21,7 @@ var friendManager = (function() {
                 if (data.code != 'OK') alert('get friends failed');
                 data.msg.friendsTo.map(function(x) {
                     friends.push({
-                        name    :   x,
+                        username:   x,
                         online  :   null,
                         position:   null
                     });
@@ -73,7 +73,18 @@ var friendManager = (function() {
     }());
 
     var showList = function() {
-        remoteFriends.get(renderList);
+        var online = WebSocketClient.onlineList;
+        remoteFriends.get(function() {
+            friends.map(function(x) {
+                if (online[x.username]) {
+                    x.online = true;
+                    if (online[x.username].position) {
+                        x.position = online[x.username].position;
+                    }
+                }
+            });
+            renderList();
+        });
     };
 
     var renderList = function() {
@@ -89,10 +100,10 @@ var friendManager = (function() {
         });
         friends.map(function(x) {
             render.push({
-                title: x.name,
+                title: x.username + '[' + (x.online ? 'online' : 'offline') + ']',
                 content:
                 $("<div>").append(
-                    $("<p>").html(x.name)
+                    $("<p>").html(x.username + (x.position ? (' at '+x.position.toString()) : ''))
                 ).append(
                     $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
                 ).append(

@@ -36,7 +36,6 @@ var WebSocketClient = (function() {
             }
             onlineList[msg.username].position = msg.position;
             break;
-            
         };
 
     };
