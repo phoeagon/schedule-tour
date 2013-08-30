@@ -35,6 +35,7 @@ var friendManager = (function() {
             $.post('/friends/del',
                 {target : target},
                 function(data) {
+                    data = JSON.parse(data);
                     console.log( data )
                     if (data.code=='OK'){
                         alert("successful")
@@ -53,6 +54,7 @@ var friendManager = (function() {
             $.post('/friends/add',
                 {target : target},
                 function(data) {
+                    data = JSON.parse(data);
                     console.log( data )
                     if (data.code=='OK'){
                         alert("successful")
@@ -60,16 +62,32 @@ var friendManager = (function() {
                         //friendManager.configureButton( ScheduleTour.getMap() )
                         return true;
                     }
-                    alert("remove friend failed");
+                    alert("add friend failed");
                     return false;
                 }
             );
         };
 
+        var searchFriend = function(target, callback) {
+            $.post('/friends/search',
+                {target : target},
+                function(data) {
+                    data = JSON.parse(data);
+                    console.log( data )
+                    if (data.code=='OK'){
+                        safeCb(callback)(data.msg);
+                        return true;
+                    }
+                    alert("search friend failed");
+                    return false;
+                }
+            );
+        };
         return {
             get :   getFriends,
             add :   addFriend,
-            del :   removeFriend
+            del :   removeFriend,
+            search: searchFriend
         };
     }());
 
@@ -96,7 +114,29 @@ var friendManager = (function() {
                 $('<div>').append(
                     $('<input>')
                 ).append(
-                    $('<button>').text('search')
+                    $('<button>').text('search').click(function() {
+                        var _this = this;
+                        remoteFriends.search($(_this).prev().val(), function(userlist) {
+                            console.log(userlist);
+                            var ul = $(_this).next();
+                            ul.empty();
+                            userlist.map(function(x) {
+                                ul.append(
+                                    $('<li>').append(
+                                        $('<span>').text(x)
+                                    ).append(
+                                        $('<button>').text('add').click(function() {
+                                            remoteFriends.add(x);
+                                            return false;
+                                        })
+                                    )
+                                );
+                            });
+                        });
+                        return false;
+                    })
+                ).append(
+                    $('<ul>')
                 )
         });
         friends.map(function(x) {
