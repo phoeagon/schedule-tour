@@ -148,11 +148,11 @@ var friendManager = (function() {
                     $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
                 ).append(
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Message").click(function() {
-                        MessageManager.showList(x.name);
+                        MessageManager.showList(username, x.username);
                     })
                 ).append(
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Call").click(function() {
-                        CallManager.show(x.name);
+                        CallManager.show(username, x.username);
                     })
                 ).append(
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("x").click(function() {

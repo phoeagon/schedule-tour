@@ -141,7 +141,18 @@ body {
     transition:left 300ms;
     -webkit-transition:left 300ms;
 }
-
+#message_list {
+    background-color:rgba(200,200,200,0.5);
+    z-index:101;
+    transition:left 300ms;
+    -webkit-transition:left 300ms;
+}
+#call_list {
+    background-color:rgba(200,200,200,0.5);
+    z-index:101;
+    transition:left 300ms;
+    -webkit-transition:left 300ms;
+}
 
 .hidden {
     display:none;

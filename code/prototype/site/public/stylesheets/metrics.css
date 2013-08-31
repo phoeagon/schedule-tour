@@ -141,6 +141,22 @@ td
     top:20%;
     width:100px;
 }
+#message_list {
+    position:absolute;
+    top:0;
+    left:170%;
+    width:30%;
+    height:100%;
+}
+#message_list.portrait{
+    width:85%;
+}
+#message_list.shown.portrait{
+    left:15%;
+}
+#message_list.shown {
+   left:70%;
+}
 #result_list {
     position:absolute;
     top:0;
