@@ -29,7 +29,41 @@ function checkMobile (){
 		//$("#main_div").addClass('portrait_div');
 	    }
 	}
-    $(document).ready(function(){
+    
+// the following code parses query strings in URL
+(function($) {
+    $.QueryString = (function(a) {
+        if (a == "") return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i)
+        {
+            var p=a[i].split('=');
+            if (p.length != 2) continue;
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+    })(window.location.search.substr(1).split('&'))
+})(jQuery);
+
+function parseAction() {
+
+    function panToLoc(){
+	var lng = $.QueryString['lng'] || $.QueryString['longitude'];
+	var lat = $.QueryString['lat'] || $.QueryString['latitude'];
+	if ( lng && lat ){
+	    var loc = ScheduleTourMap.Point( lat , lng );
+	    ScheduleTourMap.panTo( loc );
+	}
+    }
+    
+    var action = $.QueryString['action'];
+    if ( action ==='login' ){
+    }else if ( action ==='panTo' ){
+	panToLoc();
+    }
+}
+$(window).load(function(){
 	    resize_listener();
 	    addResizeListener();
     })
+
