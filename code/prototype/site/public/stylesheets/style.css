@@ -259,3 +259,24 @@ td
 .navibar.activated{
     background-color:rgb(255,200,200);
 }
+.vk_c #wob_wc{
+    background-color:rgba(255,255,255,0.5);
+}
+#loc_card_close{
+    z-index:100;
+    position:absolute;
+    right:20px;
+    top:20px;
+}
+.transparent_class {
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  /* IE 5-7 */
+  filter: alpha(opacity=50);
+  /* Netscape */
+  -moz-opacity: 0.5;
+  /* Safari 1.x */
+  -khtml-opacity: 0.5;
+  /* Good browsers */
+  opacity: 0.5;
+}

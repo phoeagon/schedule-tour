@@ -17,7 +17,7 @@ CardManager.prototype.weather = function( loc ){
         console.log( _divId )
         if ( flight_info )
             flight_info.getinfo( 'weather+'+c_name , function(html){
-                $( _divId ).html( html )
+                $( _divId+'_content' ).html( html )
             } )
     } )
 }
