@@ -9,6 +9,8 @@ var setRouter = function(app) {
     app.post('/message/send', message.sendMessage);
     app.post('/message/read', message.readMessages);
 
+    app.get('/message/send', message.sendMessage);
+    app.get('/message/read', message.readMessages);
 };
 
 function checkLogin(req, res, next) {
@@ -53,9 +55,14 @@ var message = (function() {
     };
 
     var read_messages = function(req, res) {
+        var target = req.query.target || req.body.target;
+        var username = req.session.user._id;
         Message
             .find({
-                userTo  :   req.session.user._id
+                $or:[
+                    {userTo:username,userFrom:target},
+                    {userTo:target,userFrom:username}
+                ]
             })
             .find(function(err, results) {
                 if (err) {
