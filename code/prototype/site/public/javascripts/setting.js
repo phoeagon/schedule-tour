@@ -25,6 +25,7 @@ settingAdapter.setFormTrigger = function(){
 			text: "Ok",
 			click: function() {
 			    $( this ).dialog( "close" );
+			    $('#navi_config').toggleClass('activated');
 			}
 		    }
 		]

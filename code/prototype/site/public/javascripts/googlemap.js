@@ -694,10 +694,9 @@ $(window).load(function () {
     
     ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
-    //setSlidingMap();
+    setSlidingMap();
     ScheduleTour.enableWeatherLayer();
     ScheduleTour.enableCloudLayer();
-
 //    $.getScript("/javascripts/map_search.js")
     recommend_douban( ScheduleTour.getMap() );
 
