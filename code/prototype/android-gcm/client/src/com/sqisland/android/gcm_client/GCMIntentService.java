@@ -1,5 +1,7 @@
 package com.sqisland.android.gcm_client;
 
+import org.json.JSONObject;
+
 import com.google.android.gcm.GCMBaseIntentService;
 
 import android.app.Notification;
@@ -36,8 +38,23 @@ public class GCMIntentService extends GCMBaseIntentService {
 
   private Notification prepareNotification(Context context, String msg) {
     long when = System.currentTimeMillis();
-    Notification notification = new Notification(R.drawable.ic_stat_cloud, msg,
-        when);
+    String eventTitle = "", time ="", place ="";
+    try{
+    JSONObject jsonObj = new JSONObject( msg );
+    eventTitle = jsonObj.getString("title");
+    time = jsonObj.getString("time");
+    place = jsonObj.getString("place");
+    jsonObj = null;
+    }catch(Exception e){
+    	Log.d("JSONParser","failed at prepareNotification");
+    }
+    String content = eventTitle+
+    		(place.length()>0?" at "+place:"")
+    		+" at "+time;
+    Notification notification = new Notification(R.drawable.ic_stat_cloud, 
+    		content,when
+    		);
+    
     notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
     Intent intent = new Intent(context, MessageActivity.class);
@@ -49,8 +66,8 @@ public class GCMIntentService extends GCMBaseIntentService {
         //| Intent.FLAG_ACTIVITY_CLEAR_TASK);
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         0);
-    String title = context.getString(R.string.app_name);
-    notification.setLatestEventInfo(context, title, msg, pendingIntent);
+    //String title = context.getString(R.string.app_name);
+    notification.setLatestEventInfo(context, eventTitle, time, pendingIntent);
 
     return notification;
   }
