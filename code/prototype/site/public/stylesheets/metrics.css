@@ -141,6 +141,22 @@ td
     top:20%;
     width:100px;
 }
+#call_list{
+    position:absolute;
+    top:0;
+    left:170%;
+    width:30%;
+    height:100%;
+}
+#call_list.portrait{
+    width:85%;
+}
+#call_list.shown.portrait{
+    left:15%;
+}
+#call_list.shown {
+   left:70%;
+}
 #message_list {
     position:absolute;
     top:0;
