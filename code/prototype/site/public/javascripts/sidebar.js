@@ -1,6 +1,6 @@
 
 var Sidebar = (function() {
-    //
+    //TODO: fix sidebar cancel
     //
 
     var configAddEvent = function() {
@@ -25,7 +25,12 @@ var Sidebar = (function() {
     var hideSidebar = function() {
         //
         var state = !$('#sidebar').is(':hidden');
-        $('#sidebar').hide('slide', {direction: 'right'}, 1000); 
+        $('#sidebar').hide('slide', {direction: 'right'}, 1000);
+        setTimeout( function(){
+            $("#map").css({'left' : '0'});
+            $('#map').removeClass('disabledColor');
+            $('#map_pad').removeClass('inUse');
+        },1000)
         return state;
     };
 

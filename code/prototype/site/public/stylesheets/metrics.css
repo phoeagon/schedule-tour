@@ -195,3 +195,7 @@ td
   /* Good browsers */
   opacity: 0.5;
 }
+#sidebarCancel , #addEventButt{
+    width: 40%;
+    height: 50px;
+}
