@@ -10,11 +10,21 @@ placeManager.getMapPlace = function(map){
 }
 placeManager.places = [];
 placeManager.getPlace = function(){
-    placeManager.places = [];
+    try{
+	if ( localStorage )
+	    placeManager.places = JSON.parse( localStorage[ "placeManager.places" ] )
+    }catch(e){
+	console.log( e )
+	placeManager.places = [];
+    }
+    placeManager.configureButton( ScheduleTour.getMap() )
     $.getJSON('/saved.places/list',function(data){
+	placeManager.places = [];
 	for ( var x in data.places )
 	    placeManager.places.push( data.places[x] )
 	placeManager.configureButton( ScheduleTour.getMap() )
+	if ( localStorage )
+	    localStorage[ "placeManager.places" ] = JSON.stringify( placeManager.places )
     })
 }
 placeManager.savePlace = function( obj ){
