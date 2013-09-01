@@ -1,10 +1,41 @@
+function MapArray( array ){
+    this.arr = [];
+    this.assoc = {};
+    for ( var ele in array )
+	this.add( array[ele] );
+    return this;
+}
+MapArray.prototype.add = function( key ){
+    if ( ! ( key in this.assoc ) ){
+	this.assoc[key] = true;
+	this.arr.push( key );
+    }
+}
+MapArray.prototype.remove = function( key ){
+    if ( key in this.assoc ){
+	delete this.assoc[key];
+	for ( var i in this.arr )
+	    if (this.arr[i] === key )
+		this.arr.splice( i );
+    }
+}
+var userLocNames = localStorage['userLocNames'];
+if ( userLocNames && userLocNames.length ){
+    try{
+        userLocNames = JSON.parse( userLocNames )
+    }catch(err){
+        console.log(err)
+    }
+}else userLocNames = undefined;
 var ScheduleTourMap = {
         Point                   :   google.maps.LatLng ,
         Marker                  :   google.maps.Marker ,
         InfoWindow              :   google.maps.InfoWindow ,
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
-    }
+                                    } ,
+        userData                :  {
+                userLocNames : new  MapArray( userLocNames || [] )            }
 }
 var Event = (function() {
     var createEvent = function(p) {
@@ -239,7 +270,6 @@ var ScheduleTour = (function() {
         e.marker = marker;
         return e;
     }
-
     var fetchEventsFromServer = function() {
         //TODO: disable the button of adding event
         Event.fetchAllEvents(function(res) {
@@ -691,8 +721,8 @@ $(window).load(function () {
             ScheduleTour.watchlocateCallback
             )
         } , 1000 )
-    ScheduleTour.fetchEventsFromServer();
     
+    ScheduleTour.fetchEventsFromServer();
     ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
     setSlidingMap();
@@ -704,4 +734,20 @@ $(window).load(function () {
     $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();
     $('#friend_list_button').click( friendManager.toggleResultPad );
+    $('#goto_place').autocomplete({
+        source : function(request, response){
+            var options = ScheduleTourMap.userData.userLocNames.arr;
+            var results = [request.term];
+            var regex = new RegExp(request.term, "i");
+            for(var i = 0; i< options.length; i++){
+                if (options[i].match(regex))
+                    results.push(options[i]);
+            }
+            response(results);
+        }
+    })
 });
+$(window).unload( function(){
+    if (localStorage)
+        localStorage['userLocNames']=JSON.stringify(ScheduleTourMap.userData.userLocNames.arr);
+})

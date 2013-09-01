@@ -45,6 +45,8 @@ mapSearch.search = function( map , searchFor ){
     */
 }
 mapSearch.callback = function(){
+    var str = $('#goto_place').val();
+    ScheduleTourMap.userData.userLocNames.add( str );
     mapSearch.search( ScheduleTour.getMap() , $('#goto_place').val() );
 }
 mapSearch.setSearchBarCallback = function(){
