@@ -1,4 +1,5 @@
 //require jQuery
+//require WebSocketClient
 var CallManager = (function() {
     var target;
     var username;
@@ -25,16 +26,13 @@ var CallManager = (function() {
         username = _username;
         target = _target;
         renderList();
-        room = 'username#target';
+        room = username;
         // when it's ready, join if we got a room from the URL
         webrtc.on('readyToCall', function () {
             // you can name it anything
             if (room) webrtc.joinRoom(room);
         });
     };
-
-            
-
 
     var renderList = function() {
         var render = [];
@@ -48,12 +46,15 @@ var CallManager = (function() {
                     $('<div>').addClass('local')
                 ).append(
                     $('<button>').text('call').click(function() {
-                        var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
+                        var val = '';
+                        val = username;
                         webrtc.createRoom(val, function (err, name) {
-                            var newUrl = location.pathname + '?' + name;
-                            if (!err) {
-                                history.replaceState({foo: 'bar'}, null, newUrl);
+                            if (!err || err=='token') {
                                 setRoom(name);
+                                WebSocketClient.sendCallRequest(target, name);
+
+                            } else {
+                                console.log(err);
                             }
                         });
                         return false;          
@@ -80,9 +81,15 @@ var CallManager = (function() {
             }
         }
     };
+
+    var setRoom = function(_room) {
+        room = _room;
+    }
+
     return {
         show        :   show,
-        togglePad   :   togglePad
+        togglePad   :   togglePad,
+        setRoom     :   setRoom
     };
 
 }());

@@ -47,6 +47,16 @@ var WebSocketClient = (function() {
             }
             humane.log('new message from ' + msg.username);
             break;
+        case 'webrtc_request':
+            if (humane && humane.log) {
+                humane.log('receive call from ' + msg.username);
+            } else {
+                alert('receive call from ' + msg.username);
+            }
+            if (CallManager) {
+                CallManager.setRoom(msg.room);
+            }
+            break;
 
         };
 
@@ -70,10 +80,22 @@ var WebSocketClient = (function() {
         username = _username;
     };
 
+    var sendCallRequest = function(target, room) {
+        sendMessage(JSON.stringify({
+            type    :   'webrtc_request',
+            username:   username,
+            target  :   target,
+            room    :   room
+        }));
+        
+        
+    }
+
     return {
         run         :   run,
         onlineList  :   onlineList,
-        username    :   username
+        username    :   username,
+        sendCallRequest :   sendCallRequest
     };
 
 }());

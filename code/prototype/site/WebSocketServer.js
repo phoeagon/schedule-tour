@@ -154,6 +154,15 @@ wsServer.on('connect', function(connection) {
                         type    :   'newmessage',
                         username:   data.username
                     }));
+                    break;
+                case 'webrtc_request':
+                    sendTo(data.target, JSON.stringify({
+                        type    :   'webrtc_request',
+                        username:   data.username,
+                        room    :   data.room
+                    }));
+                    break;
+
             };
             //connection.sendUTF(message.utf8Data, sendCallback);
         }
