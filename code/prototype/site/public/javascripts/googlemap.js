@@ -19,7 +19,12 @@ MapArray.prototype.remove = function( key ){
 		this.arr.splice( i );
     }
 }
-var userLocNames = localStorage['userLocNames'];
+try {
+    var userLocNames = localStorage['userLocNames'];
+}catch(err){
+    console.log( err );
+    var userLocNames = "";
+}
 if ( userLocNames && userLocNames.length ){
     try{
         userLocNames = JSON.parse( userLocNames )
@@ -743,11 +748,16 @@ $(window).load(function () {
                 if (options[i].match(regex))
                     results.push(options[i]);
             }
+            delete regex;
+            delete options;
             response(results);
         }
     })
 });
 $(window).unload( function(){
+    try{
     if (localStorage)
         localStorage['userLocNames']=JSON.stringify(ScheduleTourMap.userData.userLocNames.arr);
+    }catch(err){
+    }
 })
