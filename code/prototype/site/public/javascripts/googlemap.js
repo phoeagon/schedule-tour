@@ -193,7 +193,7 @@ var ScheduleTour = (function() {
             "<h5>"+"Start Time:"+moment(e.time).calendar()+"</h5>"+
             "<h5>"+"End Time:"+moment(e.endTime).calendar()+"</h5>"+
             "<p>"+e.description+"</p>"+
-            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");' class='btn btn-default'>Delete</button><br/>";
+            "<button onclick='javascript:ScheduleTour.removeEvent(\"" + e._id + "\");' class='btn btn-default'  style='width:100%;'>Delete</button><br/>";
         for (var i = 0; i < locals.length; i++) {
             if (locals[i]._id != eid) {
                 var ee = locals[i];
@@ -202,12 +202,13 @@ var ScheduleTour = (function() {
                     "<h5>"+"Start Time:"+moment(ee.time).calendar()+"</h5>"+
                     "<h5>"+"End Time:"+moment(ee.endTime).calendar()+"</h5>"+
                     "<p>"+ee.description+"</p>"+
-                    "<button class='btn btn-default' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");'>Delete</button><br/>";
+                    "<button class='btn btn-default' onclick='javascript:ScheduleTour.removeEvent(\"" + ee._id + "\");' style='width:100%;'>Delete</button><br/>";
             }
         }
+        infoContent = infoContent + '<p><br/><b>At this location:</b><br/>'
         infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+
-            "' position='"+escape(e.place)+"'></span>"
-        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'>New Event</button>";
+            "' position='"+escape(e.place)+"' style='width:45%;display:inline-block;'></span>"
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'  style='width:45%;'>New Event</button></p>";
 
         var infoWindow = new ScheduleTourMap.InfoWindow({
             content :   infoContent
