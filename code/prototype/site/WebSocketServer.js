@@ -103,6 +103,7 @@ wsServer.on('connect', function(connection) {
         if (message.type === 'utf8') {
             if (debug) console.log("Received utf-8 message of " + message.utf8Data.length + " characters.");
             var json = message.utf8Data;
+            console.log(json);
             var data = JSON.parse(json);
             switch (data.type) {
                 case 'init':
@@ -148,6 +149,11 @@ wsServer.on('connect', function(connection) {
                         position:   data.position
                     }), null);
                     break;
+                case '_server_message':
+                    sendTo(data.target, JSON.stringify({
+                        type    :   'newmessage',
+                        username:   data.username
+                    }));
             };
             //connection.sendUTF(message.utf8Data, sendCallback);
         }

@@ -3,6 +3,7 @@ var WebSocketClient = (function() {
     var hostname = 'localhost';
     var port = 8000;
     var onlineList = {};
+    var newMessageList = {};
     var username;
 
     var sendMessage = function(msg) {
@@ -36,6 +37,17 @@ var WebSocketClient = (function() {
             }
             onlineList[msg.username].position = msg.position;
             break;
+        case 'newmessage':
+            if (!newMessageList[msg.username]) {
+                onlineList[msg.username] = 0;
+            }
+            onlineList[msg.username]++;
+            if (humane && humane.log) {
+                humane.log('new message from ' + msg.username);
+            }
+            humane.log('new message from ' + msg.username);
+            break;
+
         };
 
     };

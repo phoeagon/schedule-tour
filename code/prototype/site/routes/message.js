@@ -3,6 +3,8 @@
  */
 
 var Message = require('../models/types/message');
+var WebSocketClient = require('websocket').client;
+
 
 var setRouter = function(app) {
 
@@ -35,9 +37,11 @@ var message = (function() {
 
     var send_message = function(req, res) {
 
+        var userFrom = req.session.user._id;
+        var userTo = req.body.target;
         var message = new Message({
-            userFrom    :   req.session.user._id,
-            userTo      :   req.body.target,
+            userFrom    :   userFrom,
+            userTo      :   userTo,
             content     :   req.body.content,
             datetime    :   req.body.datetime,
             read        :   false
@@ -48,9 +52,27 @@ var message = (function() {
                 resEndJSON(res, 'ERR', 'Send Message Failed');
                 return;
             }
-            //add notification here
             resEndJSON(res, 'OK', 'Message Sent');
-            return;
+            //add notification here
+
+            var client = new WebSocketClient();
+
+            client.on('connectFailed', function(error) {
+                console.log('Connect Error: ' + error.toString());
+            });
+
+            client.on('connect', function(connection) {
+                connection.sendUTF(JSON.stringify({
+                    type    :   '_server_message',
+                    username:   userFrom,
+                    target  :   userTo
+                }), function() {
+                    connection.close();
+                });
+            });
+
+            client.connect('ws://localhost:8000/');
+                return;
         });
     };
 
