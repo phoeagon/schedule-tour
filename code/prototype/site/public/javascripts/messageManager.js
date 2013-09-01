@@ -76,7 +76,7 @@ var MessageManager = (function() {
                 ).append(
                     $('<p>').html(x.content)
                 ).append(
-                    $('<p>').html(x.datetime)
+                    $('<p>').html( moment( x.datetime ).fromNow())
                 )
             );
         });
