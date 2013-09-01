@@ -18,6 +18,7 @@
     "memory-cache" : "*",
     "uri-js" : "*",
     "node-minify" : "*",
-    "websocket" : "*"
+    "websocket" : "*",
+    "simplewebrtc" : "*"
   }
 }
