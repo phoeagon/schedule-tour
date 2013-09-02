@@ -10,16 +10,6 @@ var CallManager = (function() {
     };
 
 
-    // create our webrtc connection
-    var webrtc = new SimpleWebRTC({
-        // the id/element dom element that will hold "our" video
-        localVideoEl: 'localVideo',
-        // the id/element dom element that will hold remote videos
-        remoteVideosEl: 'remotes',
-        // immediately ask for camera access
-        autoRequestMedia: false,
-        log: true
-    });
     var room;
 
     var show = function(_username, _target) {
@@ -27,11 +17,6 @@ var CallManager = (function() {
         target = _target;
         renderList();
         room = username;
-        // when it's ready, join if we got a room from the URL
-        webrtc.on('readyToCall', function () {
-            // you can name it anything
-            if (room) webrtc.joinRoom(room);
-        });
     };
 
     var renderList = function() {
@@ -41,22 +26,36 @@ var CallManager = (function() {
             title   :   'Call Between ' + username + '(Me) and ' + target,
             content :   
                 $('<div>').append(
-                    $('<div>').addClass('remote')
+                    $('<div>').addClass('remote').css({height:'25%'})
                 ).append(
-                    $('<div>').addClass('local')
+                    $('<div>').addClass('local').css({height:'25%'})
                 ).append(
-                    $('<button>').text('call').click(function() {
-                        var val = '';
-                        val = username;
-                        webrtc.createRoom(val, function (err, name) {
-                            if (!err || err=='token') {
-                                setRoom(name);
-                                WebSocketClient.sendCallRequest(target, name);
+                    $('<button>').text(WebSocketClient.callList[target] ? 'receive' : 'call').click(function() {
+        // create our webrtc connection
+        var webrtc = new SimpleWebRTC({
+            // the id/element dom element that will hold "our" video
+            localVideoEl: $(this).prev().get(0),
+            // the id/element dom element that will hold remote videos
+            remoteVideosEl: $(this).prev().prev().get(0),
+            // immediately ask for camera access
+            autoRequestMedia: true,
+            log: true
+        });
+                        if (WebSocketClient.callList[target]) {
+                            webrtc.joinRoom(WebSocketClient.callList[target].room);
+                        } else {
+                            var val = '';
+                            val = username;
+                            webrtc.createRoom(val, function (err, name) {
+                                if (!err || err=='token') {
+                                    setRoom(name);
+                                    WebSocketClient.sendCallRequest(target, name);
 
-                            } else {
-                                console.log(err);
-                            }
-                        });
+                                } else {
+                                    console.log(err);
+                                }
+                            });
+                        }
                         return false;          
                     })
                 ).append(
@@ -85,6 +84,7 @@ var CallManager = (function() {
     var setRoom = function(_room) {
         room = _room;
     }
+
 
     return {
         show        :   show,

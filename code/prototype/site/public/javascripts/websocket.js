@@ -4,6 +4,7 @@ var WebSocketClient = (function() {
     var port = 8000;
     var onlineList = {};
     var newMessageList = {};
+    var callList = {};
     var username;
 
     var sendMessage = function(msg) {
@@ -53,9 +54,10 @@ var WebSocketClient = (function() {
             } else {
                 alert('receive call from ' + msg.username);
             }
-            if (CallManager) {
-                CallManager.setRoom(msg.room);
-            }
+            callList[msg.username] = {room: msg.room};
+            break;
+        case 'webrtc_stop':
+            delete callList[msg.username];
             break;
 
         };
@@ -94,6 +96,7 @@ var WebSocketClient = (function() {
     return {
         run         :   run,
         onlineList  :   onlineList,
+        callList    :   callList,
         username    :   username,
         sendCallRequest :   sendCallRequest
     };
