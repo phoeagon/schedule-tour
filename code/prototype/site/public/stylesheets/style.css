@@ -108,6 +108,9 @@ body {
     transition:500ms;
     z-index:200;
 }
+#sidebar table{
+    width: 100%;
+}
 
 #sidebar.back {
     visibility:hidden;

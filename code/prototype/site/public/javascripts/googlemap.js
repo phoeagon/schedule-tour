@@ -319,7 +319,8 @@ var ScheduleTour = (function() {
     var enableLongPress = function() {
         google.maps.event.addDomListener(map, 'mousedown', function(e) {
             longPresser = setTimeout(function() {
-                addEvent(e.latLng);
+                //addEvent(e.latLng);
+                Sidebar.showSidebar('addEvent', e.latLng);
             }, 1500);
         });
         var clearSpecTimeout = function(e) {
