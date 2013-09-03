@@ -6,17 +6,37 @@ var Sidebar = (function() {
     var configAddEvent = function() {
 
     };
+    var submitCallback;
+    var currentEvent;
 
-    var showSidebar = function() {
+    var safeCb = function(cb) {
+        if (cb && (typeof cb == 'function')) return cb;
+        return function(){};
+    }
+
+    var showSidebar = function(oneEvent, callback) {
+        oneEvent = oneEvent || {};
+        oneEvent.position = oneEvent.position || [];
+        //clone object
+        $.extend(true, currentEvent, oneEvent);
+        //set init value
+        $('#title').val(oneEvent.title || "");
+        $('#description').val(oneEvent.description || "");
+        $('#newLat').val(oneEvent.position[0] || "");
+        $('#newLng').val(oneEvent.position[1] || "");
+        $('#weight').slider('value', oneEvent.weight || 0);
+        $('#newPlace').val(oneEvent.place || "");
+        $('#dateFrom').datetimepicker('setDate', oneEvent.time || new Date());
+        $('#dateUntil').datetimepicker('setDate', oneEvent.endTime || new Date());
+        if (oneEvent.privacy) {
+            $('input:radio[name=privacyRadioGroup][value=private]').attr('checked', true)
+        } else {
+            $('input:radio[name=privacyRadioGroup][value=public]').attr('checked', true)
+        }
         //
-        $('#sidebarCancel').click(function() {
-            Sidebar.hideSidebar();
-        });
-        $('#pickPlace').click(function() {
-            Sidebar.hideSidebar();
-            var calendarState = CalendarBar.hideCalendarBar();
-            ScheduleTour.pickPlace(calendarState, Sidebar.pickPlaceCallback);
-        });
+        //set callback
+        submitCallback = callback || submitCallback;
+
         var state = !$('#sidebar').is(':hidden');
         $('#sidebar').show('slide', {direction: 'right'}, 1000); 
         return state;
@@ -26,13 +46,6 @@ var Sidebar = (function() {
         //
         var state = !$('#sidebar').is(':hidden');
         $('#sidebar').hide('slide', {direction: 'right'}, 1000);
-        /*
-        setTimeout( function(){
-            $("#map").css({'left' : '0'});
-            $('#map').removeClass('disabledColor');
-            $('#map_pad').removeClass('inUse');
-        },1000)
-        */
         return state;
     };
 
@@ -47,7 +60,47 @@ var Sidebar = (function() {
     };
 
     var initSidebar = function() {
+        //bind Submit
+        $('#addEventButt').click(function() {
+            if ( !validationManager.checkEndTimeAfterStartTime() )
+                return;
+            currentEvent = currentEvent || {};
+            currentEvent.title = $('#title').val();
+            currentEvent.description = $('#description').val();
+            currentEvent.place = $('#newPlace').val();
+            currentEvent.weight = $('#weight').slider('value');
+            currentEvent.time = new Date($('#dateFrom').datetimepicker('getDate'));
+            currentEvent.endTime = new Date($('#dateUntil').datetimepicker('getDate'));
+            currentEvent.duration = new Date($('#dateUntil').datetimepicker('getDate')) - new Date($('#dateFrom').datetimepicker('getDate'));
+            currentEvent.position = [parseInt($('#newLat').val()),
+                                parseInt($('#newLng').val())];
+            currentEvent.privacy = $('input:radio[name=privacyRadioGroup][value=private]').is(':checked');
+            /* retain
+                addTime     :   new Date(),
+                finish      :   false,
+                alarms      :   []
+                */
+            safeCb(submitCallback)(currentEvent);
+            Sidebar.hideSidebar();
+            submitCallback = null;
+            currentEvent = null;
+        });
+        //bind Cancel
+        $('#sidebarCancel').click(function() {
+            Sidebar.hideSidebar();
+            submitCallback = null;
+            currentEvent = null;
+        });
+        //bind pick up place from map
+        $('#pickPlace').click(function() {
+            Sidebar.hideSidebar();
+            var calendarState = CalendarBar.hideCalendarBar();
+            ScheduleTour.pickPlace(calendarState, Sidebar.pickPlaceCallback);
+        });
+        //set datetimepicker
         $(".datepicker").datetimepicker();
+        $(".slider").slider({ step: 1 , min : 0 , max : 10 });
+
         //switch between date and datatime
         $('#repeatEndInput').datepicker();
         $('#alldayCheckbox').change(function() {

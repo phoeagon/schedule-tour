@@ -244,7 +244,7 @@ var ScheduleTour = (function() {
         infoContent = infoContent + '<p><br/><b>At this location:</b><br/>'
         infoContent = infoContent + "<span class='favbtn ' lng='"+pos[0]+"' lat='"+pos[1]+
             "' position='"+escape(e.place)+"' style='width:45%;display:inline-block;'></span>"
-        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEvent(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'  style='width:45%;'>New Event</button></p>";
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEventFromClick(new google.maps.LatLng("+pos[0]+", "+pos[1]+"));'  style='width:45%;'>New Event</button></p>";
 
         var infoWindow = new ScheduleTourMap.InfoWindow({
             content :   infoContent
@@ -320,7 +320,7 @@ var ScheduleTour = (function() {
         google.maps.event.addDomListener(map, 'mousedown', function(e) {
             longPresser = setTimeout(function() {
                 //addEvent(e.latLng);
-                Sidebar.showSidebar('addEvent', e.latLng);
+                addEventFromClick(e.latLng);
             }, 1500);
         });
         var clearSpecTimeout = function(e) {
@@ -340,7 +340,7 @@ var ScheduleTour = (function() {
                 longPresser = null;
             }
             //addEvent(e.latLng);
-            Sidebar.showSidebar('addEvent', e.latLng);
+            addEventFromClick(e.latLng);
             e.stop();
         });
     }
@@ -380,6 +380,49 @@ var ScheduleTour = (function() {
                 callback('', 'Geocoder failed due to: ' + status);
             }
         });
+    };
+
+    var addEventFromClick = function(latLng) {
+        //add marker to map
+        var localEvents = findEventByPos([latLng.lat(), latLng.lng()]);
+        var marker = null;
+        if (localEvents.length == 0) {
+            marker = new ScheduleTourMap.Marker({
+                position    :   latLng,
+                map         :   map
+            });
+            marker.refCount = 1;
+            //var px = map.pointToPixel(p);
+        } else {
+            marker = localEvents[0].marker;
+            marker.refCount++;
+        }
+        geocode(latLng, function(res, code) {
+            if (code !== 'OK') {
+                console.log('geocode failed ' + res);
+                return;
+            }
+            var theEvent = {};
+            theEvent.place = res;
+            theEvent.position = [latLng.lat(), latLng.lng()];
+
+            Sidebar.showSidebar(theEvent, function(newEvent) {
+                Event.saveEvent(newEvent, function(res){
+                    console.log("newEvent response:" + res);
+                    newEvent._id = res._id;
+                    newEvent.marker = marker;
+                    addInfoWindowToEvent(map, newEvent);
+                    events.push(newEvent);
+                    events = tour(events);
+                    drawRoute();
+                    if (calendarRenderer)
+                        calendarRenderer.refresh();
+                    if (Timeline)
+                        Timeline.update()
+                });
+            });
+        });
+
     };
 
     //add event listener
@@ -699,7 +742,8 @@ var ScheduleTour = (function() {
         enableLongPress         :   enableLongPress,
         enableRightClick        :   enableRightClick,
         addRecommendation       :   addRecommendation,
-        addEvent                :   addEvent,
+        //addEvent                :   addEvent,
+        addEventFromClick       :   addEventFromClick,
         getMap                  :   function(){return map;},
         enableWeatherLayer      :   enableWeatherLayer,
         disableWeatherLayer     :   disableWeatherLayer,
