@@ -362,7 +362,7 @@ var ScheduleTour = (function() {
         return e;
     }
 
-    var geocode = function(latlng, callback) {
+    var geocode = function(latLng, callback) {
         if (!geocoder) geocoder = new google.maps.Geocoder();
         geocoder.geocode(
             {

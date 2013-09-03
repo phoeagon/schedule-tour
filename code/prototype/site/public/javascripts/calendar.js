@@ -22,7 +22,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
         alert('selected:' + start + ' ' + end + ' ' + allDay);
         $('#calendar').fullCalendar('unselect');
         Sidebar.showSidebar();
-        if (!addEvent(start, end, allDay)) return;
+        //if (!addEvent(start, end, allDay)) return;
         /*
             calendar.fullCalendar('renderEvent',
                 {
