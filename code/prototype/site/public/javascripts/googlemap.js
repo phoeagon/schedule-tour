@@ -735,6 +735,7 @@ $(window).load(function () {
     ScheduleTour.enableCloudLayer();
 //    $.getScript("/javascripts/map_search.js")
     recommend_douban( ScheduleTour.getMap() );
+    Sidebar.initSidebar();
 
     $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();

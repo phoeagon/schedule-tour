@@ -46,7 +46,50 @@ var Sidebar = (function() {
         $('newLng').val(latLng.lng());
     };
 
+    var initSidebar = function() {
+        $(".datepicker").datetimepicker();
+        //switch between date and datatime
+        $('#repeatEndInput').datepicker();
+        $('#alldayCheckbox').change(function() {
+            if (this.checked) {
+                var dateFrom = $('#dateFrom').val();
+                var dateUntil = $('#dateUntil').val();
+                $(".datepicker").datetimepicker('destroy');
+                $(".datepicker").datepicker();
+                $("#dateFrom").datepicker('setDate', dateFrom);
+                $("#dateUntil").datepicker('setDate', dateUntil);
+                return;
+            }
+            var dateFrom = $('#dateFrom').val();
+            var dateUntil = $('#dateUntil').val();
+            $(".datepicker").datepicker('destroy');
+            $(".datepicker").datetimepicker();
+            $("#dateFrom").datetimepicker('setDate', dateFrom);
+            $("#dateUntil").datetimepicker('setDate', dateUntil);
+        });
+        //toggle repeat detail div
+        $('#repeatCheckbox').change(function() {
+            if (this.checked) {
+                $('.repeatDetail').show(1000);
+                return;
+            }
+            $('.repeatDetail').hide(1000);
+        });
+        //toggle repeat detail div
+        $('#repeatFrequency').change(function() {
+            var text = $(this).find(':selected').text();
+            if (text.substr(-2) === 'ly') {
+                $('#repeatEvery').slideDown();
+                text = (text === 'Daily' ? 'Days' : text.substr(0,text.length-2) + 's');
+                $('#repeatEvery span:eq(1)').text(text);
+            } else {
+                $('#repeatEvery').slideUp('fast');
+            }
+        });
+    };
+
     return {
+        initSidebar     :   initSidebar,
         showSidebar    :   showSidebar,
         hideSidebar    :   hideSidebar,
         pickPlaceCallback: pickPlaceCallback
