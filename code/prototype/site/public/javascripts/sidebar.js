@@ -72,8 +72,8 @@ var Sidebar = (function() {
             currentEvent.time = new Date($('#dateFrom').datetimepicker('getDate'));
             currentEvent.endTime = new Date($('#dateUntil').datetimepicker('getDate'));
             currentEvent.duration = new Date($('#dateUntil').datetimepicker('getDate')) - new Date($('#dateFrom').datetimepicker('getDate'));
-            currentEvent.position = [parseInt($('#newLat').val()),
-                                parseInt($('#newLng').val())];
+            currentEvent.position = [parseFloat($('#newLat').val()),
+                                parseFloat($('#newLng').val())];
             currentEvent.privacy = $('input:radio[name=privacyRadioGroup][value=private]').is(':checked');
             /* retain
                 addTime     :   new Date(),

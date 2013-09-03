@@ -782,6 +782,11 @@ $(window).load(function () {
     recommend_douban( ScheduleTour.getMap() );
     Sidebar.initSidebar();
 
+    $("#map").css({'box-shadow':'15px 15px 15px 15px #000000;', 
+		      '-webkit-box-shadow':'15px 15px 15px 15px #000000'});
+
+    $("#timeline_btn").bind('click', function() {
+	    $("#timeline").toggleClass('shown');});
     $('#fav_list_button').click( placeManager.toggleResultPad );
     placeManager.getPlace();
     $('#friend_list_button').click( friendManager.toggleResultPad );

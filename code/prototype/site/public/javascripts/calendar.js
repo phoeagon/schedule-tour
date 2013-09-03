@@ -11,6 +11,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     console.log( feed );
     $('#calendar').html('');
     $('#calendar').fullCalendar({
+    defaultView: 'agendaDay',
 	header: {
 		left: 'prev,next today',
 		center: 'title',
@@ -51,6 +52,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
 		}
 	}
     });
+    $('#calendar').fullcalendar('today');
 }
 calendarRenderer.refresh = function(){
     calendarRenderer.render();	//refresh
