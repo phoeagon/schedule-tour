@@ -730,7 +730,7 @@ $(window).load(function () {
     ScheduleTour.fetchEventsFromServer();
     ScheduleTour.enableLongPress();
     ScheduleTour.enableRightClick();
-    setSlidingMap();
+    //setSlidingMap();
     ScheduleTour.enableWeatherLayer();
     ScheduleTour.enableCloudLayer();
 //    $.getScript("/javascripts/map_search.js")
