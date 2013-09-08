@@ -534,7 +534,9 @@ var ScheduleTour = (function() {
         });
         events.splice(index, 1);
         events = tour(events);
+
         drawRoute();
+
         if (calendarRenderer)
             calendarRenderer.refresh()
         if (Timeline)
@@ -579,9 +581,12 @@ var ScheduleTour = (function() {
             routeArray[i] = {};
             requestDirections(request, routeArray[i], 'rgb(255,'+Math.min(i*50,255)+',255)');
         }
+
+        mygeolocate.locate(map);
+        watchlocateCallback(mygeolocate.myLocationMarker.getPosition());
     }
 
-    var requestDirections = function(request, route, color) {
+    var requestDirections = function(request, route, color, callback) {
         directionsService.route(request, function(response, status) {
             //remove old path
             if (route) {
@@ -629,12 +634,11 @@ var ScheduleTour = (function() {
                 markerArray[j] = marker;
                 infoWindowArray[j] = infoWindow;
             }
-            route = {
-                markerArray         :   markerArray,
-                infoWindowArray     :   infoWindowArray,
-                directionsDisplay   :   null,
-                polyline            :   polyline
-            };
+            route.markerArray = markerArray;
+            route.infoWindowArray = infoWindowArray;
+            route.directionsDisplay = null;
+            route.polyline = polyline;
+            if (callback) callback();
 
             function switchTravelMode(e) {
                 var travelModes = [
@@ -706,7 +710,15 @@ var ScheduleTour = (function() {
 
     var firstRoute = null;
     var currentPosition = null;
+    var drawingFirstRoute = false;
     var watchlocateCallback = function( latLng ) {
+        if (latLng === null) return;
+        if (drawingFirstRoute) {
+            setTimeout(function() {
+                watchlocateCallback(latLng);
+            }, 1000);
+            return;
+        }
         currentPosition = latLng;
         if ( firstRoute ) {
             clearRouteFromMap(firstRoute);
@@ -721,7 +733,10 @@ var ScheduleTour = (function() {
             travelMode  :   google.maps.TravelMode.WALKING
         };
         firstRoute = {};
-        requestDirections(request, firstRoute, 'rgb(0,0,255)');
+        drawingFirstRoute = true;
+        requestDirections(request, firstRoute, 'rgb(0,0,255)', function() {
+            drawingFirstRoute = false;
+        });
     };
 
     var pickPlace = function(callbackState, callback) {
