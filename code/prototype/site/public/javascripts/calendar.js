@@ -52,7 +52,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
 		}
 	}
     });
-    $('#calendar').fullcalendar('today');
+    $('#calendar').fullCalendar('today');
 }
 calendarRenderer.refresh = function(){
     calendarRenderer.render();	//refresh

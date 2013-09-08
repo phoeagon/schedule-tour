@@ -69,7 +69,7 @@ var MessageManager = (function() {
     var renderList = function() {
         var render = [];
         var ul = $('<ul>');
-        messages.map(function(x) {
+        messages.reverse().map(function(x) {
             ul.append(
                 $("<li>").append(
                     $("<p>").html(x.userFrom + ' says:')
@@ -83,9 +83,10 @@ var MessageManager = (function() {
         render.push({
             title   :   'Message List Between ' + username + '(Me) and ' + target,
             content :   
-                $('<div>').append(
-                    ul
-                ).append(
+                $('<div>').css({
+                    'overflow':'auto',
+                    'height':'90%'
+                }).append(
                     $('<input>')
                 ).append(
                     $('<button>').text('say').click(function() {
@@ -100,6 +101,8 @@ var MessageManager = (function() {
                     $('<button>').text('back').click(function() {
                         togglePad();
                     })
+                ).append(
+                    ul
                 )
         });
         if ( messagePad ){
