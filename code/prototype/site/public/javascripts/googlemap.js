@@ -390,7 +390,7 @@ var ScheduleTour = (function() {
         if (localEvents.length == 0) {
             marker = new ScheduleTourMap.Marker({
                 position    :   latLng,
-                map         :   map
+                map         :   null
             });
             marker.refCount = 1;
             //var px = map.pointToPixel(p);
@@ -409,6 +409,7 @@ var ScheduleTour = (function() {
 
             Sidebar.showSidebar(theEvent, function(newEvent) {
                 Event.saveEvent(newEvent, function(res){
+                    marker.setMap(map);
                     console.log("newEvent response:" + res);
                     newEvent._id = res._id;
                     newEvent.marker = marker;
