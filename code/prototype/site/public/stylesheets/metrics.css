@@ -141,6 +141,22 @@ td
     top:20%;
     width:100px;
 }
+#step_list{
+    position:absolute;
+    top:0;
+    left:70%;
+    width:30%;
+    height:100%;
+}
+#step_list.portrait{
+    width:85%;
+}
+#step_list.shown.portrait{
+    left:15%;
+}
+#step_list.shown {
+   left:70%;
+}
 #call_list{
     position:absolute;
     top:0;

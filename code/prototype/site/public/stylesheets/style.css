@@ -150,6 +150,12 @@ body {
     transition:left 300ms;
     -webkit-transition:left 300ms;
 }
+#step_list {
+    background-color:rgba(200,200,200,0.5);
+    z-index:101;
+    transition:left 300ms;
+    -webkit-transition:left 300ms;
+}
 #call_list {
     background-color:rgba(200,200,200,0.5);
     z-index:101;

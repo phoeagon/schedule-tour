@@ -190,6 +190,7 @@ var ScheduleTour = (function() {
     var directionsService = null;
     var stepDisplay = null;
     var geocoder = null;
+    var tempMarker = null;
 
     var geolocate = mygeolocate.watchlocate
     var panTo = function() {
@@ -582,8 +583,9 @@ var ScheduleTour = (function() {
             requestDirections(request, routeArray[i], 'rgb(255,'+Math.min(i*50,255)+',255)');
         }
 
-        mygeolocate.locate(map);
-        watchlocateCallback(mygeolocate.myLocationMarker.getPosition());
+        mygeolocate.locate(map, function(latLng) {
+            watchlocateCallback(latLng);
+        });
     }
 
     var requestDirections = function(request, route, color, callback) {
@@ -598,8 +600,16 @@ var ScheduleTour = (function() {
             if (!(response && response.routes && response.routes[0]
             && response.routes[0].legs && response.routes[0].legs[0])) return;
 
-            var myRoute = response.routes[0].legs[0];
+            var directionsDisplayOptions = {
+                map             :   null,
+                panel           :   null
+            };
+            var directionsDisplay = new google.maps.DirectionsRenderer(
+                directionsDisplayOptions
+            );
+            directionsDisplay.setDirections(response);
 
+            var myRoute = response.routes[0].legs[0];
             var icon = {
                 url: '/images/circle.png',
                 anchor: new ScheduleTourMap.Point(10, 10)
@@ -618,7 +628,11 @@ var ScheduleTour = (function() {
                 strokeWeight    :   (1)*10
             });
             //bind polyline click event
-            google.maps.event.addDomListener(polyline, 'click', switchTravelMode);
+            google.maps.event.addDomListener(polyline, 'click', function() {
+                $('#step_list').empty();
+                $('#step_list').show();
+                directionsDisplay.setPanel($('#step_list').get(0));
+            });//}switchTravelMode);
 
             for (var j=0; j<myRoute.steps.length; ++j) {
                 var marker = new google.maps.Marker({
@@ -636,7 +650,7 @@ var ScheduleTour = (function() {
             }
             route.markerArray = markerArray;
             route.infoWindowArray = infoWindowArray;
-            route.directionsDisplay = null;
+            route.directionsDisplay = directionsDisplay;
             route.polyline = polyline;
             if (callback) callback();
 

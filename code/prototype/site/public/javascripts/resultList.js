@@ -41,3 +41,4 @@ ResultPad.prototype.destroy= function() {
 resultPad = new ResultPad();//create new instance
 messagePad = new ResultPad('#message_list');//create new instance
 callPad = new ResultPad('#call_list');//create new instance
+stepPad = new ResultPad('#step_list');

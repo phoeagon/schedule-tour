@@ -35,7 +35,7 @@ var icon = new BMap.Icon('/images/point.png',new BMap.Size(40, 40),{
         },handleNoGeolocation,{enableHighAccuracy: true})
     }*/
 
-mygeolocate.locate = function( map ) {
+mygeolocate.locate = function( map , callback ) {
         console.log("mygeolocate.locate")
         var geolocation = navigator.geolocation;
         var map = ScheduleTour.getMap();
@@ -55,9 +55,10 @@ mygeolocate.locate = function( map ) {
             });
             map.panTo(latLng);
             map.setZoom(14);
-            console.log('Your Position:'+pt.lng+','+pt.lat);
+            console.log('Your Position:'+latLng.lng()+','+latLng.lat());
             // store location
             mygeolocate.myLocationMarker =  mk ;
+            if (callback) callback(latLng);
 
         },function(err){console.log(err)},{enableHighAccuracy: true})
     }
