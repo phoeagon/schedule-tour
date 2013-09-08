@@ -127,6 +127,14 @@
         <div id="popup_content"></div>
         <button class="btn btn-primary" id="popup_ok_btn">OK</button>
     </div>
+    <div id="help" style="position:absolute;width:80%;height:80%;top:10%;left:10%;background-color:rgba(255,255,255,0.5);">
+        <div id="help1">
+            <img src="./images/help1.png" onclick="javascript:$('#help1').remove();"><br/>
+        </div>
+        <div id="help2">
+            <img src="./images/help2.png" onclick="javascript:$('#help').remove();skip_toturial_set();"><br/>
+        </div>
+    </div>
   </body> 
     <script src="/plugins/jquery-ui.js"></script>
     <script type="text/javascript" src="/plugins/jquery.touch.js"></script>  
@@ -171,5 +179,10 @@
             $(ele).toggleClass('activated');
         } )
     } )
+    if ( getCookie('skip_tutorial') )
+        $('#help').remove();
+    function skip_toturial_set(){
+        setCookie('skip_tutorial',1,100000000000000);
+    }
   </script>
 </html>
