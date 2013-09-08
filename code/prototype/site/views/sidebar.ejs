@@ -4,15 +4,15 @@
           <table>
             <tr>
               <th>Title:</th>
-              <td><input type="text" class="title" name="title" id="title"></input></td>
+              <td><input type="text" class="title" name="title" id="title" title='Enter the name of the event you are attending'></input></td>
             </tr>
             <tr>
               <th>Start Date:</th>
-              <td><input type="text" class="datepicker" name="start_date" id="dateFrom"/></td>
+              <td><input type="text" class="datepicker" name="start_date" id="dateFrom" title='At which time are you starting this event?'/></td>
             </tr>
             <tr>
               <th>End Date:</th>
-              <td><input type="text" class="datepicker" name="end_date" id="dateUntil"/></td>
+              <td><input type="text" class="datepicker" name="end_date" id="dateUntil" title='(Optional) When shall this event end?'/></td>
             </tr>
             <tr>
               <th></th>
@@ -79,7 +79,7 @@
             <tr>
               <th rowspan=2>Position:</th>
               <td>
-                <input type='text' id='newPlace' placeholder='Place Name'></input>
+                <input type='text' id='newPlace' placeholder='Place Name' title='At which place is this event taking place?'></input>
                 <button title='pick up place from map' id='pickPlace' onclick='return false;'></button>
               </td>
             </tr>
@@ -99,7 +99,7 @@
             <tr>
               <th>Note:</th>
               <td>
-                <textarea id="description" name="add-event-note"></textarea>
+                <textarea id="description" name="add-event-note" title='Add your personal note'></textarea>
               </td>
             </tr>
           </table>

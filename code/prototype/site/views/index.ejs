@@ -81,7 +81,7 @@
     </div>
  
     </div>
-    <div id="avatar_div" class="has_shadow"></div>
+    <div id="avatar_div" class="has_shadow" title='This is your avatar'></div>
     <div id="menu_div" class="displaynone">
         <% include avatar_menu.ejs -%>
     </div>
@@ -105,12 +105,12 @@
           <div class="nav-collapse">
             <ul class="nav">
               <!--<li id="navi_home"><a href="#">Map</a></li>-->
-              <li id="navi_calendar" class="navibar"><a href="javascript:void(0);" id="calendar_btn"><i class="icon-xlarge icon-calendar"></i><font class="nav_text_opt">Calendar</font></a></li>
-                <li id="navi_timeline" class="navibar"><a href="javascript:void(0);" id="timeline_btn"><i class="icon-xlarge icon-list"></i><font class="nav_text_opt">Timeline</font></a></li>
-                <li id="navi_config" class="navibar"><a href="javascript:void(0);" id="setting_show_button"><i class="icon-xlarge icon-wrench"></i><font class="nav_text_opt">Config</font></a></li>
-                <li id="navi_places" class="navibar"><a href="javascript:void(0);" id="fav_list_button"><i class="icon-xlarge icon-heart"></i><font class="nav_text_opt">Places</font></a></li>
-                <li id="navi_friends" class="navibar"><a href="javascript:void(0);" id="friend_list_button"><i class="icon-xlarge icon-heart"></i><font class="nav_text_opt">Friends</font></a></li>
-                <li id="navi_refresh" class="navibar"><a href="javascript:void(0);" id="refresh_button"><i class="icon-xlarge icon-refresh"></i><font class="nav_text_opt">Refresh</font></a></li>
+              <li id="navi_calendar" class="navibar" title="View your events on a calendar!"><a href="javascript:void(0);" id="calendar_btn"><i class="icon-xlarge icon-calendar"></i><font class="nav_text_opt">Calendar</font></a></li>
+                <li id="navi_timeline" class="navibar" title="See your events on a timeline!"><a href="javascript:void(0);" id="timeline_btn"><i class="icon-xlarge icon-list"></i><font class="nav_text_opt">Timeline</font></a></li>
+                <li id="navi_config" class="navibar"><a href="javascript:void(0);" id="setting_show_button" title='Adjust configurations'><i class="icon-xlarge icon-wrench"></i><font class="nav_text_opt">Config</font></a></li>
+                <li id="navi_places" class="navibar"  title="See your bookmarked places"><a href="javascript:void(0);" id="fav_list_button"><i class="icon-xlarge icon-heart"></i><font class="nav_text_opt">Places</font></a></li>
+                <li id="navi_friends" class="navibar"  title="See all your friends"><a href="javascript:void(0);" id="friend_list_button"><i class="icon-xlarge icon-heart"></i><font class="nav_text_opt">Friends</font></a></li>
+                <li id="navi_refresh" class="navibar"  title="Refresh"><a href="javascript:void(0);" id="refresh_button"><i class="icon-xlarge icon-refresh"></i><font class="nav_text_opt">Refresh</font></a></li>
               
             </ul>
           </div>
@@ -194,5 +194,6 @@
     function skip_toturial_set(){
         setCookie('skip_tutorial',1,100000000000000);
     }
+    $(document).tooltip();
   </script>
 </html>
