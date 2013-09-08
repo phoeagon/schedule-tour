@@ -38,14 +38,22 @@ var Sidebar = (function() {
         submitCallback = callback || submitCallback;
 
         var state = !$('#sidebar').is(':hidden');
-        $('#sidebar').show('slide', {direction: 'right'}, 1000); 
+        //$('#sidebar').show('slide', {direction: 'right'}); 
+        $('#sidebar').css('width', 0);
+        $('#sidebar').show();
+        $('#sidebar').animate({ width: '+=25%' });
         return state;
     };
 
     var hideSidebar = function() {
         //
         var state = !$('#sidebar').is(':hidden');
-        $('#sidebar').hide('slide', {direction: 'right'}, 1000);
+        $('#sidebar').animate({ width: '0' });
+        setTimeout(function() {
+            $('#sidebar').hide();
+        }, 1000);
+
+        //$('#sidebar').hide('slide', {direction: 'left'});
         return state;
     };
 
