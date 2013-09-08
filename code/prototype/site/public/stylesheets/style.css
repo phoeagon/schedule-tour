@@ -294,3 +294,7 @@ td
   /* Good browsers */
   opacity: 0.5;
 }
+
+video {
+    height: 100%;
+}

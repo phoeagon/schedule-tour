@@ -11,6 +11,7 @@ var CallManager = (function() {
 
 
     var room;
+    var webrtc;
 
     var show = function(_username, _target) {
         username = _username;
@@ -26,13 +27,19 @@ var CallManager = (function() {
             title   :   'Call Between ' + username + '(Me) and ' + target,
             content :   
                 $('<div>').append(
-                    $('<div>').addClass('remote').css({height:'25%'})
+                    $('<div>').addClass('remote').css({height:'100px'})
                 ).append(
-                    $('<div>').addClass('local').css({height:'25%'})
+                    $('<div>').addClass('local').css({height:'100px'})
                 ).append(
                     $('<button>').text(WebSocketClient.callList[target] ? 'receive' : 'call').click(function() {
+                        if ($(this).text() === 'stop') {
+                            //webrtc.localStream.stop();
+                            webrtc.connection.socket.disconnect();
+                            $(this).text('call');
+                            return false;
+                        }
         // create our webrtc connection
-        var webrtc = new SimpleWebRTC({
+        webrtc = new SimpleWebRTC({
             // the id/element dom element that will hold "our" video
             localVideoEl: $(this).prev().get(0),
             // the id/element dom element that will hold remote videos
@@ -56,6 +63,7 @@ var CallManager = (function() {
                                 }
                             });
                         }
+                        $(this).text('stop');
                         return false;          
                     })
                 ).append(
