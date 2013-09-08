@@ -13,9 +13,9 @@ let port=$1
 for ((i=0; i < $2; i++))
     do
         let j=$i+$port;
-        ( export PORT=$j; node `pwd`/app.js  >`pwd`/server$i.log & )
+        ( export PORT=$j; supervisor `pwd`/app.js  >`pwd`/server$i.log & )
     done;
 
 # run GCM server
 
-node `pwd`/push_server.js &
+supervisor `pwd`/push_server.js &

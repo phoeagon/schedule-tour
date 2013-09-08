@@ -1,0 +1,16 @@
+# Schedule Tour Server
+#
+#
+#####################################################
+#
+# this file should go to /etc/init/stour.conf
+# This service starts schedult tour server
+#
+#######################################################
+
+start on started network
+stop on stopping network
+stop on starting shutdown
+
+exec bash $THIS_IS_REPLACED_WITH_CURRENT_DIR$/service.sh
+respawn
