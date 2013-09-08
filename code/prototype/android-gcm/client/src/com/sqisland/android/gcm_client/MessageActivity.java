@@ -3,6 +3,8 @@ package com.sqisland.android.gcm_client;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,15 @@ public class MessageActivity extends Activity {
 	  if ( mMessageView==null)
 		  return;
 	  String eventTitle = "", time ="", endTime = "", place ="";
+	  double lat = 0 , lng = 0;
 	    try{
 	    JSONObject jsonObj = new JSONObject( msg );
 	    eventTitle = jsonObj.getString("title");
 	    time = jsonObj.getString("time");
 	    endTime = jsonObj.getString("endTime");
 	    place = jsonObj.getString("place");
+	    lat = jsonObj.getJSONArray("position").getDouble(0);
+	    lng = jsonObj.getJSONArray("position").getDouble(1);
 	    jsonObj = null;
 	    }catch(Exception e){
 	    	Log.d("JSONParser","failed at prepareNotification");
@@ -30,11 +35,15 @@ public class MessageActivity extends Activity {
 	    		( place.length()>0 ? "At "+place : "" )
 	    		+"\nAt "+time;
 	    mMessageView.setText(  content  	);
+	    final String url = Constants.SERVER_URL+"?lat="+lat+"&lng="+lng;
 	    mMessageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 	    		Log.d("OnClickListener","clicked");
+	    		Intent browserIntent = 
+	    				new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+	    		startActivity(browserIntent);
 			}
 	    });
   }

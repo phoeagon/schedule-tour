@@ -57,9 +57,9 @@ function parseAction() {
     }
     
     var action = $.QueryString['action'];
+    panToLoc();
     if ( action ==='login' ){
     }else if ( action ==='panTo' ){
-	panToLoc();
     }
 }
 function setCookie(c_name,value,exdays)
