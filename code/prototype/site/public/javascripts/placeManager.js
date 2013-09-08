@@ -18,7 +18,8 @@ placeManager.getPlace = function(){
 	placeManager.places = [];
     }
     placeManager.configureButton( ScheduleTour.getMap() )
-    $.getJSON('/saved.places/list',function(data){
+    $.post('/saved.places/list', {}, function(data){
+    data = JSON.parse(data);
 	placeManager.places = [];
 	for ( var x in data.places )
 	    placeManager.places.push( data.places[x] )
@@ -45,7 +46,8 @@ placeManager.savePlace = function( obj ){
     })
 }
 placeManager.removePlace = function( obj ){
-    $.getJSON('/saved.places/remove' , {_id:obj._id} , function(data){
+    $.post('/saved.places/remove' , {_id:obj._id} , function(data){
+    data = JSON.parse(data);
 	console.log( data )
 	if (data.code=='OK'){
 	    alert("successful")

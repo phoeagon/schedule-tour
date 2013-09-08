@@ -578,10 +578,10 @@ var ScheduleTour = (function() {
             var request = {
                 origin      :   from,
                 destination :   to,
-                travelMode  :   google.maps.TravelMode.WALKING
+                travelMode  :   google.maps.TravelMode.DRIVING
             };
             routeArray[i] = {};
-            requestDirections(request, routeArray[i], 'rgb(255,'+Math.min(i*50,255)+',255)');
+            requestDirections(request, routeArray[i], 'rgb(100, 100,'+Math.min(i*50,255)+')');
         }
 
         mygeolocate.locate(map, function(latLng) {
@@ -592,6 +592,19 @@ var ScheduleTour = (function() {
     var requestDirections = function(request, route, color, callback) {
         directionsService.route(request, function(response, status) {
             //remove old path
+            if (response.status == "ZERO_RESULTS") {
+                if (request.travelMode == google.maps.TravelMode.DRIVING) {
+                    request.travelMode = google.maps.TravelMode.WALKING;
+                    requestDirections(request, route, color, callback);
+                    return;
+                } else if (request.travelMode == google.maps.TravelMode.WALKING) {
+                    request.travelMode = google.maps.TravelMode.TRANSIT;
+                    requestDirections(request, route, color, callback);
+                    return;
+                } else {
+                    humane.log('no way found');
+                }
+            }
             if (route) {
                 clearRouteFromMap(route);
             }

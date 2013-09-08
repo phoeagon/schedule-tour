@@ -66,7 +66,7 @@ var newPlace = function(req, res) {
 var removePlace = function(req, res) {
   savedPlace
     .where('_id')
-    .equals(req.query._id)
+    .equals(req.query._id || req.body._id)
     .remove(function(err) {
       if (err) {
         res.end(JSON.stringify({
@@ -85,10 +85,14 @@ var removePlace = function(req, res) {
 var setRouter = function(app) {
     app.get('/saved.places/list',checkLogin)
     app.get('/saved.places/list',listPlaces)
+    app.post('/saved.places/list',checkLogin)
+    app.post('/saved.places/list',listPlaces)
     app.post('/saved.places/new',checkLogin)
     app.post('/saved.places/new',newPlace)
     app.get('/saved.places/remove',checkLogin)
     app.get('/saved.places/remove',removePlace)
+    app.post('/saved.places/remove',checkLogin)
+    app.post('/saved.places/remove',removePlace)
 };
 
 module.exports = {
