@@ -17,7 +17,8 @@ var friendManager = (function() {
 
         var getFriends = function(callback) {
             friends = [];
-            $.getJSON('/friends/list',function(data) {
+            $.post('/friends/list', {}, function(data) {
+                data = JSON.parse(data);
                 if (data.code != 'OK') alert('get friends failed');
                 data.msg.friendsTo.map(function(x) {
                     friends.push({
@@ -105,24 +106,30 @@ var friendManager = (function() {
 
     var renderList = function() {
         var render = [];
+        var orig_height = 0;
         render.push({
             title   :   'Toolbox',
             content :   
                 $('<div>').append(
-                    $('<input>')
+                    $('<input>').css('width', '50%')
                 ).append(
-                    $('<button>').text('search').click(function() {
+                    $('<button>').text('search').addClass('btn btn-default').click(function() {
                         var _this = this;
+                        if ($(this).next().is(':visible')) {
+                            $(this).next().click();
+                        }
+                        $(this).next().show();
                         remoteFriends.search($(_this).prev().val(), function(userlist) {
                             console.log(userlist);
-                            var ul = $(_this).next();
+                            var ul = $(_this).next().next();
                             ul.empty();
+                            $(_this).parent().animate({height:'+=150px'});
                             userlist.map(function(x) {
                                 ul.append(
                                     $('<li>').append(
-                                        $('<span>').text(x)
+                                        $('<span>').text(x).css('padding','30px')
                                     ).append(
-                                        $('<button>').text('add').click(function() {
+                                        $('<button>').text('add').addClass('btn btn-default').click(function() {
                                             remoteFriends.add(x, function() {
                                                 showList();
                                             });
@@ -135,6 +142,14 @@ var friendManager = (function() {
                         return false;
                     })
                 ).append(
+                    $('<button>').text('clear').addClass('btn btn-default').click(function() {
+                        var ul = $(this).next();
+                        ul.empty();
+                        $(this).parent().animate({height:'-=150px'});
+                        $(this).hide();
+                        return false;
+                    }).hide()
+                ).append(
                     $('<ul>')
                 )
         });
@@ -145,7 +160,7 @@ var friendManager = (function() {
                 $("<div>").append(
                     $("<p>").html(x.username + (x.position ? (' at '+x.position.toString()) : ''))
                 ).append(
-                    $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
+//                    $("<a>").addClass("btn btn-primary").attr("href","javascript:void(0);").html("Locate")
                 ).append(
                     $("<a>").addClass("btn btn-default").attr("href","javascript:void(0);").html("Message").click(function() {
                         MessageManager.showList(username, x.username);
