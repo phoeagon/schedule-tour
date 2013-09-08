@@ -628,10 +628,32 @@ var ScheduleTour = (function() {
                 strokeWeight    :   (1)*10
             });
             //bind polyline click event
-            google.maps.event.addDomListener(polyline, 'click', function() {
+            function showStepPanel(r) {
+                if (!r || !r.directionsDisplay) return;
                 $('#step_list').empty();
                 $('#step_list').show();
-                directionsDisplay.setPanel($('#step_list').get(0));
+                r.directionsDisplay.setPanel($('#step_list').get(0));
+                $('#step_list').append(
+                    $('<button>').text('Back').click(function() {
+                        $('#step_list').hide();
+                    })
+                ).append(
+                    $('<button>').text('Walking').click(function() {
+                        switchToTravelMode(google.maps.TravelMode.WALKING);
+                    })
+                ).append(
+                    $('<button>').text('Drive').click(function() {
+                        switchToTravelMode(google.maps.TravelMode.DRIVING);
+                    })
+                ).append(
+                    $('<button>').text('Transit').click(function() {
+                        switchToTravelMode(google.maps.TravelMode.TRANSIT);
+                    })
+                );
+            };
+
+            google.maps.event.addDomListener(polyline, 'click', function() {
+                showStepPanel(route);
             });//}switchTravelMode);
 
             for (var j=0; j<myRoute.steps.length; ++j) {
@@ -652,7 +674,19 @@ var ScheduleTour = (function() {
             route.infoWindowArray = infoWindowArray;
             route.directionsDisplay = directionsDisplay;
             route.polyline = polyline;
-            if (callback) callback();
+            if (callback) callback(route);
+
+            function switchToTravelMode(travelMode) {
+                var newRequest = request;
+                console.log(travelMode);
+                newRequest.travelMode = travelMode;
+                console.log(newRequest);
+                requestDirections(newRequest, route, color, showStepPanel);
+
+                humane.clickToClose = true;
+                humane.timeout = 1000;
+                humane.log(travelMode);
+            }
 
             function switchTravelMode(e) {
                 var travelModes = [
@@ -792,6 +826,7 @@ $(window).load(function () {
 
     ScheduleTour.initMap($('#map').get(0));
     $('#calendar_btn').click(function() { CalendarBar.toggleCalendarBar(); });
+    $('#step_list').hide();
 
     ScheduleTour.geolocate(ScheduleTour.getMap(), ScheduleTour.watchlocateCallback);
     setTimeout(function(){
