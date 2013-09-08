@@ -11,7 +11,8 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     console.log( feed );
     $('#calendar').html('');
     $('#calendar').fullCalendar({
-    defaultView: 'agendaDay',
+        ignoreTimezone: false,
+        defaultView: 'agendaDay',
 	header: {
 		left: 'prev,next today',
 		center: 'title',
@@ -22,19 +23,18 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     select: function(start, end, allDay) {
         alert('selected:' + start + ' ' + end + ' ' + allDay);
         $('#calendar').fullCalendar('unselect');
-        Sidebar.showSidebar();
-        //if (!addEvent(start, end, allDay)) return;
         /*
-            calendar.fullCalendar('renderEvent',
-                {
-                    title: title,
-                    start: start,
-                    end: end,
-                    allDay: allDay
-                },
-                true // make the event "stick"
-            );
+        calendar.fullCalendar('renderEvent',
+            {
+                title: title,
+                start: start,
+                end: end,
+                allDay: allDay
+            },
+            true // make the event "stick"
+        );
         */
+        ScheduleTour.addEventFromTime(start, end);
     },
     editable: true,
     events : feed , 

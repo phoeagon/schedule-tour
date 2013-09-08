@@ -383,6 +383,44 @@ var ScheduleTour = (function() {
         });
     };
 
+    var addEventFromTime = function(start, end) {
+        var theEvent = {};
+        theEvent.time = new Date(start);
+        theEvent.endTime = new Date(end);
+        Sidebar.showSidebar(theEvent, function(newEvent) {
+            //add marker to map
+            var localEvents = findEventByPos(newEvent.position);
+            var latLng = new google.maps.LatLng(newEvent.position[0], newEvent.position[1]);
+            var marker = null;
+            if (localEvents.length == 0) {
+                marker = new ScheduleTourMap.Marker({
+                    position    :   latLng,
+                    map         :   null
+                });
+                marker.refCount = 1;
+                //var px = map.pointToPixel(p);
+            } else {
+                marker = localEvents[0].marker;
+                marker.refCount++;
+            }
+            Event.saveEvent(newEvent, function(res){
+                marker.setMap(map);
+                console.log("newEvent response:" + res);
+                newEvent._id = res._id;
+                newEvent.marker = marker;
+                addInfoWindowToEvent(map, newEvent);
+                events.push(newEvent);
+                events = tour(events);
+                drawRoute();
+                if (calendarRenderer)
+                    calendarRenderer.refresh();
+                if (Timeline)
+                    Timeline.update()
+            });
+        });
+
+    };
+
     var addEventFromClick = function(latLng) {
         //add marker to map
         var localEvents = findEventByPos([latLng.lat(), latLng.lng()]);
@@ -821,6 +859,7 @@ var ScheduleTour = (function() {
         addRecommendation       :   addRecommendation,
         //addEvent                :   addEvent,
         addEventFromClick       :   addEventFromClick,
+        addEventFromTime        :   addEventFromTime,
         getMap                  :   function(){return map;},
         enableWeatherLayer      :   enableWeatherLayer,
         disableWeatherLayer     :   disableWeatherLayer,

@@ -8,6 +8,7 @@ var Sidebar = (function() {
     };
     var submitCallback;
     var currentEvent;
+    var pickingPlace;
 
     var safeCb = function(cb) {
         if (cb && (typeof cb == 'function')) return cb;
@@ -15,27 +16,31 @@ var Sidebar = (function() {
     }
 
     var showSidebar = function(oneEvent, callback) {
-        oneEvent = oneEvent || {};
-        oneEvent.position = oneEvent.position || [];
-        //clone object
-        $.extend(true, currentEvent, oneEvent);
-        //set init value
-        $('#title').val(oneEvent.title || "");
-        $('#description').val(oneEvent.description || "");
-        $('#newLat').val(oneEvent.position[0] || "");
-        $('#newLng').val(oneEvent.position[1] || "");
-        $('#weight').slider('value', oneEvent.weight || 0);
-        $('#newPlace').val(oneEvent.place || "");
-        $('#dateFrom').datetimepicker('setDate', oneEvent.time || new Date());
-        $('#dateUntil').datetimepicker('setDate', oneEvent.endTime || new Date());
-        if (oneEvent.privacy) {
-            $('input:radio[name=privacyRadioGroup][value=private]').attr('checked', true)
+        if (!pickingPlace) {
+            oneEvent = oneEvent || {};
+            oneEvent.position = oneEvent.position || [];
+            //clone object
+            $.extend(true, currentEvent, oneEvent);
+            //set init value
+            $('#title').val(oneEvent.title || "");
+            $('#description').val(oneEvent.description || "");
+            $('#newLat').val(oneEvent.position[0] || "");
+            $('#newLng').val(oneEvent.position[1] || "");
+            $('#weight').slider('value', oneEvent.weight || 0);
+            $('#newPlace').val(oneEvent.place || "");
+            $('#dateFrom').datetimepicker('setDate', oneEvent.time || new Date());
+            $('#dateUntil').datetimepicker('setDate', oneEvent.endTime || new Date());
+            if (oneEvent.privacy) {
+                $('input:radio[name=privacyRadioGroup][value=private]').attr('checked', true)
+            } else {
+                $('input:radio[name=privacyRadioGroup][value=public]').attr('checked', true)
+            }
+            //
+            //set callback
+            submitCallback = callback || submitCallback;
         } else {
-            $('input:radio[name=privacyRadioGroup][value=public]').attr('checked', true)
+            pickingPlace = false;
         }
-        //
-        //set callback
-        submitCallback = callback || submitCallback;
 
         var state = !$('#sidebar').is(':hidden');
         //$('#sidebar').show('slide', {direction: 'right'}); 
@@ -63,8 +68,8 @@ var Sidebar = (function() {
         }
         Sidebar.showSidebar();
         $('#newPlace').val(place);
-        $('newLat').val(latLng.lat());
-        $('newLng').val(latLng.lng());
+        $('#newLat').val(latLng.lat());
+        $('#newLng').val(latLng.lng());
     };
 
     var initSidebar = function() {
@@ -101,6 +106,7 @@ var Sidebar = (function() {
         });
         //bind pick up place from map
         $('#pickPlace').click(function() {
+            pickingPlace = true;
             Sidebar.hideSidebar();
             var calendarState = CalendarBar.hideCalendarBar();
             ScheduleTour.pickPlace(calendarState, Sidebar.pickPlaceCallback);
@@ -159,10 +165,12 @@ var Sidebar = (function() {
 }());
 
 var CalendarBar = (function() {
+    calendarRenderer.render();
     var showCalendarBar = function() {
         //
         var state = !$('#calendar').is(':hidden');
         $('#calendar').slideDown(); 
+        $('#calendar .fc-button-today').click();
         return state;
     };
 
