@@ -129,11 +129,20 @@
         <button class="btn btn-primary" id="popup_ok_btn">OK</button>
     </div>
     <div id="help" style="position:absolute;width:80%;height:80%;top:10%;left:10%;background-color:rgba(255,255,255,0.5);">
-        <div id="help1">
-            <img src="./images/help1.png" onclick="javascript:$('#help1').remove();"><br/>
+        <div id="help1" class='help_imgs '>
+            <img src="./images/help1.png" onclick="javascript:$('#help2').removeClass('displaynone');$('#help1').remove();"><br/>
         </div>
-        <div id="help2">
-            <img src="./images/help2.png" onclick="javascript:$('#help').remove();skip_toturial_set();"><br/>
+        <div id="help2" class='help_imgs displaynone'>
+            <img src="./images/help2.png" onclick="javascript:$('#help3').removeClass('displaynone');$('#help2').remove();"><br/>
+        </div>
+        <div id="help3" class='help_imgs displaynone'>
+            <img src="./images/help3.png" onclick="javascript:$('#help4').removeClass('displaynone');$('#help3').remove();"><br/>
+        </div>
+        <div id="help4" class='help_imgs displaynone'>
+            <img src="./images/help4.png" onclick="javascript:$('#help5').removeClass('displaynone');$('#help4').remove();"><br/>
+        </div>
+        <div id="help5" class='help_imgs displaynone'>
+            <img src="./images/help5.png" onclick="javascript:$('#help').remove();skip_toturial_set();"><br/>
         </div>
     </div>
   </body> 
