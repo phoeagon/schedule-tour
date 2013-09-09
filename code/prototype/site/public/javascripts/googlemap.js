@@ -610,6 +610,7 @@ var ScheduleTour = (function() {
         routeArray = [];
 
         //generate new paths
+        var diff = Math.round(255/events.length);
         for (var i=0; i<events.length-1; ++i) {
             var from = new google.maps.LatLng(events[i].position[0], events[i].position[1]);
             var to = new google.maps.LatLng(events[i+1].position[0], events[i+1].position[1]);
@@ -619,7 +620,8 @@ var ScheduleTour = (function() {
                 travelMode  :   google.maps.TravelMode.DRIVING
             };
             routeArray[i] = {};
-            requestDirections(request, routeArray[i], 'rgb(100, 100,'+Math.min(i*50,255)+')');
+            var rg = Math.min(i*diff, 255);
+            requestDirections(request, routeArray[i], 'rgb('+rg+','+rg+',255)');
         }
 
         mygeolocate.locate(map, function(latLng) {
@@ -834,7 +836,7 @@ var ScheduleTour = (function() {
         };
         firstRoute = {};
         drawingFirstRoute = true;
-        requestDirections(request, firstRoute, 'rgb(0,0,255)', function() {
+        requestDirections(request, firstRoute, 'rgb(55,55,55)', function() {
             drawingFirstRoute = false;
         });
     };
