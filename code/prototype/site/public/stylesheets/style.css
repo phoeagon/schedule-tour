@@ -155,6 +155,7 @@ body {
     z-index:101;
     transition:left 300ms;
     -webkit-transition:left 300ms;
+    overflow: scroll;
 }
 #call_list {
     background-color:rgba(200,200,200,0.5);
