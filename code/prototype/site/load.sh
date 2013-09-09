@@ -18,4 +18,8 @@ for ((i=0; i < $2; i++))
 
 # run GCM server
 
-supervisor `pwd`/push_server.js &
+supervisor `pwd`/push_server.js >push_server.log & 
+
+# run WebSocket Server
+
+supervisor `pwd`/WebSocketServer.js >WebSocket.log &
