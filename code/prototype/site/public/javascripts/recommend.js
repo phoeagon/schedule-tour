@@ -24,7 +24,7 @@ var recommend_douban = function(map) {
                     icon    : {
                         path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW ,
                         strokeOpacity : 0.8,
-                        strokeColor   : 'pink',
+                        strokeColor   : 'green',
                         strokeWeight  : 14
                     }
                 });
