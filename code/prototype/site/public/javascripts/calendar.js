@@ -21,7 +21,7 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     selectable: true,
     selectHelper: true,
     select: function(start, end, allDay) {
-        alert('selected:' + start + ' ' + end + ' ' + allDay);
+        console.log('selected:' + start + ' ' + end + ' ' + allDay);
         $('#calendar').fullCalendar('unselect');
         /*
         calendar.fullCalendar('renderEvent',
@@ -40,7 +40,24 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
     events : feed , 
 	eventClick: function(event) {
 		// opens events in a popup window
-		window.open(event.url, 'gcalevent', 'width=700,height=600');
+		//window.open(event.url, 'gcalevent', 'width=700,height=600');
+        Sidebar.showSidebar(event, function(newEvent) {
+            newEvent._id = event._id;
+            Event.updateEvent(newEvent, function(res) {
+                for (var e in events) {
+                    if (events[e]._id == event._id) {
+                        events[e] = newEvent;
+                        break;
+                    }
+                }
+                events = tour(events);
+                drawRoute();
+                if (calendarRenderer)
+                    calendarRenderer.refresh();
+                if (Timeline)
+                    Timeline.update()
+            });
+        });
 		return false;
 	},
 	
