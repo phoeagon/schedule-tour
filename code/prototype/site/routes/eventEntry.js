@@ -172,7 +172,8 @@ var listCalendarEntries = function(req, res) {
                 title : pool[ele].title ,
                 content: pool[ele].description ,
                 position : pool[ele].position ,
-                place : pool[ele].place
+                place : pool[ele].place,
+                id  :   pool[ele]._id
             }
             console.log( pool[ele] )
         }

@@ -850,6 +850,31 @@ var ScheduleTour = (function() {
         });
     };
 
+    var updateEventCallback = function(newEvent) {
+        Event.updateEvent(newEvent, function(res) {
+            for (var e in events) {
+                if (events[e]._id == newEvent._id) {
+                    events[e] = newEvent;
+                    break;
+                }
+            }
+            events = tour(events);
+            drawRoute();
+            if (calendarRenderer)
+                calendarRenderer.refresh();
+            if (Timeline)
+                Timeline.update()
+        });
+    };
+    var findEventBy_id = function(_id) {
+        for (var e in events) {
+            if (events[e]._id == _id) {
+                return events[e];
+            }
+        }
+        return {};
+    }
+
     return {
         initMap                 :   initMap,
         geolocate               :   geolocate,
@@ -872,7 +897,9 @@ var ScheduleTour = (function() {
         panTo                   :   function( t ){
                                         return ScheduleTour.getMap().panTo(t);
                                     },
-        pickPlace               :   pickPlace
+        pickPlace               :   pickPlace,
+        updateEventCallback: updateEventCallback,
+        findEventBy_id           :   findEventBy_id
     };
 
 }());

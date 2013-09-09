@@ -41,22 +41,10 @@ calendarRenderer.refreshCalendar = function( feed, addEvent ){
 	eventClick: function(event) {
 		// opens events in a popup window
 		//window.open(event.url, 'gcalevent', 'width=700,height=600');
-        Sidebar.showSidebar(event, function(newEvent) {
-            newEvent._id = event._id;
-            Event.updateEvent(newEvent, function(res) {
-                for (var e in events) {
-                    if (events[e]._id == event._id) {
-                        events[e] = newEvent;
-                        break;
-                    }
-                }
-                events = tour(events);
-                drawRoute();
-                if (calendarRenderer)
-                    calendarRenderer.refresh();
-                if (Timeline)
-                    Timeline.update()
-            });
+        var theEvent = ScheduleTour.findEventBy_id(event.id);
+        Sidebar.showSidebar(theEvent, function(newEvent) {
+            newEvent._id = event.id;
+            ScheduleTour.updateEventCallback(newEvent);
         });
 		return false;
 	},

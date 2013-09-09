@@ -28,8 +28,8 @@ var Sidebar = (function() {
             $('#newLng').val(oneEvent.position[1] || "");
             $('#weight').slider('value', oneEvent.weight || 0);
             $('#newPlace').val(oneEvent.place || "");
-            $('#dateFrom').datetimepicker('setDate', oneEvent.time || new Date());
-            $('#dateUntil').datetimepicker('setDate', oneEvent.endTime || new Date());
+            $('#dateFrom').datetimepicker('setDate', new Date(oneEvent.time) || new Date());
+            $('#dateUntil').datetimepicker('setDate', new Date(oneEvent.endTime) || new Date());
             if (oneEvent.privacy) {
                 $('input:radio[name=privacyRadioGroup][value=private]').attr('checked', true)
             } else {
