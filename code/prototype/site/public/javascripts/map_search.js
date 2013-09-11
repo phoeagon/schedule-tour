@@ -8,9 +8,11 @@ mapSearch.search = function( map , searchFor ){
     var searchRequest = {
         location    :   map.getCenter(),
         keyword    :   searchFor,
+        query       :   searchFor,
         radius      :   500000
     };
-    placeService.nearbySearch(searchRequest, callback);
+    //placeService.nearbySearch(searchRequest, callback);
+    placeService.textSearch(searchRequest, callback);
     var infoWindow = new google.maps.InfoWindow();
     }   catch(err){
         alert( "Service temporarily unavailable!" )
@@ -18,6 +20,8 @@ mapSearch.search = function( map , searchFor ){
 
     function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+            humane.log(results.length + ' results found');
+            map.setZoom(Math.max(map.getZoom()-5, 0));
             for (var i = 0; i < results.length; i++) {
                 createMarker(results[i]);
             }
@@ -30,9 +34,19 @@ mapSearch.search = function( map , searchFor ){
             position: place.geometry.location
         });
 
-        var infoWindow = new ScheduleTourMap.InfoWindow();
+        var pos = place.geometry.location;
+        var infoContent = "<h4>"+place.name+"</h4>";
+        infoContent = infoContent + '<p><br/><b>At this location:</b><br/>'
+        infoContent = infoContent + "<span class='favbtn ' lng='"+pos.lng()+"' lat='"+pos.lat()+
+            "' position='"+escape(place.name)+"' style='width:45%;display:inline-block;'></span>"
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEventFromClick(new google.maps.LatLng("+pos.lat()+", "+pos.lng()+"), "+place.name+");'  style='width:45%;'>New Event</button></p>";
+
+        var infoWindow = new ScheduleTourMap.InfoWindow({
+            content:infoContent
+        });
+
         google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(place.name);
+        //    infoWindow.setContent(place.name);
             infoWindow.open(map, this);
         });
     };
