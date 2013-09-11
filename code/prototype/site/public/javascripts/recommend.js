@@ -36,6 +36,19 @@ var recommend_douban = function(map) {
                     "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>" + e.content.substring(0,300) + "...</p>" + 
                     "<p>See more <a href='" + e.alt + "' target='_blank'>here</a> on Douban</p>" +
                     "</div>";
+                function removeQuotes(str) {
+                    return str.replace(new RegExp('\'', 'gm'), '\\\'')
+                            .replace(new RegExp('\"', 'gm'), '\\\"');
+                };
+                title = removeQuotes(e.title);
+                addr = removeQuotes(e.address);
+                start = e.begin_time;
+                end = e.end_time;
+                //content = removeQuotes(e.content);
+                content = 'added from recommendation';
+                lat = e.geo.split(' ')[0];
+                lng = e.geo.split(' ')[1];
+                sContent = sContent + "<button class='add-event-btn btn' onclick=\"javascript:ScheduleTour.addEventFromDetail(\'"+title+"\',\'"+addr+"\',\'"+start+"\',\'"+end+"\',\'"+content+"\',"+lat+","+lng+");\"  style='width:45%;'>Add</button></p>";
                 var infoWindow = new ScheduleTourMap.InfoWindow({
                     content:    sContent
                 });
