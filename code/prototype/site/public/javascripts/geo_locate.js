@@ -51,7 +51,7 @@ mygeolocate.locate = function( map , callback ) {
                 map:map,
                 position: latLng,
                 content: 'Location found using HTML5.',
-                icon: '/images/point.png'
+                icon: '/images/mylocation.png'
             });
             map.panTo(latLng);
             map.setZoom(14);
@@ -110,7 +110,7 @@ mygeolocate.watchlocate = function( map , callback ){
                     map: map,
                     position:latLng,
                     content: 'Location found using HTML5.',
-                    icon: '/images/point.png'
+                    icon: '/images/mylocation.png'
                     })
             }
             mygeolocate.myLocationMarker.setPosition( latLng )

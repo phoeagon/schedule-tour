@@ -21,7 +21,7 @@ mapSearch.search = function( map , searchFor ){
     function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             humane.log(results.length + ' results found');
-            map.setZoom(Math.max(map.getZoom()-5, 0));
+            map.setZoom(10);
             for (var i = 0; i < results.length; i++) {
                 createMarker(results[i]);
             }
