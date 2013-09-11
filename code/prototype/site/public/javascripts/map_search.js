@@ -39,7 +39,7 @@ mapSearch.search = function( map , searchFor ){
         infoContent = infoContent + '<p><br/><b>At this location:</b><br/>'
         infoContent = infoContent + "<span class='favbtn ' lng='"+pos.lng()+"' lat='"+pos.lat()+
             "' position='"+escape(place.name)+"' style='width:45%;display:inline-block;'></span>"
-        infoContent = infoContent + "<button class='add-event-btn btn' onclick='javascript:ScheduleTour.addEventFromClick(new google.maps.LatLng("+pos.lat()+", "+pos.lng()+"), "+place.name+");'  style='width:45%;'>New Event</button></p>";
+        infoContent = infoContent + "<button class='add-event-btn btn' onclick=\"javascript:ScheduleTour.addEventFromClick(new google.maps.LatLng("+pos.lat()+", "+pos.lng()+"), \'"+place.name+"\');\"  style='width:45%;'>New Event</button></p>";
 
         var infoWindow = new ScheduleTourMap.InfoWindow({
             content:infoContent
