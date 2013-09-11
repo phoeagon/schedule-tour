@@ -23,7 +23,7 @@ var recommend_douban = function(map) {
                     title   :   e.title ,
                     icon    : {
                         path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW ,
-                        strokeOpacity : 0.8,
+                        strokeOpacity : 0.5,
                         strokeColor   : 'green',
                         strokeWeight  : 14
                     }
