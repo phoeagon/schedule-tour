@@ -5,8 +5,15 @@
 var Message = require('../models/types/message');
 var WebSocketClient = require('websocket').client;
 
+//var wsaddr = 'localhost'
+//var wsport = '8000'
 
-var setRouter = function(app) {
+
+var setRouter = function(app, addr, port) {
+    if (!addr) addr = 'localhost'
+    if (!port) port = 8000
+    wsaddr = addr
+    wsport = port
 
     app.post('/message/send', message.sendMessage);
     app.post('/message/read', message.readMessages);
@@ -71,7 +78,7 @@ var message = (function() {
                 });
             });
 
-            client.connect('ws://localhost:8000/');
+            client.connect('ws://'+wsaddr+':'+wsport);
                 return;
         });
     };
