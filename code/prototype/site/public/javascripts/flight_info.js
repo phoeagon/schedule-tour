@@ -12,7 +12,7 @@ flight_info.test = function( str ){
 }
 flight_info.getinfo = function( flight , callback ){
 	if (!flight)
-		flight = 'airline+status+check+FM9299';
+		flight = 'flight+status+check+FM9299';
 	var url = '/_volatile_proxy/http://www.google.com/search?q='+flight;
 	$.get( url , function( data ){
 		//console.log( data )

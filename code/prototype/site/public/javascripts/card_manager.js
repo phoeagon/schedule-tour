@@ -47,10 +47,10 @@ function codeLatLng(lat, lng , callback ) {
         callback ( city.short_name ,  city.long_name )
 
         } else {
-          alert("No results found");
+          console.log("No results found");
         }
       } else {
-        alert("Geocoder failed due to: " + status);
+        console.log("Geocoder failed due to: " + status);
       }
     });
   }

@@ -18,7 +18,7 @@ exports.all = function( req , res , next ){
 }
 var testURL = function( url ){
     return url.indexOf("js")!=-1 || url.indexOf("mapslt")!=-1 ||
-     url.indexOf("vt")!=-1 || url.indexOf('airline+')!=-1 ||
+     url.indexOf("vt")!=-1 || url.indexOf('flight+')!=-1 ||
      url.indexOf('weather+')!=-1 ;
 }
 var replaces = ["(http|https)://\\w+.googleapis.com/",

@@ -632,7 +632,7 @@ var ScheduleTour = (function() {
     var requestDirections = function(request, route, color, callback) {
         directionsService.route(request, function(response, status) {
             //remove old path
-            if (response.status == "ZERO_RESULTS") {
+            if ( !response || response.status == "ZERO_RESULTS" ) {
                 if (request.travelMode == google.maps.TravelMode.DRIVING) {
                     request.travelMode = google.maps.TravelMode.WALKING;
                     requestDirections(request, route, color, callback);

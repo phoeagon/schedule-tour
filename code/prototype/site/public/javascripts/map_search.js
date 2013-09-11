@@ -2,7 +2,7 @@ mapSearch = {};
 mapSearch.search = function( map , searchFor ){
     if ( flight_info )
         if ( flight_info.test(searchFor) )
-            flight_info.lookup( 'airline+status+check+'+searchFor );
+            flight_info.lookup( 'flight+status+check+'+searchFor );
     try{
     var placeService = new google.maps.places.PlacesService(map);
     var searchRequest = {
