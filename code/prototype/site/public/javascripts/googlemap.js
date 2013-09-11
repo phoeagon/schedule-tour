@@ -658,9 +658,17 @@ var ScheduleTour = (function() {
         });
         routeArray = [];
         tags='123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (var i=0; i<events.length; ++i) {
-            if (events[i] && events[i].marker) {
-                events[i].marker.setIcon('http://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+tags[i]+'|ff0000');
+        var now = new Date();
+        var fst = 0;
+        for (var i=0; i<events.length; ++i) if (events[i]){
+            try{
+                var t1 =  new Date(events[i].time)
+                var color = ( t1 < now ) ? '999999':'ff0000';
+                var chr = ( t1 < now ) ? '-' : tags[fst++];
+                if (events[i] && events[i].marker) {
+                    events[i].marker.setIcon(   'http://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+chr+'|'+color);
+                }
+            }catch(e){
             }
         }
         //generate new paths
