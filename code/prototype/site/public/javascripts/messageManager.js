@@ -61,25 +61,35 @@ var MessageManager = (function() {
     var showList = function(_username, _target) {
         username = _username;
         target = _target;
-        remoteMessages.get(_target, function() {
-            renderList();
-        });
+        function updateMessageView(){
+            console.log( "updateMessageView" );
+            remoteMessages.get(_target, function() {
+                renderList();
+            });
+        }
+        updateMessageView();
+        updateHandler = setInterval( updateMessageView , 2000 );
     };
 
     var renderList = function() {
         var render = [];
-        var ul = $('<ul>');
-        messages.reverse().map(function(x) {
-            ul.append(
-                $("<li>").append(
-                    $("<p>").html(x.userFrom + ' says:')
-                ).append(
-                    $('<p>').html(x.content)
-                ).append(
-                    $('<p>').html( moment( x.datetime ).fromNow())
-                )
-            );
-        });
+        var ul = $('<ul>').attr('id','msg_list');
+        function update_msg_list( messages ){
+            var ul = $('<ul>');
+            messages.reverse().map(function(x) {
+                ul.append(
+                    $("<li>").append(
+                        $("<p>").html(x.userFrom + ' says:')
+                    ).append(
+                        $('<p>').html(x.content)
+                    ).append(
+                        $('<p>').html( moment( x.datetime ).fromNow())
+                    )
+                );
+            });
+            $('#msg_list').html( ul.html() ) // update HTML code
+            $('#msg_list').parent().height( $('#msg_list').height() )
+        }
         render.push({
             title   :   'Message List Between ' + username + '(Me) and ' + target,
             content :   
@@ -107,8 +117,11 @@ var MessageManager = (function() {
         });
         if ( messagePad ){
             if (messagePad.ele)
-                messagePad.destroy();
-            messagePad.show( render )
+                update_msg_list( messages );
+            else{
+                messagePad.show( render )
+                update_msg_list( messages );
+            }
         }
     };
 
