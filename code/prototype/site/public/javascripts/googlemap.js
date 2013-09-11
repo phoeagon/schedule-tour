@@ -421,7 +421,7 @@ var ScheduleTour = (function() {
 
     };
 
-    var addEventFromClick = function(latLng) {
+    var addEventFromClick = function(latLng, placeName) {
         //add marker to map
         var localEvents = findEventByPos([latLng.lat(), latLng.lng()]);
         var marker = null;
@@ -436,7 +436,8 @@ var ScheduleTour = (function() {
             marker = localEvents[0].marker;
             marker.refCount++;
         }
-        geocode(latLng, function(res, code) {
+
+        var geo_callback = function(res, code) {
             if (code !== 'OK') {
                 console.log('geocode failed ' + res);
                 return;
@@ -461,7 +462,13 @@ var ScheduleTour = (function() {
                         Timeline.update()
                 });
             });
-        });
+        };
+
+        if (placeName) {
+            geo_callback(placeName, 'OK');
+        } else {
+            geocode(latLng, geo_callback);
+        }
 
     };
 
