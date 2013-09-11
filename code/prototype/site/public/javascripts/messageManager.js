@@ -65,7 +65,7 @@ var MessageManager = (function() {
             console.log( "updateMessageView" );
             remoteMessages.get(_target, function() {
                 renderList();
-            });
+            })
         }
         updateMessageView();
         updateHandler = setInterval( updateMessageView , 2000 );
@@ -110,6 +110,7 @@ var MessageManager = (function() {
                 ).append(
                     $('<button>').text('back').click(function() {
                         togglePad();
+                        clearInterval( updateHandler );
                     })
                 ).append(
                     ul
