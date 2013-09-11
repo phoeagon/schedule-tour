@@ -8,7 +8,8 @@ flight_info = {};
 flight_info.regex = /^([A-Z]{2}|[A-Z]\d|\d[A-Z])[1-9](\d{1,3})?$/
 flight_info.test = function( str ){
 	var res = str.match( flight_info.regex );
-	return res && res.length
+	return ( res && res.length ) || str.toLowerCase().indexOf("airline")
+		|| str.toLowerCase().indexOf("flight") ;
 }
 flight_info.getinfo = function( flight , callback ){
 	if (!flight)

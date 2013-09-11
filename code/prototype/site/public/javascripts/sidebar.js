@@ -46,7 +46,7 @@ var Sidebar = (function() {
         //$('#sidebar').show('slide', {direction: 'right'}); 
         $('#sidebar').css('width', 0);
         $('#sidebar').show();
-        $('#sidebar').animate({ width: '+=25%' });
+        $('#sidebar').animate({ width: layoutMetrics.getSideWid() });
         return state;
     };
 
