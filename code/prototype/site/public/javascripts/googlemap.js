@@ -657,9 +657,14 @@ var ScheduleTour = (function() {
             clearRouteFromMap(route);
         });
         routeArray = [];
-
+        tags='123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (var i=0; i<events.length; ++i) {
+            if (events[i] && events[i].marker) {
+                events[i].marker.setIcon('http://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+tags[i]+'|ff0000');
+            }
+        }
         //generate new paths
-        var diff = Math.round(255/events.length);
+        var diff = Math.round(155/events.length);
         for (var i=0; i<events.length-1; ++i) {
             var from = new google.maps.LatLng(events[i].position[0], events[i].position[1]);
             var to = new google.maps.LatLng(events[i+1].position[0], events[i+1].position[1]);
@@ -669,7 +674,7 @@ var ScheduleTour = (function() {
                 travelMode  :   google.maps.TravelMode.DRIVING
             };
             routeArray[i] = {};
-            var rg = Math.min(i*diff, 255);
+            var rg = Math.min((i)*diff, 155);
             requestDirections(request, routeArray[i], 'rgb('+rg+','+rg+',255)');
         }
 
@@ -678,7 +683,8 @@ var ScheduleTour = (function() {
         });
     }
 
-    var requestDirections = function(request, route, color, callback) {
+    var requestDirections = function(request, route, color, callback, weight) {
+        if (!weight) weight = 5;
         directionsService.route(request, function(response, status) {
             //remove old path
             if ( !response || response.status == "ZERO_RESULTS" ) {
@@ -728,7 +734,7 @@ var ScheduleTour = (function() {
                 path        :   path,
                 strokeOpacity   :   0.9,
                 strokeColor     :   color,
-                strokeWeight    :   (1)*10
+                strokeWeight    :   weight
             });
             //bind polyline click event
             function showStepPanel(r) {
@@ -887,7 +893,7 @@ var ScheduleTour = (function() {
         drawingFirstRoute = true;
         requestDirections(request, firstRoute, 'rgb(55,55,55)', function() {
             drawingFirstRoute = false;
-        });
+        }, 10);
     };
 
     var pickPlace = function(callbackState, callback) {

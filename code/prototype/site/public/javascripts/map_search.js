@@ -30,6 +30,7 @@ mapSearch.search = function( map , searchFor ){
     function createMarker(place) {
         var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
+            icon: '/images/recommend.png',
             map: map,
             position: place.geometry.location
         });
