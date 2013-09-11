@@ -9,6 +9,7 @@ Features:
 - fav place
 - recommended event
 - timeline
+- auto refresh message [DONE: Sept 11]
 TODO:
 -----------
 - auto show resturants at noon
@@ -18,7 +19,7 @@ TODO:
 - del event on calendar
 - bueatify message/call/friend panel
 - notifications when new message/call arrives
-- auto refresh message/call panel when new message/call arrives
+- call panel when new message/call arrives
 
 
 
